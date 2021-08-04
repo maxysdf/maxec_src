@@ -1,0 +1,18 @@
+spring:
+   datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/maxec
+      username: es_adm
+      password: es_adm
+      
+   jpa:
+      hibernate:
+         ddl-auto: update
+      properties:
+         hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL9Dialect
+     
+    
+logging:
+   level:
+      root: DEBUG

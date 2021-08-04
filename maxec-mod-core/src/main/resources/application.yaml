@@ -1,0 +1,3 @@
+- logging:
+   spring:
+      root: DEBUG
