@@ -8,7 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../maxec-parent</relativePath>
 	</parent>
-	<artifactId>maxec-product</artifactId>
+	<artifactId>maxec-biz-product</artifactId>
 	<packaging>jar</packaging>
 	<name>Max EC Product SubSystem</name>
 	

@@ -1,6 +1,9 @@
 pipeline {
     agent any
     stages {
+        environment {
+            branch = env.BRANCH_NAME.toLowerCase()
+        }
         stage ('Initialize') {
             steps {
                 bat '''
@@ -23,5 +26,14 @@ pipeline {
                 }
             }
         }
+        
+        stage('Docker') {
+            steps {
+                ws("${pwd()}/maxec-parent") {
+                    def img = docker.build("maxec-app-frontend-${branch}:${env.BUILD_ID}", "-f Dockerfile .")
+            }
+        
+        }
+        
     }
 }
