@@ -1,12 +1,6 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven-3.5.4'
-        jdk 'jdk8'
-    }
     stages {
-
-        
         stage ('Initialize') {
             steps {
                 bat '''
@@ -19,11 +13,15 @@ pipeline {
         stage('Build') {
             steps {
                 echo('start building...')
+                ws("${pwd()}/maxec-parent") {
+                    withMaven(
+                        maven: 'maven-3.5.4',
+                        jdk: 'jdk8'
+                    ) {
+                        bat 'mvn clean package'
+                    }
+                }
             }
-        
-        
-        
         }
-    
     }
 }
