@@ -31,6 +31,7 @@ pipeline {
             steps {
                 ws("${pwd()}/maxec-parent") {
                     def img = docker.build("maxec-app-frontend-${branch}:${env.BUILD_ID}", "-f Dockerfile .")
+                }
             }
         
         }
