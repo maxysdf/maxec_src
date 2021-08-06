@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        branch = env.BRANCH_NAME.toLowerCase()
-    }
     stages {
 
         stage ('Initialize') {
@@ -30,9 +27,10 @@ pipeline {
         
         stage('Docker') {
             steps {
+                echo "env branch: ${env.BRANCH_NAME}"
                 ws("${pwd()}/maxec-parent") {
                     script {
-                        def img = docker.build("maxec-app-frontend-${env.branch}:${env.BUILD_ID}", "-f Dockerfile .")
+                        def img = docker.build("maxec-app-frontend-test:${env.BUILD_ID}", "-f Dockerfile .")
                     }
                 }
             }
