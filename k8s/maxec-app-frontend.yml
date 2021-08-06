@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: maxec-app-frontend
+spec:
+  containers: 
+    - image: localhost:5000/maxec-app-frontend-test:39
+      name: maxec-app-frontend
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: tcp
+  

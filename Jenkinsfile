@@ -39,5 +39,16 @@ pipeline {
         
         }
         
+        stage('Kubernetes') {
+            steps {
+                kubernetesDeploy(
+                    kubeconfigId: 'k8s',
+                    configs: 'k8s/maxec-app-frontend.yml'
+                )
+            
+            }
+        
+        }
+        
     }
 }
