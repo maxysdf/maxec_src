@@ -28,7 +28,7 @@ pipeline {
         stage('Docker') {
             steps {
                 echo "env branch: ${env.BRANCH_NAME}"
-                ws("${pwd()}/maxec-parent") {
+                ws("${pwd()}") {
                     script {
                         def img = docker.build("maxec-app-frontend-test:${env.BUILD_ID}", "-f Dockerfile .")
                     }
