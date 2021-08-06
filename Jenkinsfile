@@ -13,7 +13,6 @@ pipeline {
         
         stage('Build') {
             steps {
-                echo('start building...')
                 ws("${pwd()}/maxec-parent") {
                     withMaven(
                         maven: 'maven-3.5.4',
@@ -28,11 +27,14 @@ pipeline {
         stage('Docker') {
             steps {
                 echo "env branch: ${env.BRANCH_NAME}"
-                ws("${pwd()}") {
-                    script {
+                script {
+                    docker.withRegistry('http://localhost:5000') {
                         def img = docker.build("maxec-app-frontend-test:${env.BUILD_ID}", "-f Dockerfile .")
+                        img.push()
                     }
+                    
                 }
+                
             }
         
         }
