@@ -21,6 +21,7 @@
 
     <modules>
         <module>../maxec-app-frontend</module>
+        <module>../maxec-app-backend</module>
         <module>../maxec-biz-product</module>
         <module>../maxec-mod-core</module>
     </modules>

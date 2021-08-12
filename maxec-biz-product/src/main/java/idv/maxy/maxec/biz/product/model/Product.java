@@ -16,6 +16,7 @@ import idv.maxy.maxec.core.model.BaseModel;
 public class Product extends BaseModel {
 	private String _name;
 	private Integer _price;
+	private String _alias;
 	
 	@Column(name="NAME", length=200, nullable=true)
 	public String getName() {
@@ -31,5 +32,13 @@ public class Product extends BaseModel {
 	}
 	public void setPrice(Integer _price) {
 		this._price = _price;
+	}
+	
+	@Column(name="ALIAS", length=200, nullable=true)
+	public String getAlias() {
+		return _alias;
+	}
+	public void setAlias(String _alias) {
+		this._alias = _alias;
 	}
 }

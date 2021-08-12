@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-app-backend
+  labels:
+    app: maxec-app-backend
+spec:
+  ports:
+  - port: 8081
+    name: ap
+  clusterIP: None
+  selector:
+    app: maxec-app-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxec-app-backend-deployment
+  labels:
+    app: maxec-app-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxec-app-backend
+  template:
+    metadata:
+      labels:
+        app: maxec-app-backend
+    spec:
+      containers:
+      - name: maxec-app-backend
+        image: host.docker.internal:5000/maxec-app-backend:4
+        env:
+        - name: DBURL     
+          value: jdbc:postgresql://maxec-db/maxec
+        - name: DBDRV     
+          value: org.postgresql.Driver
+        - name: DBUSER
+          value: maxec
+        - name: DBPASS
+          value: maxec
+        - name: DBDIALECT 
+          value: org.hibernate.dialect.PostgreSQL9Dialect
+        ports:
+        - containerPort: 8080
+  

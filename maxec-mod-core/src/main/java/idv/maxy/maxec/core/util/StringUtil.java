@@ -13,7 +13,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmptyOrNull(String str) {
-		return str == null || str.matches("^\\s+$");
+		return str == null || str.matches("^\\s*$");
 	}
 
 	/**
