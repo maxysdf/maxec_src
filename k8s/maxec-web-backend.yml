@@ -6,7 +6,7 @@ metadata:
     app: maxec-web-backend
 spec:
   ports:
-  - port: 8081
+  - port: 13000
     name: ap
   clusterIP: None
   selector:
