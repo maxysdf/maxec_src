@@ -92,11 +92,11 @@ pipeline {
                             ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
 
                             dir('k8s_dep') {
-                                writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
-                                writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
+                                writeYaml file: "${proj}-service.yml"    , data: ymlAppBcks[0], overwrite: true
+                                writeYaml file: "${proj}-statefulset.yml", data: ymlAppBcks[1], overwrite: true
                                 bat """
                                     kubectl apply -f ${proj}-service.yml
-                                    kubectl apply -f ${proj}-deployment.yml
+                                    kubectl apply -f ${proj}-statefulset.yml
                                 """
                             }
                         }

@@ -1,5 +1,5 @@
 FROM postgres:11
-ENV POSTGRES_PASSWORD=a7jtmaim
+ENV POSTGRES_PASSWORD=na
 
 RUN mkdir -p /docker-entrypoint-initdb.d/sqls
 COPY sqls/*.sql /docker-entrypoint-initdb.d/sqls/
