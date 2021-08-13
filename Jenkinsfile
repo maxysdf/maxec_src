@@ -79,6 +79,21 @@ pipeline {
                         
                     }
                 }
+                
+                stage('Docker - web backend') {
+                    steps {
+                        echo "env branch: ${env.BRANCH}"
+                        script {
+                            def proj = 'maxec-web-backend';
+                            def dockerfile = 'DockerfileWebBack';
+                            docker.withRegistry("http://${env.DOCKER_RESP}") {
+                                def img = docker.build("${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
+                                img.push()
+                            }
+                        }
+                        
+                    }
+                }
             }
         }
         
@@ -140,6 +155,27 @@ pipeline {
                         }
                     }
                 }
+                
+                stage ('Kubernetes - web backend') {
+                    steps {
+                        script {
+                            def proj = 'maxec-web-backend'
+                            def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
+                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+                            
+                            dir('k8s_dep') {
+                                writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
+                                writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
+                                bat """
+                                    kubectl apply -f ${proj}-service.yml
+                                    kubectl apply -f ${proj}-deployment.yml
+                                """
+                            }
+                        }
+                    }
+                }
+                
+                
             }
         }
 
