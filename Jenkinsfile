@@ -18,7 +18,7 @@ pipeline {
                         maven: 'maven-3.5.4',
                         jdk: 'jdk8'
                     ) {
-                        bat 'mvn -P prod -Dmaven.test.skip=true clean package'
+                        sh 'mvn -P prod -Dmaven.test.skip=true clean package'
                     }
                 }
             }
@@ -27,7 +27,7 @@ pipeline {
         stage('Docker Clear') {
             steps {
                 script {
-                    bat """
+                    sh """
                         docker container prune -f
                         docker image prune -a -f
                     """
@@ -109,7 +109,7 @@ pipeline {
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"    , data: ymlAppBcks[0], overwrite: true
                                 writeYaml file: "${proj}-statefulset.yml", data: ymlAppBcks[1], overwrite: true
-                                bat """
+                                sh """
                                     kubectl apply -f ${proj}-service.yml
                                     kubectl apply -f ${proj}-statefulset.yml
                                 """
@@ -128,7 +128,7 @@ pipeline {
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
                                 writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
-                                bat """
+                                sh """
                                     kubectl apply -f ${proj}-service.yml
                                     kubectl apply -f ${proj}-deployment.yml
                                 """
@@ -147,7 +147,7 @@ pipeline {
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
                                 writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
-                                bat """
+                                sh """
                                     kubectl apply -f ${proj}-service.yml
                                     kubectl apply -f ${proj}-deployment.yml
                                 """
@@ -166,7 +166,7 @@ pipeline {
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
                                 writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
-                                bat """
+                                sh """
                                     kubectl apply -f ${proj}-service.yml
                                     kubectl apply -f ${proj}-deployment.yml
                                 """
