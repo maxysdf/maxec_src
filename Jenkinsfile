@@ -45,7 +45,7 @@ pipeline {
                             def proj = 'maxec-db';
                             def dockerfile = 'DockerfileDB';
                             docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
                                 img.push()
                             }
                         }
