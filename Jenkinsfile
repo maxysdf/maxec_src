@@ -6,7 +6,8 @@ pipeline {
     environment {
         BRANCH = "${GIT_BRANCH}"
         DOCKER_BRANCH = "${GIT_BRANCH.replaceFirst(/.*\//,'')}"
-        DOCKER_RESP = 'host.docker.internal:5000';
+        DOCKER_RESP = 'maxhome:5080';
+        DOCKER_PROJ = 'jenkins'
     }
     
     stages {
@@ -43,7 +44,7 @@ pipeline {
                         script {
                             def proj = 'maxec-db';
                             def dockerfile = 'DockerfileDB';
-                            docker.withRegistry("http://${env.DOCKER_RESP}") {
+                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
                                 def img = docker.build("${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
                                 img.push()
                             }
@@ -57,8 +58,8 @@ pipeline {
                         script {
                             def proj = 'maxec-app-frontend';
                             def dockerfile = 'DockerfileAppFront';
-                            docker.withRegistry("http://${env.DOCKER_RESP}") {
-                                def img = docker.build("${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
+                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
                                 img.push()
                             }
                         }
@@ -71,8 +72,8 @@ pipeline {
                         script {
                             def proj = 'maxec-app-backend';
                             def dockerfile = 'DockerfileAppBack';
-                            docker.withRegistry("http://${env.DOCKER_RESP}") {
-                                def img = docker.build("${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
+                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
                                 img.push()
                             }
                         }
@@ -86,8 +87,8 @@ pipeline {
                         script {
                             def proj = 'maxec-web-backend';
                             def dockerfile = 'DockerfileWebBack';
-                            docker.withRegistry("http://${env.DOCKER_RESP}") {
-                                def img = docker.build("${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
+                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
                                 img.push()
                             }
                         }
@@ -104,7 +105,7 @@ pipeline {
                         script {
                             def proj = 'maxec-db'
                             def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
 
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"    , data: ymlAppBcks[0], overwrite: true
@@ -123,7 +124,7 @@ pipeline {
                         script {
                             def proj = 'maxec-app-frontend'
                             def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
                             
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
@@ -142,7 +143,7 @@ pipeline {
                         script {
                             def proj = 'maxec-app-backend'
                             def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
                             
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
@@ -161,7 +162,7 @@ pipeline {
                         script {
                             def proj = 'maxec-web-backend'
                             def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
                             
                             dir('k8s_dep') {
                                 writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
