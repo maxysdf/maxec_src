@@ -8,9 +8,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../maxec-parent</relativePath>
 	</parent>
-	<artifactId>maxec-app-frontend</artifactId>
+	<artifactId>maxec-app-backend</artifactId>
 	<packaging>jar</packaging>
-	<name>Max EC Frontend App</name>
+	<name>Max EC Backend App</name>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

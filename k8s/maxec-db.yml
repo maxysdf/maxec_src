@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-db
+  labels:
+    app: maxec-db
+spec:
+  ports:
+  - port: 5432
+    name: pg
+  clusterIP: None
+  selector:
+    app: maxec-db
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maxec-db
+spec:
+  selector:
+    matchLabels:
+      app: maxec-db
+  serviceName: maxec-db-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: maxec-db
+    spec:
+      containers:
+      - name: maxec-db
+        image: host.docker.internal:5000/maxec-db:4
+        volumeMounts:
+          - name: postgresql-db-disk
+            mountPath: /data
+        # env:
+        #    - name: POSTGRES_PASSWORD value: a7jtmaim
+        #    - name: DBROOT value: postgres
+        #    - name: DBNAME value: maxec
+        #    - name: DBUSER value: maxec
+        #    - name: DBPASS value: maxec
+        #    - name: PGDATA value: /data/pgdata
+  volumeClaimTemplates:
+    - metadata:
+        name: postgresql-db-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 25Gi

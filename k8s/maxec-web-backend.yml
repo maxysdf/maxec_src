@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-web-backend
+  labels:
+    app: maxec-web-backend
+spec:
+  ports:
+  - port: 13000
+    name: ap
+  clusterIP: None
+  selector:
+    app: maxec-web-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxec-web-backend-deployment
+  labels:
+    app: maxec-web-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxec-web-backend
+  template:
+    metadata:
+      labels:
+        app: maxec-web-backend
+    spec:
+      containers:
+      - name: maxec-web-backend
+        image: host.docker.internal:5000/maxec-web-backend:23
+        ports:
+        - containerPort: 13000
+  
