@@ -1,0 +1,8 @@
+.login {
+    background-image: url('/images/login_bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    height: 100vh;
+}

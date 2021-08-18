@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import useSWR from 'swr'
 import getConfig from 'next/config'
 
-export default function ProductList() {
+export default function ProductListPage() {
     const router = useRouter();
     const [mounted,setMounted] = useState(false);
     const [pageNo,setPageNo] = useState(0);

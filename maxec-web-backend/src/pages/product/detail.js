@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { utload } from "../../components/util"
 
-export default function ProductDetail({product}) {
+export default function ProductDetailPage({product}) {
     const router = useRouter();
 
     const { register, handleSubmit, getValues } = useForm({
