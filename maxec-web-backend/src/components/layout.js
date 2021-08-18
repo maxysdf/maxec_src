@@ -5,7 +5,15 @@ import NavBar from "./nav";
 
 export default function Layout({children}) {
     return (
-        <>
+        <div class="wrapper">
+            <Menu></Menu>
+            <div class="main-panel">
+                <NavBar></NavBar>
+                {children}
+                <Footer></Footer>
+            </div>
+
+            { /* }
             <NavBar></NavBar>
             <main>
                 <div className="container">
@@ -20,6 +28,11 @@ export default function Layout({children}) {
                 </div>
             </main>
             <Footer></Footer>
-        </>
+            { */ }
+        
+        </div>
+
+
+ 
     )
 }

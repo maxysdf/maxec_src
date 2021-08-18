@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.0-beta3",
+    "bootstrap": "^4.6.0",
     "next": "11.0.1",
     "next-http-proxy-middleware": "^1.0.10",
     "react": "17.0.2",
