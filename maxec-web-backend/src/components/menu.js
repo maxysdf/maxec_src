@@ -1,19 +1,33 @@
+import ProductListPage from "../pages/product/list";
 import styles from "./menu.module.css"
 
+import getPathname from "../pages/product/list";
+import withRouter from "next/dist/client/with-router";
+import { useRouter } from "next/dist/client/router";
+
 export default function Menu() {
+    const router = useRouter();
+    withRouter(ProductListPage).getPathname();
+
     return (
-        <div className={styles.sidebar} data-image="/images/sidebar-5.jpg">
+        <div className={styles.sidebar} data-color="purple" data-image="/images/sidebar-5.jpg">
         <div className={styles['sidebar-wrapper']}>
             <div className={styles.logo}>
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="http://www.creative-tim.com" className={styles['simple-text']}>
+                    Max EC
                 </a>
             </div>
             <ul className={styles.nav}>
-                <li className={`${styles['nav-item']} ${styles.active}`} class="nav-item active">
+                <li className={`${styles['nav-item']} ${styles.active}`}>
                     <a className={styles['nav-link']} href="dashboard.html">
-                        <i className={`${styles['nc-icon']} nc-chart-pie-35`}></i>
+                        <i className={`${styles['nc-icon']} ${styles['nc-chart-pie-35']}`}></i>
                         <p>Dashboard</p>
+                    </a>
+                </li>
+                <li className={`${styles['nav-item']}`}>
+                    <a className={styles['nav-link']} href={getPathname()}>
+                        <i className={`${styles['nc-icon']} ${styles['nc-chart-pie-35']}`}></i>
+                        <p>Product</p>
                     </a>
                 </li>
                 <li>
@@ -60,6 +74,9 @@ export default function Menu() {
                 </li>
             </ul>
         </div>
+
+        <div className={styles['sidebar-background']} ></div>
+
     </div>
     );
 }

@@ -5,9 +5,9 @@ import NavBar from "./nav";
 
 export default function Layout({children}) {
     return (
-        <div class="wrapper">
+        <div className="wrapper">
             <Menu></Menu>
-            <div class="main-panel">
+            <div className="main-panel">
                 <NavBar></NavBar>
                 {children}
                 <Footer></Footer>

@@ -33,4 +33,19 @@ spec:
         image: host.docker.internal:5000/maxec-web-backend:23
         ports:
         - containerPort: 13000
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: digimon-ingress
+spec:
+  rules:
+    - host: backend.
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: maxec-web-backend
+              servicePort: 13000
   
