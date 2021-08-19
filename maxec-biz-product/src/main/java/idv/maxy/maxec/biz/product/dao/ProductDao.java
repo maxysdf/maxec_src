@@ -16,9 +16,4 @@ public interface ProductDao extends JpaRepository<Product, String> {
 	 */
 	@Query(name="from Product p where p.alias = ?1 limit 1")
 	public Optional<Product> findByAlias(String alias);
-	
-	
-	
-	
-	
 }

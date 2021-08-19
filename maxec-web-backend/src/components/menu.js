@@ -10,30 +10,23 @@ export default function Menu() {
     const router = useRouter();
 
     const menuData = [
-        { name: '商品管理', path: '/product/list', icon: 'nc-circle-09' },
-        { name: '商品管理', path: '/product/list', icon: 'nc-circle-09' },
-        { name: '商品管理', path: '/product/list', icon: 'nc-circle-09' }
+        { name: 'Dashboard', path: '/dashboard', icon: 'nc-chart-pie-35' },
+        { name: '商品管理', path: '/product/list', icon: 'nc-tv-2' },
     ];
 
     return (
         <div className={styles.sidebar} data-color="purple" data-image="/images/sidebar-5.jpg">
         <div className={styles['sidebar-wrapper']}>
             <div className={styles.logo}>
-                <a href="http://www.creative-tim.com" className={styles['simple-text']}>
+                <a href="http://maxec.idv.tw" className={styles['simple-text']}>
                     Max EC
                 </a>
             </div>
             <ul className={styles.nav}>
-                <li className={`${styles['nav-item']} ${styles.active}`}>
-                    <a className={styles['nav-link']} href="dashboard.html">
-                        <i className={`${styles['nc-icon']} ${styles['nc-chart-pie-35']}`}></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
                 { menuData.map( (md,i) => (
                     <li key={i} className={`${styles['nav-item']}`}>
                         <a className={styles['nav-link']} href="#" onClick={e=>router.push(md.path)}>
-                            <i className={`${styles['nc-icon']} ${styles['nc-chart-pie-35']}`}></i>
+                            <i className={`${styles['nc-icon']} ${styles[md.icon]}`}></i>
                             <p>{md.name}</p>
                         </a>
                     </li>

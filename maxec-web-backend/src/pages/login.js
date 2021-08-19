@@ -17,7 +17,7 @@ export default function LoginPage() {
     };
 
     useEffect(() => {
-        document.getElementById('__next').classList.add('login');
+        //document.getElementById('__next').classList.add('login');
         setLoaded(true);
     }, []);
 

@@ -9,7 +9,6 @@ import Head from "next/head"
 
 import dynamic from "next/dynamic"
 
-
 export default function ProductDetailPage({product}) {
     const router = useRouter();
 

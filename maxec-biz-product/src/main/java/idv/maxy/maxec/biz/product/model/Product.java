@@ -1,7 +1,11 @@
 package idv.maxy.maxec.biz.product.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import idv.maxy.maxec.core.model.BaseModel;
@@ -17,6 +21,7 @@ public class Product extends BaseModel {
 	private String _name;
 	private Integer _price;
 	private String _alias;
+	private Brand _brand;
 	
 	@Column(name="NAME", length=200, nullable=true)
 	public String getName() {
@@ -41,4 +46,15 @@ public class Product extends BaseModel {
 	public void setAlias(String _alias) {
 		this._alias = _alias;
 	}
+	
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="BRAND_ID")
+	public Brand getBrand() {
+		return _brand;
+	}
+	
+	public void setBrand(Brand _brand) {
+		this._brand = _brand;
+	}
+	
 }

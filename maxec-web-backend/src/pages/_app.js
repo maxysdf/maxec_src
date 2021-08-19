@@ -8,12 +8,12 @@ import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
-function MyApp({ Component, pageProps }) {
-
+function MaxECApp({ Component, pageProps }) {
+  
   return Component.getLayout ?
     Component.getLayout(Component) :
     <Layout><Component {...pageProps} /></Layout>
     ;
 }
 
-export default MyApp
+export default MaxECApp

@@ -11,7 +11,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import idv.maxy.maxec.biz.product.dao.BrandDao;
 import idv.maxy.maxec.biz.product.dao.ProductDao;
+import idv.maxy.maxec.biz.product.model.Brand;
 import idv.maxy.maxec.biz.product.model.Product;
 
 /**
@@ -27,13 +29,28 @@ public class ProductDaoTest {
 	@Autowired
 	private ProductDao productDao;
 	
-	@Test @Rollback(false)
-	public void testSave() {
+	@Autowired
+	private BrandDao brandDao;
+	
+	@Test
+	public void testSaveProduct() {
 		Product p = new Product();
 		p.setName("test");
 		
 		productDao.save(p);
 	}
 	
+	@Test @Rollback(false)
+	public void testSaveBrand() {
+		Brand p = new Brand();
+		p.setName("test brand");
+		
+		Product prd = new Product();
+		prd.setName("test bb");
+		prd.setBrand(p);
+		
+		
+		productDao.save(prd);
+	}
 	
 }

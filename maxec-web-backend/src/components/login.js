@@ -16,7 +16,7 @@ export default function Login() {
     const loginClick = (data) => {
         // check login
 
-        router.push('/product/list');
+        router.replace('/dashboard');
     };
 
 

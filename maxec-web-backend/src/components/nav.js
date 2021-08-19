@@ -1,8 +1,14 @@
+import { useRouter } from "next/dist/client/router";
 import styles from "./nav.module.css"
 
 
 export default function NavBar() {
     const trcls = (cls) => cls.split(' ').map(m=>styles[m]).join(' ');
+    const router = useRouter();
+
+    const logoutClick = e => {
+        router.replace('/login');
+    };
     
     return (
         <nav className={trcls('navbar navbar-expand-lg')} color-on-scroll="500">
@@ -62,7 +68,7 @@ export default function NavBar() {
                         </div>
                     </li>
                     <li className={trcls('nav-item')}>
-                        <a className={trcls('nav-link')} href="#pablo">
+                        <a className={trcls('nav-link')} onClick={logoutClick}>
                             <span className={trcls('no-icon')}>Log out</span>
                         </a>
                     </li>

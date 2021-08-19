@@ -200,6 +200,7 @@
 .nav-link {
 	display: block;
 	padding: .5rem 1rem;
+	cursor:pointer;
 }
 
 .navbar-nav .nav-link {
@@ -408,6 +409,7 @@
 }
 
 
-
-
+.navbar .navbar-nav .nav-item .nav-link:hover {
+	color: #1DC7EA;
+}
 
