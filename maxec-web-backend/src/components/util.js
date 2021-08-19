@@ -14,6 +14,18 @@ export async function utload(path, params) {
     return data;
 }
 
+export function utNumber(nStr, hasCurrSign) {
+    if(nStr == null) return '';
+    nStr += '';
+    if(!nStr) return '';
+    var srgx = /(-?)(\d+)/;
+    var sgn = hasCurrSign ? '$$' : '';
+    nStr = nStr.replace(srgx, '$1' + sgn + '$2');
+
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(nStr)) nStr = nStr.replace(rgx, '$1' + ',' + '$2');
+    return nStr;
+}
 
 export const utLocalSet = (k,d) => localStorage.setItem(k,JSON.stringify(d));
 export const utLocalGet = k => k && localStorage.getItem(k);

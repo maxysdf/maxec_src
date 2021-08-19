@@ -4,10 +4,16 @@ import styles from "./menu.module.css"
 import getPathname from "../pages/product/list";
 import withRouter from "next/dist/client/with-router";
 import { useRouter } from "next/dist/client/router";
+import Router from "next/dist/next-server/server/router";
 
 export default function Menu() {
     const router = useRouter();
-    withRouter(ProductListPage).getPathname();
+
+    const menuData = [
+        { name: '商品管理', path: '/product/list', icon: 'nc-circle-09' },
+        { name: '商品管理', path: '/product/list', icon: 'nc-circle-09' },
+        { name: '商品管理', path: '/product/list', icon: 'nc-circle-09' }
+    ];
 
     return (
         <div className={styles.sidebar} data-color="purple" data-image="/images/sidebar-5.jpg">
@@ -24,8 +30,18 @@ export default function Menu() {
                         <p>Dashboard</p>
                     </a>
                 </li>
+                { menuData.map( (md,i) => (
+                    <li key={i} className={`${styles['nav-item']}`}>
+                        <a className={styles['nav-link']} href="#" onClick={e=>router.push(md.path)}>
+                            <i className={`${styles['nc-icon']} ${styles['nc-chart-pie-35']}`}></i>
+                            <p>{md.name}</p>
+                        </a>
+                    </li>
+                )) }
+
+                { /* }
                 <li className={`${styles['nav-item']}`}>
-                    <a className={styles['nav-link']} href={getPathname()}>
+                    <a className={styles['nav-link']} href="aa.html">
                         <i className={`${styles['nc-icon']} ${styles['nc-chart-pie-35']}`}></i>
                         <p>Product</p>
                     </a>
@@ -72,6 +88,8 @@ export default function Menu() {
                         <p>Upgrade to PRO</p>
                     </a>
                 </li>
+
+                { */ }
             </ul>
         </div>
 
