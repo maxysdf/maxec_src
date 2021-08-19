@@ -72,7 +72,7 @@ export default function ProductListPage() {
                     </div>
                     </>
                     }
-                    <div class="card-footer text-muted">
+                    <div className="card-footer text-muted">
                         <input type="button" onClick={(e) => router.push(`/product/detail`)} value="新增" />
                     </div>
                     

@@ -33,7 +33,7 @@ export default function Login() {
                         </div>
                     </div>
                     <div className="card-body">
-                        <form autocomplete="off">
+                        <form autoComplete="off">
                             <div className="input-group form-group">
                                 <div className={`input-group-prepend ${styles.inputGroupPrepend}`}>
                                     <span className="input-group-text"><i className="fas fa-user"></i></span>
