@@ -38,7 +38,7 @@ export default function ProductListPage() {
                         <ul className={trcls('pagination justify-content-end')}>
                             { !page.first && <li className={trcls('page-item')}><a className={trcls('page-link')} href="#">&lt;</a></li> }
                             { [... Array(page.totalPages)].map( (_,i) => (
-                                <li className={trcls('page-item')}><a className={trcls('page-link')} key={i} href="#" onClick={e => setPageNo(i)}>{i+1}</a></li>
+                                <li key={i} className={trcls('page-item')}><a className={trcls('page-link')} key={i} href="#" onClick={e => setPageNo(i)}>{i+1}</a></li>
                             ) ) }
                             { !page.last && <li className={trcls('page-item')}><a className={trcls('page-link')} href="#">&gt;</a></li> }
                         </ul>
