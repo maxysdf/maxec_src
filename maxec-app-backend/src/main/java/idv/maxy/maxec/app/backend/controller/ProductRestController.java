@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import idv.maxy.maxec.app.backend.vo.ResponseVO;
 import idv.maxy.maxec.biz.product.service.ProductService;
+import idv.maxy.maxec.biz.product.vo.BrandVO;
+import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.core.util.StringUtil;
 
 @RestController
-@RequestMapping(value="/product",produces="application/json")
+@RequestMapping(value="/product", produces="application/json")
 public class ProductRestController {
 	
 	@Autowired
@@ -61,7 +64,6 @@ public class ProductRestController {
 		}
 	}
 	
-	
 	/**
 	 * 
 	 * @param id
@@ -96,11 +98,5 @@ public class ProductRestController {
 		String id = productService.saveProduct(v);
 		return SaveProductResponse.create(id);
 	}
-	
-	
-	
-	
-	
-	
 	
 }

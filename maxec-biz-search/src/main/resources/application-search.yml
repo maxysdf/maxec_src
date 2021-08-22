@@ -1,0 +1,7 @@
+app:
+   es:
+      hosts: localhost:9200
+
+logging:
+   level:
+      root: INFO

@@ -68,6 +68,11 @@
             <artifactId>maxec-biz-product</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>idv.maxy</groupId>
+            <artifactId>maxec-biz-search</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		
 	</dependencies>
 </project>
