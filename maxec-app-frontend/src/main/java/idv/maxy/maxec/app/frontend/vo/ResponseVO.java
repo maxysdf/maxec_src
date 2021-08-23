@@ -3,13 +3,12 @@ package idv.maxy.maxec.app.frontend.vo;
 public class ResponseVO {
 	private String code;
 	private String errorMessage;
-	private Object result;
 	
-	public ResponseVO success() {
+	public void success() {
 		this.code = "00000";
 		this.errorMessage = null;
-		return this;
 	}
+	
 	
 	public String getCode() {
 		return code;
@@ -23,13 +22,4 @@ public class ResponseVO {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
-	public Object getResult() {
-		return result;
-	}
-	public void setResult(Object result) {
-		this.result = result;
-	}
-	
-	
 }

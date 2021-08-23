@@ -65,6 +65,7 @@ public class ProductDaoTest {
 		Tag tag = new Tag();
 		tag.setType("COLOR");
 		tag.setName("Black");
+		tag.setCode("BLACK");
 		
 		ProductCategoryMap pcm = new ProductCategoryMap();
 		pcm.setProduct(prd);
