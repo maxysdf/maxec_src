@@ -114,6 +114,11 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.findByAlias(alias).map(M2V_PRODUCT).orElse(null);
 	}
 	
+	public List<ProductVO> findByIds(List<String> ids) {
+		if(ids.isEmpty()) { return new ArrayList<>(); }
+		return productDao.findAllById(ids).stream().map(M2V_PRODUCT).collect(toList());
+	}
+	
 	@Transactional
 	public String saveProduct(ProductVO v) {
 		Product m = V2M_PRODUCT.apply(v);

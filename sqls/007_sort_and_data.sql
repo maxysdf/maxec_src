@@ -37,17 +37,3 @@ insert into brand (id, name, code, sort) values
 ('944cdb60-e98f-4300-a911-65de9793a3af', 'Lativ'         , 'LATIV'   , 7),
 ('aafc9994-cee8-4716-b79d-74c3cbd6790f', 'GIORDANO'      , 'GIORDANO', 8)
 ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

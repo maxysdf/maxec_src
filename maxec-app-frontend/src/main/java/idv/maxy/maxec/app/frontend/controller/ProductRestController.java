@@ -1,13 +1,17 @@
 package idv.maxy.maxec.app.frontend.controller;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -236,6 +240,24 @@ public class ProductRestController extends BaseRestController {
 		}
 	}
 	
+	// pageProduct response ------------------------------------------------------------------------
+	public static class PageProductResponse extends ResponseVO {
+		private PageProductResult result;
+		public PageProductResponse(PageProductResult result) { this.result = result; }
+		public PageProductResult getResult() {
+			return result;
+		}
+	}
+	
+	public static class PageProductResult {
+		private Page<ProductVO> page;
+		public PageProductResult(Page<ProductVO> page) {
+			this.page = page;
+		}
+		public Page<ProductVO> getPage() {
+			return page;
+		}
+	}
 
 	
 	/**
@@ -320,10 +342,10 @@ public class ProductRestController extends BaseRestController {
 		resp.success();
 		return resp;
 	}
-	
+
 	
 	@PostMapping("/search")
-	public SearchPage<SearchProduct> pageProduct(@RequestBody PageProductParam in) throws Exception {
+	public PageProductResponse pageProduct(@RequestBody PageProductParam in) throws Exception {
 		Integer minPrice = in.getMinPrice();
 		Integer maxPrice = in.getMaxPrice();
 		Integer pageNo = in.getPageNo();
@@ -343,12 +365,20 @@ public class ProductRestController extends BaseRestController {
 			}
 		}
 		
-		
-		SearchPage<SearchProduct> page = searchService.searchProductForList(
+		SearchPage<SearchProduct> spage = searchService.searchProductForList(
 				null, minPrice, maxPrice, tagTypeCodes, 
 				pageNo, pageSize, sort, sortAsc);
 
-		return page;
+		// convert to product
+		List<String> productIds = spage.stream().map(sh->sh.getId()).collect(toList());
+		Map<String, ProductVO> vmap = productService.findByIds(productIds).stream().collect(Collectors.toMap(ProductVO::getId, p->p));
+		
+		// convert to vo page
+		Page<ProductVO> vpage = spage.map((sh) -> vmap.get(sh.getId()));
+		
+		PageProductResponse resp = new PageProductResponse(new PageProductResult(vpage));
+		resp.success();
+		return resp;
 	}
 	
 	

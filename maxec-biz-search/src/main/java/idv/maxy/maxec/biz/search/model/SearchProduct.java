@@ -133,4 +133,20 @@ public class SearchProduct extends BaseSearchModel {
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
+
+	public Integer getSaleAmount() {
+		return saleAmount;
+	}
+
+	public void setSaleAmount(Integer saleAmount) {
+		this.saleAmount = saleAmount;
+	}
+
+	public String getSaleDate() {
+		return saleDate;
+	}
+
+	public void setSaleDate(String saleDate) {
+		this.saleDate = saleDate;
+	}
 }

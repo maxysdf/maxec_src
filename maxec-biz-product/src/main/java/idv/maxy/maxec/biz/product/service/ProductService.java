@@ -33,4 +33,6 @@ public interface ProductService {
 
 	public Map<String, List<TagVO>> listTagGroupByTypes(List<String> types);
 	
+	public List<ProductVO> findByIds(List<String> ids);
+	
 }

@@ -25,6 +25,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHitSupport;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.SearchPage;
+import org.springframework.data.elasticsearch.core.query.ByQueryResponse;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -143,6 +144,18 @@ public class SearchServiceImpl implements SearchService {
 		
 	}
 	
-	
+	public void saveAllSearchProduct(List<SearchProduct> list, long ts) {
+		// save / update
+		esOper.save(list);
+		
+		// delete old
+		try {
+			Query qry = new NativeSearchQueryBuilder().withQuery(rangeQuery("timestamp").lt(ts)).build();
+			ByQueryResponse resp = esOper.delete(qry, SearchProduct.class);
+			logger.info(String.format("delete old docs" + resp.getTotal()));
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 	
 }

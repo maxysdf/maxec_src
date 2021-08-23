@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import idv.maxy.maxec.core.model.BaseModel;
+import idv.maxy.maxec.core.model.BaseManagedModel;
 
 /**
  * 
@@ -22,7 +22,7 @@ import idv.maxy.maxec.core.model.BaseModel;
  */
 @Entity
 @Table(name="PRODUCT")
-public class Product extends BaseModel {
+public class Product extends BaseManagedModel {
 	private String _name;
 	private String _sku;
 	private Integer _price;

@@ -21,4 +21,6 @@ public interface SearchService {
 			Map<String, List<String>> tagTypeCodes,
 			int pageNo, int pageSize, String sort, boolean sortAsc);
 	
+	public void saveAllSearchProduct(List<SearchProduct> list, long updateTimestamp);
+	
 }
