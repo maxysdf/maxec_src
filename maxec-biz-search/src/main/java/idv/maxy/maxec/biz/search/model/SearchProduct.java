@@ -14,6 +14,14 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 @Document(indexName="product", createIndex=false)
 public class SearchProduct extends BaseSearchModel {
+	/** 排序 - 價格 */
+	public static final String SORT_PRICE    = "PRICE";
+	/** 排序 - 相關性 */
+	public static final String SORT_RELATIVE = "RELATIVE";
+	/** 排序 - 銷量 */
+	public static final String SORT_SALE     = "SALE";
+	/** 排序 - 發售日 */
+	public static final String SORT_DATE     = "DATE";
 	
 	@Field(type=FieldType.Text)
 	private String name;
@@ -30,30 +38,30 @@ public class SearchProduct extends BaseSearchModel {
 	@Field(type=FieldType.Integer)
 	private Integer rating;
 	
+	@Field(type=FieldType.Integer)
+	private Integer saleAmount;
+	
+	@Field(type=FieldType.Date)
+	private String saleDate;
+	
 	@Field(type=FieldType.Text)
 	private String brief;
 	
 	@Field(type=FieldType.Text)
 	private String description;
 	
-	@Field(type=FieldType.Flattened)
-	private List<SearchProductTag> tags = new ArrayList<>();
+	@Field(type=FieldType.Keyword)
+	private List<String> tag = new ArrayList<>();
 	
 	@Field(type=FieldType.Long)
 	private Long timestamp;
 
 	
 	public SearchProduct tag(String type, String id, String value) {
-		SearchProductTag tag = new SearchProductTag();
-		tag.setId(id);
-		tag.setType(type);
-		tag.setValue(value);
-		tags.add(tag);
+		tag.add(String.format("%s::%s::%s", type, id, value));
 		return this;
 	}
-	
-	
-	
+		
 	public String getName() {
 		return name;
 	}
@@ -110,12 +118,12 @@ public class SearchProduct extends BaseSearchModel {
 		this.description = description;
 	}
 
-	public List<SearchProductTag> getTags() {
-		return tags;
+	public List<String> getTag() {
+		return tag;
 	}
-
-	public void setTags(List<SearchProductTag> tags) {
-		this.tags = tags;
+	
+	public void setTag(List<String> tag) {
+		this.tag = tag;
 	}
 
 	public Long getTimestamp() {

@@ -2,12 +2,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function ProductSidebar({categories, brands, colors}) {
+export default function ProductSidebar({categories, brands, tagTypes, onFilter = f => f }) {
     const minPrice = 0;
     const maxPrice = 5000;
     const [fBrands,setFBrands] = useState({});
     const [fMinPrice,setFMinPrice] = useState(0);
     const [fMaxPrice,setFMaxPrice] = useState(5000);
+    const [fTags,setFTags] = useState({});
 
     const changeBrand = (e,id) => {
         const checked = e.target.checked;
@@ -16,10 +17,21 @@ export default function ProductSidebar({categories, brands, colors}) {
         setFBrands(fBrands);
     };
 
-    const doFilter = () => {
-        alert(fMinPrice);
+    const changeTag = (e,id,checked) => {
+        alert(id + ' ' + checked);
+        if( checked) fTags[id]=true;
+        if(!checked) delete fTags[id];
+        setFTags(fTags);
     };
 
+    const doFilter = () => {
+        const data = {
+            brands: Object.keys(fBrands),
+            priceRange: [fMinPrice,fMaxPrice],
+            tags: fTags
+        };
+        onFilter(data);
+    };
 
     useEffect(() => {
         /*-------------------
@@ -40,6 +52,7 @@ export default function ProductSidebar({categories, brands, colors}) {
                 minamount.val('$' + ui.values[0]);
                 maxamount.val('$' + ui.values[1]);
                 setFMinPrice(ui.values[0]);
+                setFMaxPrice(ui.values[1]);
             }
         });
         minamount.val('$' + rangeSlider.slider("values", 0));
@@ -48,14 +61,31 @@ export default function ProductSidebar({categories, brands, colors}) {
         /*-------------------
             Radio Btn
         --------------------- */
-        $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").on('click', function () {
-            $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").removeClass('active');
+        const refreshTags = () => {
+            const arr = [
+                ...$('.fw-color-choose label.active').siblings('input').map((i,e)=>e.value).get(),
+                ...$('.fw-size-choose label.active').siblings('input').map((i,e)=>e.value).get(),
+                ...$('.fw-tag-choose label.active').siblings('input').map((i,e)=>e.value).get(),
+            ];
+            setFTags(arr);
+        };
+
+        $(".fw-color-choose .cs-item label, .pd-color-choose .sc-item label").on('click', function (evt) {
+            $(".fw-color-choose .cs-item label").removeClass('active');
             $(this).addClass('active');
+            refreshTags();
         });
 
-        $(".fw-tag-choose .sc-item label, .pd-tag-choose .sc-item label").on('click', function () {
+        $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").on('click', function (evt) {
+            $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").removeClass('active');
+            $(this).addClass('active');
+            refreshTags();
+        });
+
+        $(".fw-tag-choose .sc-item label, .pd-tag-choose .sc-item label").on('click', function (evt) {
             //$(".fw-tag-choose .sc-item label, .pd-tag-choose .sc-item label").removeClass('active');
             $(this).toggleClass('active');
+            refreshTags();
         });
 
     }, []);
@@ -110,72 +140,35 @@ export default function ProductSidebar({categories, brands, colors}) {
             <div className="filter-widget">
                 <h4 className="fw-title">顏色</h4>
                 <div className="fw-color-choose">
-                    <div className="cs-item">
-                        <input type="radio" id="cs-black"/>
-                        <label className="cs-black" htmlFor="cs-black">Black</label>
-                    </div>
-                    <div className="cs-item">
-                        <input type="radio" id="cs-violet"/>
-                        <label className="cs-violet" htmlFor="cs-violet">Violet</label>
-                    </div>
-                    <div className="cs-item">
-                        <input type="radio" id="cs-blue"/>
-                        <label className="cs-blue" htmlFor="cs-blue">Blue</label>
-                    </div>
-                    <div className="cs-item">
-                        <input type="radio" id="cs-yellow"/>
-                        <label className="cs-yellow" htmlFor="cs-yellow">Yellow</label>
-                    </div>
-                    <div className="cs-item">
-                        <input type="radio" id="cs-red"/>
-                        <label className="cs-red" htmlFor="cs-red">Red</label>
-                    </div>
-                    <div className="cs-item">
-                        <input type="radio" id="cs-green"/>
-                        <label className="cs-green" htmlFor="cs-green">Green</label>
-                    </div>
+                    { tagTypes.filter(t=>t.type=='COLOR').flatMap(t=>t.tags).map( (t,ti) => (
+                        <div key={ti} className="cs-item">
+                            <input type="radio" id={`cs-${t.code}`} value={`COLOR::${t.code}`}/>
+                            <label className="cs-custom" htmlFor={`cs-${t.code}`} style={{'--cs-color-bg':t.value}}>{t.name}</label>
+                        </div>
+                    )) }
+                    <div style={{clear:'both'}}></div>
                 </div>
             </div>
             <div className="filter-widget">
                 <h4 className="fw-title">尺吋</h4>
                 <div className="fw-size-choose">
-                    <div className="sc-item">
-                        <input type="radio" id="s-size" name="size"/>
-                        <label htmlFor="s-size">s</label>
-                    </div>
-                    <div className="sc-item">
-                        <input type="radio" id="m-size" name="size"/>
-                        <label htmlFor="m-size">m</label>
-                    </div>
-                    <div className="sc-item">
-                        <input type="radio" id="l-size" name="size"/>
-                        <label htmlFor="l-size">l</label>
-                    </div>
-                    <div className="sc-item">
-                        <input type="radio" id="xs-size" name="size"/>
-                        <label htmlFor="xs-size">xs</label>
-                    </div>
+                    { tagTypes.filter(t=>t.type=='SIZE').flatMap(t=>t.tags).map( (t,ti) => (
+                        <div key={ti} className="sc-item">
+                            <input type="radio" id={`${t.code}-size`} name="size" value={`SIZE::${t.code}`}/>
+                            <label htmlFor={`${t.code}-size`}>{t.name}</label>
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className="filter-widget">
                 <h4 className="fw-title">標籤</h4>
                 <div className="fw-tag-choose">
-                    <div className="sc-item">
-                        <input type="radio" id="s-size" name="size"/>
-                        <label htmlFor="s-size">s</label>
-                    </div>
-                    <div className="sc-item">
-                        <input type="radio" id="m-size" name="size"/>
-                        <label htmlFor="m-size">m</label>
-                    </div>
-                    <div className="sc-item">
-                        <input type="radio" id="l-size" name="size"/>
-                        <label htmlFor="l-size">l</label>
-                    </div>
-                    <div className="sc-item">
-                        <input type="radio" id="xs-size" name="size"/>
-                        <label htmlFor="xs-size">xs</label>
-                    </div>
+                    { tagTypes.filter(t=>t.type=='TAG').flatMap(t=>t.tags).map( (t,ti) => (
+                        <div key={ti} className="sc-item">
+                            <input type="radio" id={`${t.code}-tag`} name="tag" value={`TAG::${t.code}`} />
+                            <label htmlFor={`${t.code}-tag`}>{t.name}</label>
+                        </div>
+                    )) }
                 </div>
             </div>
         </div>

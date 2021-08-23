@@ -5,3 +5,10 @@ app:
 logging:
    level:
       root: INFO
+      org:
+         springframework:
+            data:
+               elasticsearch:
+                  core: DEBUG
+         elasticsearch:
+            client: DEBUG

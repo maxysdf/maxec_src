@@ -1863,6 +1863,10 @@ ol {
 	margin-bottom: 4px;
 }
 
+.filter-widget .fw-color-choose .cs-item label.active {
+	font-weight: bold;
+}
+
 .filter-widget .fw-color-choose .cs-item input {
 	position: absolute;
 	visibility: hidden;
@@ -1895,6 +1899,13 @@ ol {
 .filter-widget .fw-color-choose .cs-item label.cs-green:before {
 	background: #81D742;
 }
+
+/* add by max */
+.filter-widget .fw-color-choose .cs-item label.cs-custom:before {
+	background: var(--cs-color-bg);
+}
+
+
 
 .filter-widget .fw-color-choose .cs-item label:before {
 	position: absolute;

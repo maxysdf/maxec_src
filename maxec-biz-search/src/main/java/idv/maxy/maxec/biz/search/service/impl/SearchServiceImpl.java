@@ -1,15 +1,30 @@
 package idv.maxy.maxec.biz.search.service.impl;
 
+import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHitSupport;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -45,6 +60,51 @@ public class SearchServiceImpl implements SearchService {
 		SearchHits<SearchProduct> hits = esOper.search(qry, SearchProduct.class);
 		hits.map(h-> h.getContent())
 			.forEach(h -> { logger.info("find p: #{} / {}", h.getId(), h.getName() ); });
+	}
+	
+	
+	public SearchPage<SearchProduct> searchProductForList(
+		List<String> keywords, Integer minPrice, Integer maxPrice, 
+		Map<String, List<String>> tagTypeCodes,
+		int pageNo, int pageSize, String sort, boolean sortAsc) {
+		
+		BoolQueryBuilder bqb = QueryBuilders.boolQuery();
+		
+		// keywords
+		if(keywords != null && !keywords.isEmpty()) {
+			bqb.must().add(multiMatchQuery(String.join(" ", keywords), "name", "description", "brief"));
+		}
+		
+		// tags
+		if(tagTypeCodes != null) {
+			for(Map.Entry<String, List<String>> e : tagTypeCodes.entrySet()) {
+				List<String> tags = e.getValue();
+				bqb.must().add(termsQuery("tag", tags));
+			}
+		}
+		
+		// price
+		bqb.must().add(rangeQuery("price").gte(minPrice).lte(maxPrice));
+
+		// sort
+		SortBuilder<?> sortbldr = null;
+		SortOrder sortorder = sortAsc ? SortOrder.ASC : SortOrder.DESC;
+		if(SearchProduct.SORT_RELATIVE.equals(sort)) { sortbldr = SortBuilders.scoreSort();  }
+		if(SearchProduct.SORT_PRICE   .equals(sort)) { sortbldr = SortBuilders.fieldSort("price").order(sortorder);  }
+		if(SearchProduct.SORT_SALE    .equals(sort)) { sortbldr = SortBuilders.fieldSort("saleAmount").order(sortorder);  }
+		if(SearchProduct.SORT_DATE    .equals(sort)) { sortbldr = SortBuilders.fieldSort("saleDate").order(sortorder);  }
+		
+		NativeSearchQueryBuilder nqb = new NativeSearchQueryBuilder()
+				.withQuery(bqb)
+				.withPageable(PageRequest.of(pageNo-1, pageSize));
+		if(sortbldr != null) { nqb.withSort(sortbldr); }
+		
+		Query query = nqb.build();
+		
+		SearchHits<SearchProduct> hits = esOper.search(query, SearchProduct.class);
+		SearchPage<SearchProduct> page = SearchHitSupport.searchPageFor(hits, query.getPageable());
+		
+		return page;
 	}
 	
 	

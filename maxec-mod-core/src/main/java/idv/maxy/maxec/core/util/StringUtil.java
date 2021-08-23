@@ -43,4 +43,13 @@ public class StringUtil {
 		return str != null && str.matches("\\d+") ? Integer.parseInt(str) : null;
 	}
 	
+	/**
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean parseBoolean(String str) {
+		return "true".equalsIgnoreCase(str) || "Y".equalsIgnoreCase(str);
+	}
+	
 }

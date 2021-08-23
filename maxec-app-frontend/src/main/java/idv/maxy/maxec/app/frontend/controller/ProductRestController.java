@@ -2,13 +2,18 @@ package idv.maxy.maxec.app.frontend.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +25,9 @@ import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
+import idv.maxy.maxec.biz.search.model.SearchProduct;
+import idv.maxy.maxec.biz.search.service.SearchService;
+import idv.maxy.maxec.biz.search.vo.SearchProductParam;
 import idv.maxy.maxec.core.util.StringUtil;
 
 @RestController
@@ -29,6 +37,8 @@ public class ProductRestController {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private SearchService searchService;
 	
 	public static class ProductResponse {
 		private ProductVO product;
@@ -117,8 +127,96 @@ public class ProductRestController {
 				return type;
 			}
 		}
-		
 	}
+	
+	public static class PageProductParam {
+		private String category;
+		private String[] brandIds;
+		private Integer minPrice;
+		private Integer maxPrice;
+		private List<PageProductTagParam> tags;
+		private String sort;
+		private Boolean sortAsc;
+		private Integer pageNo;
+		private Integer pageSize;
+		
+		public String getCategory() {
+			return category;
+		}
+		public void setCategory(String category) {
+			this.category = category;
+		}
+		public String[] getBrandIds() {
+			return brandIds;
+		}
+		public void setBrandIds(String[] brandIds) {
+			this.brandIds = brandIds;
+		}
+		public Integer getMinPrice() {
+			return minPrice;
+		}
+		public void setMinPrice(Integer minPrice) {
+			this.minPrice = minPrice;
+		}
+		public Integer getMaxPrice() {
+			return maxPrice;
+		}
+		public void setMaxPrice(Integer maxPrice) {
+			this.maxPrice = maxPrice;
+		}
+		public List<PageProductTagParam> getTags() {
+			return tags;
+		}
+		public void setTags(List<PageProductTagParam> tags) {
+			this.tags = tags;
+		}
+		public String getSort() {
+			return sort;
+		}
+		public void setSort(String sort) {
+			this.sort = sort;
+		}
+		public Boolean getSortAsc() {
+			return sortAsc;
+		}
+		public void setSortAsc(Boolean sortAsc) {
+			this.sortAsc = sortAsc;
+		}
+		public Integer getPageNo() {
+			return pageNo;
+		}
+		public void setPageNo(Integer pageNo) {
+			this.pageNo = pageNo;
+		}
+		public Integer getPageSize() {
+			return pageSize;
+		}
+		public void setPageSize(Integer pageSize) {
+			this.pageSize = pageSize;
+		}
+	}
+
+	public static class PageProductTagParam {
+		private String type;
+		private String id;
+		
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		}
+	}
+	
+
+	
+	
 	
 	
 	/**
@@ -126,7 +224,7 @@ public class ProductRestController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/{id:[0-9\\-]+}")
 	public ProductResponse getProduct(@PathVariable("id") String id) {
 		return ProductResponse.create(productService.findById(id));
 	}
@@ -184,5 +282,36 @@ public class ProductRestController {
 		
 		return ListTagByAllTypesResponse.create(tagTypes);
 	}
+	
+	
+	@PostMapping("/search")
+	public SearchPage<SearchProduct> pageProduct(@RequestBody PageProductParam in) throws Exception {
+		Integer minPrice = in.getMinPrice();
+		Integer maxPrice = in.getMaxPrice();
+		Integer pageNo = in.getPageNo();
+		Integer pageSize = in.getPageSize();
+		String sort = in.getSort();
+		boolean sortAsc = Boolean.TRUE.equals(in.getSortAsc());
+		
+		if(pageNo == null) { throw new Exception("no page no"); }
+		if(pageSize == null) { throw new Exception("no page size"); }
+		
+		Map<String, List<String>> tagTypeCodes = new LinkedHashMap<String, List<String>>();
+		List<PageProductTagParam> inTags = in.getTags();
+		if(inTags != null) {
+			for(PageProductTagParam inTag : inTags) {
+				tagTypeCodes.putIfAbsent(inTag.getType(), new ArrayList<>());
+				tagTypeCodes.get(inTag.getType()).add(String.format("%s::%s", inTag.getType(), inTag.getId()));
+			}
+		}
+		
+		
+		SearchPage<SearchProduct> page = searchService.searchProductForList(
+				null, minPrice, maxPrice, tagTypeCodes, 
+				pageNo, pageSize, sort, sortAsc);
+
+		return page;
+	}
+	
 	
 }
