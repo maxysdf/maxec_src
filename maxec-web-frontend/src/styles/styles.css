@@ -2021,6 +2021,11 @@ ol {
 	color: #4c4c4c;
 }
 
+.product-show-option .select-option .nice-select.p-show span {
+	position: absolute;
+	left: 70px;
+}
+
 .product-show-option .select-option .sorting {
 	margin-right: 20px;
 }
@@ -2035,9 +2040,9 @@ ol {
 
 .product-show-option .select-option .p-show.nice-select:before {
 	position: absolute;
-	right: 48px;
+	left: 15px;
 	top: 0;
-	content: "09";
+	content: "筆數";
 	font-size: 16px;
 	color: #252525;
 }
@@ -4338,3 +4343,5 @@ ol {
 		padding-right: 15px;
 	}
 }
+
+

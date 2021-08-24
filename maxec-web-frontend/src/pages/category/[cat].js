@@ -17,6 +17,7 @@ export default function CategoryPage(props) {
             <title>列表頁</title>
             <script type="text/javascript" src="/js/jquery.min.js"></script>
             <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="/js/jquery.nice-select.min.js"></script>
             <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
         </Head>
         <div className="breacrumb-section">

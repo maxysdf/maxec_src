@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import Image from "next/image"
 
 export default function ProductList({filterData}) {
     if(!filterData) { return <div></div>; }
@@ -29,6 +29,10 @@ export default function ProductList({filterData}) {
             console.log(e);
         });
 
+        $(function() {
+            $('.sorting, .p-show').niceSelect();
+        })
+        
         //alert('list: ' + JSON.stringify(filterData));
     }, [filterData])
 
@@ -39,10 +43,17 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-7 col-md-7">
                         <div className="select-option">
                             <select className="sorting">
-                                <option value="">Default Sorting</option>
+                                <option value="RELATIVE">關連性</option>
+                                <option value="SALE_DESC">銷售量</option>
+                                <option value="DATE_DESC">發售時間新至舊</option>
+                                <option value="DATE_DESC">發售時間舊至新</option>
+                                <option value="PRICE_ASC">價格低至高</option>
+                                <option value="PRICE_ASC">價格低至高</option>
                             </select>
                             <select className="p-show">
-                                <option value="">Show:</option>
+                                <option value="9">9</option>
+                                <option value="18">18</option>
+                                <option value="ALL">全部</option>
                             </select>
                         </div>
                     </div>
@@ -56,9 +67,10 @@ export default function ProductList({filterData}) {
                 <div className="row">
 
                     { page.content.map((p,pi) => (
-                    <div className="col-lg-4 col-sm-6">
+                    <div key={pi} className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
+                                <Image src="/images/products/man-1.jpg" height={330} width={270} layout="responsive" />
                                 <img src="img/products/product-1.jpg" alt=""/>
                                 <div className="sale pp-sale">Sale</div>
                                 <div className="icon">

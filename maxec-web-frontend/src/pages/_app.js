@@ -12,6 +12,8 @@ import '../styles/font-awesome.min.css'
 import '../styles/themify-icons.css'
 import '../styles/elegant-icons.css'
 
+import '../styles/nice-select.css'
+
 function MyApp({ Component, pageProps }) {
   return (
     <>
