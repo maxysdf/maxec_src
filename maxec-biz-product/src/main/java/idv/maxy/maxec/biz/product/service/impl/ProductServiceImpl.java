@@ -2,7 +2,9 @@ package idv.maxy.maxec.biz.product.service.impl;
 
 import static java.util.stream.Collectors.toList;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,8 @@ import idv.maxy.maxec.biz.product.model.Tag;
 import idv.maxy.maxec.biz.product.service.ProductService;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
+import idv.maxy.maxec.biz.product.vo.ProductCategoryVO;
+import idv.maxy.maxec.biz.product.vo.ProductTagVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
 
@@ -49,16 +53,6 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private TagDao tagDao;
 	
-	/** */
-	private Function<Product, ProductVO> M2V_PRODUCT = m -> {
-		if(m == null) { return null; }
-		ProductVO v = new ProductVO();
-		v.setId(m.getId());
-		v.setName(m.getName());
-		v.setPrice(m.getPrice());
-		v.setAlias(m.getAlias());
-		return v;
-	};
 	
 	private Function<ProductVO, Product> V2M_PRODUCT = v -> {
 		Product m = v.getId() != null ? productDao.findById(v.getId()).orElse(null) : null;
@@ -66,6 +60,7 @@ public class ProductServiceImpl implements ProductService {
 		m.setAlias(v.getAlias());
 		m.setName(v.getName());
 		m.setPrice(v.getPrice());
+		
 		return m;
 	};
 	
@@ -93,6 +88,44 @@ public class ProductServiceImpl implements ProductService {
 		v.setName(m.getName());
 		v.setValue(m.getValue());
 		v.setCode(m.getCode());
+		return v;
+	};
+	
+	/** */
+	private Function<Product, ProductVO> M2V_PRODUCT = m -> {
+		if(m == null) { return null; }
+		ProductVO v = new ProductVO();
+		v.setId(m.getId());
+		v.setName(m.getName());
+		v.setPrice(m.getPrice());
+		v.setAlias(m.getAlias());
+		v.setSaleAmount(m.getSaleAmount());
+		
+		Date saleDate = m.getSaleDate();
+		v.setSaleDate(saleDate != null ? new SimpleDateFormat("yyyy-MM-dd").format(saleDate) : null);
+		v.setOnsaleTime(m.getOnsaleTime());
+		v.setOffsaleTime(m.getOffsaleTime());
+		
+		v.setBrand(M2V_BRAND.apply(m.getBrand()));
+		
+		m.getProductCategoryMaps().forEach(pcm -> {
+			CategoryVO vcat = M2V_CATEGORY.apply(pcm.getCategory());
+			ProductCategoryVO pvcat = new ProductCategoryVO();
+			pvcat.setId(vcat.getId());
+			pvcat.setName(vcat.getName());
+			v.getCategories().add(pvcat);
+		});
+		
+		m.getProductTagMaps().forEach(ptm -> {
+			TagVO vtag = M2V_TAG.apply(ptm.getTag());
+			ProductTagVO pvtag = new ProductTagVO();
+			pvtag.setId(vtag.getId());
+			pvtag.setCode(vtag.getCode());
+			pvtag.setName(vtag.getName());
+			pvtag.setValue(ptm.getValue());
+			v.getTags().add(pvtag);
+		});
+
 		return v;
 	};
 	
@@ -152,6 +185,10 @@ public class ProductServiceImpl implements ProductService {
 			map.get(v.getType()).add(v);
 		}
 		return map;
+	}
+
+	public List<ProductVO> findAllWithRelated() {
+		return productDao.findAllWithRelated().stream().map(M2V_PRODUCT).collect(toList());
 	}
 	
 }

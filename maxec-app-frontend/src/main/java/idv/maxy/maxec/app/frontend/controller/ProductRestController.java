@@ -117,22 +117,21 @@ public class ProductRestController extends BaseRestController {
 	// listTagByAllTypes response ------------------------------------------------------------------------
 	public static class ListTagByAllTypesResponse extends ResponseVO {
 		private ListTagByAllTypesResult result;
-		
+		public ListTagByAllTypesResponse(ListTagByAllTypesResult result) {
+			this.result = result;
+		}
 		public ListTagByAllTypesResult getResult() {
 			return result;
-		}
-		public void setResult(ListTagByAllTypesResult result) {
-			this.result = result;
 		}
 	}
 	
 	public static class ListTagByAllTypesResult {
 		private List<ListTagByAllTypesResultTagType> types = new ArrayList<>();
+		public ListTagByAllTypesResult(List<ListTagByAllTypesResultTagType> types) {
+			this.types = types;
+		}
 		public List<ListTagByAllTypesResultTagType> getTypes() {
 			return types;
-		}
-		public void setTypes(List<ListTagByAllTypesResultTagType> types) {
-			this.types = types;
 		}
 	}
 	
@@ -338,7 +337,8 @@ public class ProductRestController extends BaseRestController {
 			tagTypes.add(tType);
 		}
 		
-		ListTagByAllTypesResponse resp = new ListTagByAllTypesResponse();
+		ListTagByAllTypesResponse resp = new ListTagByAllTypesResponse(
+				new ListTagByAllTypesResult(tagTypes));
 		resp.success();
 		return resp;
 	}

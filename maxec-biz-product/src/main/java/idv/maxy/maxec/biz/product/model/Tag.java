@@ -21,6 +21,10 @@ import idv.maxy.maxec.core.model.BaseModel;
 @Table(name="TAG")
 public class Tag extends BaseModel {
 	
+	/** 標籤類別 - 廠牌 */
+	public static final String TAG_TYPE_BRAND = "BRAND";
+	/** 標籤類別 - 目錄 */
+	public static final String TAG_TYPE_CATEGORY = "CATEGORY";
 	/** 標籤類別 - 尺吋 */
 	public static final String TAG_TYPE_SIZE  = "SIZE";
 	/** 標籤類別 - 顏色 */

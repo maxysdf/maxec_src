@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
+import idv.maxy.maxec.biz.product.model.Product;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
@@ -34,5 +35,7 @@ public interface ProductService {
 	public Map<String, List<TagVO>> listTagGroupByTypes(List<String> types);
 	
 	public List<ProductVO> findByIds(List<String> ids);
+	
+	public List<ProductVO> findAllWithRelated();
 	
 }

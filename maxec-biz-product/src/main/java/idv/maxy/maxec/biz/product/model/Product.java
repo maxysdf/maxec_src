@@ -1,5 +1,6 @@
 package idv.maxy.maxec.biz.product.model;
 
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,6 +13,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import idv.maxy.maxec.core.model.BaseManagedModel;
 
@@ -32,6 +35,10 @@ public class Product extends BaseManagedModel {
 	private String _description;
 	private String _alias;
 	private Brand _brand;
+	private Integer _saleAmount;
+	private Date _saleDate;
+	private Date _onsaleTime;
+	private Date _offsaleTime;
 	private Set<ProductCategoryMap> _productCategoryMaps = new LinkedHashSet<>();
 	private Set<ProductTagMap> _productTagMaps = new LinkedHashSet<>();
 	
@@ -104,7 +111,6 @@ public class Product extends BaseManagedModel {
 	public Brand getBrand() {
 		return _brand;
 	}
-	
 	public void setBrand(Brand _brand) {
 		this._brand = _brand;
 	}
@@ -124,5 +130,43 @@ public class Product extends BaseManagedModel {
 	public void setProductTagMaps(Set<ProductTagMap> _productTagMaps) {
 		this._productTagMaps = _productTagMaps;
 	}
+	
+	
+	@Column(name="SALE_AMOUNT", nullable=true)
+	public Integer getSaleAmount() {
+		return _saleAmount;
+	}
+	public void setSaleAmount(Integer _saleAmount) {
+		this._saleAmount = _saleAmount;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="SALE_DATE", nullable=true)
+	public Date getSaleDate() {
+		return _saleDate;
+	}
+	public void setSaleDate(Date _saleDate) {
+		this._saleDate = _saleDate;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="ONSALE_TIME", nullable=true)
+	public Date getOnsaleTime() {
+		return _onsaleTime;
+	}
+	public void setOnsaleTime(Date _onsaleTime) {
+		this._onsaleTime = _onsaleTime;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="OFFSALE_TIME", nullable=true)
+	public Date getOffsaleTime() {
+		return _offsaleTime;
+	}
+	public void setOffsaleTime(Date _offsaleTime) {
+		this._offsaleTime = _offsaleTime;
+	}
+	
+	
 	
 }

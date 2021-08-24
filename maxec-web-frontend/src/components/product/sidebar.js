@@ -8,6 +8,8 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
     const [fBrands,setFBrands] = useState({});
     const [fMinPrice,setFMinPrice] = useState(0);
     const [fMaxPrice,setFMaxPrice] = useState(5000);
+    const [fColors,setFColors] = useState([]);
+    const [fSizes,setFSizes] = useState([]);
     const [fTags,setFTags] = useState({});
 
     const changeBrand = (e,id) => {
@@ -28,6 +30,8 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
         const data = {
             brands: Object.keys(fBrands),
             priceRange: [fMinPrice,fMaxPrice],
+            sizes: fSizes,
+            colors: fColors,
             tags: fTags
         };
         onFilter(data);
@@ -61,31 +65,23 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
         /*-------------------
             Radio Btn
         --------------------- */
-        const refreshTags = () => {
-            const arr = [
-                ...$('.fw-color-choose label.active').siblings('input').map((i,e)=>e.value).get(),
-                ...$('.fw-size-choose label.active').siblings('input').map((i,e)=>e.value).get(),
-                ...$('.fw-tag-choose label.active').siblings('input').map((i,e)=>e.value).get(),
-            ];
-            setFTags(arr);
-        };
-
         $(".fw-color-choose .cs-item label, .pd-color-choose .sc-item label").on('click', function (evt) {
-            $(".fw-color-choose .cs-item label").removeClass('active');
+            $(".fw-color-choose .cs-item label, .pd-color-choose .sc-item label").removeClass('active');
             $(this).addClass('active');
-            refreshTags();
+
+            setFColors($('.fw-color-choose label.active').siblings('input').map((i,e)=>e.value).get());
         });
 
         $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").on('click', function (evt) {
             $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").removeClass('active');
             $(this).addClass('active');
-            refreshTags();
+            //refreshTags();
+            setFSizes($('.fw-size-choose label.active').siblings('input').map((i,e)=>e.value).get());
         });
 
         $(".fw-tag-choose .sc-item label, .pd-tag-choose .sc-item label").on('click', function (evt) {
-            //$(".fw-tag-choose .sc-item label, .pd-tag-choose .sc-item label").removeClass('active');
             $(this).toggleClass('active');
-            refreshTags();
+            setFTags($('.fw-tag-choose label.active').siblings('input').map((i,e)=>e.value).get());
         });
 
     }, []);
@@ -142,8 +138,8 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
                 <div className="fw-color-choose">
                     { tagTypes.filter(t=>t.type=='COLOR').flatMap(t=>t.tags).map( (t,ti) => (
                         <div key={ti} className="cs-item">
-                            <input type="radio" id={`cs-${t.code}`} value={`COLOR::${t.code}`}/>
-                            <label className="cs-custom" htmlFor={`cs-${t.code}`} style={{'--cs-color-bg':t.value}}>{t.name}</label>
+                            <input type="radio" id={`cs-${t.id}`} value={t.id}/>
+                            <label className="cs-custom" htmlFor={`cs-${t.id}`} style={{'--cs-color-bg':t.value}}>{t.name}</label>
                         </div>
                     )) }
                     <div style={{clear:'both'}}></div>
@@ -154,7 +150,7 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
                 <div className="fw-size-choose">
                     { tagTypes.filter(t=>t.type=='SIZE').flatMap(t=>t.tags).map( (t,ti) => (
                         <div key={ti} className="sc-item">
-                            <input type="radio" id={`${t.code}-size`} name="size" value={`SIZE::${t.code}`}/>
+                            <input type="radio" id={`${t.code}-size`} name="size" value={t.id}/>
                             <label htmlFor={`${t.code}-size`}>{t.name}</label>
                         </div>
                     ))}
@@ -165,7 +161,7 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
                 <div className="fw-tag-choose">
                     { tagTypes.filter(t=>t.type=='TAG').flatMap(t=>t.tags).map( (t,ti) => (
                         <div key={ti} className="sc-item">
-                            <input type="radio" id={`${t.code}-tag`} name="tag" value={`TAG::${t.code}`} />
+                            <input type="radio" id={`${t.code}-tag`} name="tag" value={t.id} />
                             <label htmlFor={`${t.code}-tag`}>{t.name}</label>
                         </div>
                     )) }

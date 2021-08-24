@@ -1,6 +1,10 @@
 package idv.maxy.maxec.biz.product;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +34,8 @@ import idv.maxy.maxec.biz.product.model.Tag;
 @Transactional
 @ActiveProfiles("product")
 public class ProductDaoTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(ProductDaoTest.class);
+	
 	@Autowired
 	private ProductDao productDao;
 	
@@ -49,7 +54,7 @@ public class ProductDaoTest {
 		productDao.save(p);
 	}
 	
-	@Test @Rollback(false)
+	@Test
 	public void testSaveBrand() {
 		Brand p = new Brand();
 		p.setName("test brand");
@@ -82,5 +87,10 @@ public class ProductDaoTest {
 		productDao.save(prd);
 	}
 	
+	@Test
+	public void testFindAllWithRelated() {
+		List<Product> list = productDao.findAllWithRelated();
+		logger.info("size: " + list.size());
+	}
 	
 }

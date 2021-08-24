@@ -1,11 +1,35 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 
 export default function ProductList({filterData}) {
     if(!filterData) { return <div></div>; }
 
+    const [page,setPage] = useState(null);
+    const [show,setShow] = useState(9);
+    const [sort,setSort] = useState('PRICE');
+
     useEffect(() => {
-        alert('list: ' + JSON.stringify(filterData));
+        const searchData = {
+            category: filterData.cat,
+            brandIds: filterData.brands,
+            minPrice: filterData.priceRange && filterData.priceRange[0] || null,
+            maxPrice: filterData.priceRange && filterData.priceRange[1] || null,
+            sort: sort,
+            sortAsc: false,
+            pageNo: 1,
+            pageSize: 9
+        };
+
+        axios.post('/api/product/search', searchData).then((res) => {
+            const page = res.data.result.page;
+            console.log(res);
+            setPage(page);
+        }).catch((e) => {
+            console.log(e);
+        });
+
+        //alert('list: ' + JSON.stringify(filterData));
     }, [filterData])
 
     return (
@@ -27,8 +51,40 @@ export default function ProductList({filterData}) {
                     </div>
                 </div>
             </div>
+            { page && 
             <div className="product-list">
                 <div className="row">
+
+                    { page.content.map((p,pi) => (
+                    <div className="col-lg-4 col-sm-6">
+                        <div className="product-item">
+                            <div className="pi-pic">
+                                <img src="img/products/product-1.jpg" alt=""/>
+                                <div className="sale pp-sale">Sale</div>
+                                <div className="icon">
+                                    <i className="icon_heart_alt"></i>
+                                </div>
+                                <ul>
+                                    <li className="w-icon active"><a href="#"><i className="icon_bag_alt"></i></a></li>
+                                    <li className="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li className="w-icon"><a href="#"><i className="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div className="pi-text">
+                                <div className="catagory-name">Towel</div>
+                                <a href="#">
+                                    <h5>{p.name}</h5>
+                                </a>
+                                <div className="product-price">
+                                    ${p.price}
+                                    <span>$35.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ) ) }
+
+                    {/*
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
@@ -256,8 +312,10 @@ export default function ProductList({filterData}) {
                             </div>
                         </div>
                     </div>
+                    */ }
                 </div>
             </div>
+            }
             <div className="loading-more">
                 <i className="icon_loading"></i>
                 <a href="#">

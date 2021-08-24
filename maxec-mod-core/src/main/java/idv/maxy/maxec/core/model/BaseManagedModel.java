@@ -39,10 +39,10 @@ public class BaseManagedModel extends BaseModel {
 	
 	@LastModifiedBy
 	@Column(name="UPDATE_USER_ID", nullable=true)
-	public String get_updateUserId() {
+	public String getUpdateUserId() {
 		return _updateUserId;
 	}
-	public void set_updateUserId(String _updateUserId) {
+	public void setUpdateUserId(String _updateUserId) {
 		this._updateUserId = _updateUserId;
 	}
 	
@@ -57,10 +57,10 @@ public class BaseManagedModel extends BaseModel {
 	
 	@Type(type="yes_no")
 	@Column(name="IS_DELETED", nullable=true)
-	public Boolean get_isDeleted() {
+	public Boolean getIsDeleted() {
 		return _isDeleted;
 	}
-	public void set_isDeleted(Boolean _isDeleted) {
+	public void setIsDeleted(Boolean _isDeleted) {
 		this._isDeleted = _isDeleted;
 	}
 }

@@ -32,10 +32,10 @@ public class ProductTagMap extends BaseModel {
 	}
 	
 	@Column(name="VALUE", length=200, nullable=true)
-	public String get_value() {
+	public String getValue() {
 		return _value;
 	}
-	public void set_value(String _value) {
+	public void setValue(String _value) {
 		this._value = _value;
 	}
 	

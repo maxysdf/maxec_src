@@ -19,7 +19,11 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.stereotype.Component;
 
+import idv.maxy.maxec.biz.product.model.Tag;
 import idv.maxy.maxec.biz.product.service.ProductService;
+import idv.maxy.maxec.biz.product.vo.BrandVO;
+import idv.maxy.maxec.biz.product.vo.ProductCategoryVO;
+import idv.maxy.maxec.biz.product.vo.ProductTagVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.search.model.SearchProduct;
 import idv.maxy.maxec.biz.search.service.SearchService;
@@ -55,7 +59,7 @@ public class SyncSearchProductJob extends BaseJobBean {
 			long now = System.currentTimeMillis();
 			
 			// find all product
-			List<ProductVO> list = productService.findAll();
+			List<ProductVO> list = productService.findAllWithRelated();
 			
 			
 			List<SearchProduct> slist = new ArrayList<>();
@@ -75,14 +79,32 @@ public class SyncSearchProductJob extends BaseJobBean {
 				sp.setTimestamp(now);
 				
 				// brand
+				BrandVO vbrand = v.getBrand();
+				if(vbrand != null) {
+					sp.getTag().add(String.format(String.format("%s::%s", Tag.TAG_TYPE_BRAND, vbrand.getId())));
+				}
 				
+				// category
+				for(ProductCategoryVO vcat : v.getCategories()) {
+					sp.getTag().add(String.format(String.format("%s::%s", Tag.TAG_TYPE_CATEGORY, vcat.getId())));
+				}
+				
+				// tags
+				for(ProductTagVO vtag : v.getTags()) {
+					String code = vtag.getCode();
+					
+					String tag = null;
+					if(Tag.TAG_TYPE_COLOR.equals(code)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_COLOR, vtag.getId())); }
+					if(Tag.TAG_TYPE_SIZE .equals(code)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_SIZE , vtag.getId())); }
+					if(Tag.TAG_TYPE_TAG  .equals(code)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_TAG  , vtag.getId())); }
+					if(tag != null) { sp.getTag().add(tag); }
+				}
 				
 				slist.add(sp);
 			}
 			
 			// update search product
 			searchService.saveAllSearchProduct(slist, now);
-			
 			
 		} catch(Exception ex) {
 			logger.error("failed", ex);

@@ -1,6 +1,8 @@
 package idv.maxy.maxec.biz.product.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ProductVO {
 	private String id;
@@ -14,6 +16,12 @@ public class ProductVO {
 	private Integer weight;
 	private Integer saleAmount;
 	private String saleDate;
+	private Date onsaleTime;
+	private Date offsaleTime;
+	
+	private BrandVO brand;
+	private List<ProductTagVO> tags = new ArrayList<>();
+	private List<ProductCategoryVO> categories = new ArrayList<>();
 	
 	public String getId() {
 		return id;
@@ -82,6 +90,36 @@ public class ProductVO {
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
+	public BrandVO getBrand() {
+		return brand;
+	}
+	public void setBrand(BrandVO brand) {
+		this.brand = brand;
+	}
+	public List<ProductCategoryVO> getCategories() {
+		return categories;
+	}
+	public List<ProductTagVO> getTags() {
+		return tags;
+	}
+	public void setCategories(List<ProductCategoryVO> categories) {
+		this.categories = categories;
+	}
+	public void setTags(List<ProductTagVO> tags) {
+		this.tags = tags;
+	}
 	
+	public Date getOffsaleTime() {
+		return offsaleTime;
+	}
+	public void setOffsaleTime(Date offsaleTime) {
+		this.offsaleTime = offsaleTime;
+	}
+	public Date getOnsaleTime() {
+		return onsaleTime;
+	}
+	public void setOnsaleTime(Date onsaleTime) {
+		this.onsaleTime = onsaleTime;
+	}
 	
 }
