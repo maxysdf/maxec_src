@@ -91,12 +91,12 @@ public class SyncSearchProductJob extends BaseJobBean {
 				
 				// tags
 				for(ProductTagVO vtag : v.getTags()) {
-					String code = vtag.getCode();
+					String type = vtag.getType();
 					
 					String tag = null;
-					if(Tag.TAG_TYPE_COLOR.equals(code)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_COLOR, vtag.getId())); }
-					if(Tag.TAG_TYPE_SIZE .equals(code)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_SIZE , vtag.getId())); }
-					if(Tag.TAG_TYPE_TAG  .equals(code)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_TAG  , vtag.getId())); }
+					if(Tag.TAG_TYPE_COLOR.equals(type)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_COLOR, vtag.getId())); }
+					if(Tag.TAG_TYPE_SIZE .equals(type)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_SIZE , vtag.getId())); }
+					if(Tag.TAG_TYPE_TAG  .equals(type)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_TAG  , vtag.getId())); }
 					if(tag != null) { sp.getTag().add(tag); }
 				}
 				

@@ -29,7 +29,7 @@ export default function Header() {
                     <div className={trcls('ht-right')}>
                         <a href="#" className={trcls('login-panel')}><i className={trcls('fa fa-user')}></i>Login</a>
                         <div className={trcls('lan-selector')}>
-                            <select className={trcls('language_drop')} name="countries" id="countries" style={{width: '300px'}}>
+                            <select className={trcls('language_drop')} name="countries" id="countries" >
                                 <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
                                     data-title="English">English</option>
                                 <option value='yu' data-image="img/flag-2.jpg" data-imagecss="flag yu"
@@ -147,8 +147,8 @@ export default function Header() {
                             <li className={trcls('active')}>
                                 <Link href="/"><a>首頁</a></Link>
                             </li>
-                            <li><a href="./shop.html">Shop</a></li>
-                            <li><Link href="/category/all"><a>全部商品</a></Link>
+                            <li><Link href="/category/all"><a>商品</a></Link></li>
+                            <li><a href="#">目錄</a>
                                 <ul className={trcls('dropdown')}>
                                     <li><a href="#">Men's</a></li>
                                     <li><a href="#">Women's</a></li>

@@ -152,7 +152,7 @@ public class SearchServiceImpl implements SearchService {
 		try {
 			Query qry = new NativeSearchQueryBuilder().withQuery(rangeQuery("timestamp").lt(ts)).build();
 			ByQueryResponse resp = esOper.delete(qry, SearchProduct.class);
-			logger.info(String.format("delete old docs" + resp.getTotal()));
+			logger.info(String.format("delete old docs" + resp.getDeleted()));
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

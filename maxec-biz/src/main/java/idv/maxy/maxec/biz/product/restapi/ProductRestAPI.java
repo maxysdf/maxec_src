@@ -35,5 +35,5 @@ public interface ProductRestAPI {
 	public List<BrandVO> findAllBrand();
 	
 	@GetMapping("/tag/types")
-	public Map<String, List<TagVO>> listTagGroupByTypes(@RequestBody List<String> types);
+	public Map<String, List<TagVO>> listTagGroupByTypes(@RequestParam("types") List<String> types);
 }

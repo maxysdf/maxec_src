@@ -1,6 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Image from "next/image"
+import Link from "next/link"
+import { GraphQLClient, request, gql } from "graphql-request"
 
 export default function ProductList({filterData}) {
     if(!filterData) { return <div></div>; }
@@ -9,48 +11,87 @@ export default function ProductList({filterData}) {
     const [show,setShow] = useState(9);
     const [sort,setSort] = useState('PRICE');
 
+    const [openSort,setOpenSort] = useState(false);
+
     useEffect(() => {
+        //alert(JSON.stringify(filterData.tags));
+        const brandTags = filterData.brands && filterData.brands.map(b=> ({type:'BRAND', id:b}) ) || [];
+        const sizeTags = filterData.sizes && filterData.sizes.map(b=> ({type:'SIZE', id:b}) ) || [];
+        const colorTags = filterData.colors && filterData.colors.map(b=> ({type:'COLOR', id:b}) ) || [];
+        const tagTags = filterData.tags && Object.keys(filterData.tags).map(b=> ({type:'TAG', id:b}) ) || [];
+        const tags = [
+            ...brandTags, ...sizeTags,
+            ...colorTags, ...tagTags
+        ];
+
         const searchData = {
             category: filterData.cat,
-            brandIds: filterData.brands,
             minPrice: filterData.priceRange && filterData.priceRange[0] || null,
             maxPrice: filterData.priceRange && filterData.priceRange[1] || null,
-            sort: sort,
-            sortAsc: false,
+            sort: sort.split('_')[0],
+            sortAsc: sort.endsWith('_ASC'),
             pageNo: 1,
-            pageSize: 9
+            pageSize: show == 'ALL' ? 9999 : show,
+            tags: tags
         };
 
-        axios.post('/api/product/search', searchData).then((res) => {
-            const page = res.data.result.page;
-            console.log(res);
+        const client = new GraphQLClient(
+            `/api/graphql`
+        );
+    
+        const query = gql`query ($param: SearchProductParam) {
+            searchProduct(param:$param) {
+                page {
+                    totalPages totalElements number numberOfElements size  hasContent
+                    content: searchProductResult {
+                        id name price alias
+                    }
+                }
+                response {
+                    errorMessage
+                }
+            }
+        }`;
+
+        client.request(query, {param:searchData}).then(res => {
+            const { searchProduct } = res;
+            const { page } = searchProduct;
             setPage(page);
-        }).catch((e) => {
-            console.log(e);
+
+            //$('.sorting, .p-show').niceSelect();
         });
 
-        $(function() {
-            $('.sorting, .p-show').niceSelect();
-        })
+        //$('.sorting, .p-show').niceSelect();
         
-        //alert('list: ' + JSON.stringify(filterData));
-    }, [filterData])
+    }, [filterData, show, sort])
 
     return (
-        <div className="col-lg-9 order-1 order-lg-2">
+        <div className="col-lg-9 order-1 order-lg-2 productListZone">
+            { (!page || !page.hasContent) &&
+            <div className="loading-more">
+                <a href="#">
+                    無符合商品
+                </a>
+            </div>
+            }
+
+            { page && page.hasContent &&
+            <>
             <div className="product-show-option">
                 <div className="row">
                     <div className="col-lg-7 col-md-7">
+
                         <div className="select-option">
-                            <select className="sorting">
+
+                            <select className="sorting" onChange={e=>setSort(e.target.value)}>
                                 <option value="RELATIVE">關連性</option>
                                 <option value="SALE_DESC">銷售量</option>
                                 <option value="DATE_DESC">發售時間新至舊</option>
                                 <option value="DATE_DESC">發售時間舊至新</option>
                                 <option value="PRICE_ASC">價格低至高</option>
-                                <option value="PRICE_ASC">價格低至高</option>
+                                <option value="PRICE_DESC">價格高至低</option>
                             </select>
-                            <select className="p-show">
+                            <select className="p-show" onChange={e=>setShow(e.target.value)}>
                                 <option value="9">9</option>
                                 <option value="18">18</option>
                                 <option value="ALL">全部</option>
@@ -58,11 +99,10 @@ export default function ProductList({filterData}) {
                         </div>
                     </div>
                     <div className="col-lg-5 col-md-5 text-right">
-                        <p>Show 01- 09 Of 36 Product</p>
+                        <p>顯示第{(page.number-1) * page.size + 1}至{page.number * page.size + page.numberOfElements}筆, 共{page.totalElements}筆商品</p>
                     </div>
                 </div>
             </div>
-            { page && 
             <div className="product-list">
                 <div className="row">
 
@@ -70,7 +110,7 @@ export default function ProductList({filterData}) {
                     <div key={pi} className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <Image src="/images/products/man-1.jpg" height={330} width={270} layout="responsive" />
+                                <Image src="/images/products/man-1.jpg" height={294} width={262} layout="fixed" />
                                 <img src="img/products/product-1.jpg" alt=""/>
                                 <div className="sale pp-sale">Sale</div>
                                 <div className="icon">
@@ -78,7 +118,7 @@ export default function ProductList({filterData}) {
                                 </div>
                                 <ul>
                                     <li className="w-icon active"><a href="#"><i className="icon_bag_alt"></i></a></li>
-                                    <li className="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li className="quick-view"><Link href={`/product/${p.alias}`}><a>+ Quick View</a></Link></li>
                                     <li className="w-icon"><a href="#"><i className="fa fa-random"></i></a></li>
                                 </ul>
                             </div>
@@ -327,6 +367,7 @@ export default function ProductList({filterData}) {
                     */ }
                 </div>
             </div>
+            </>
             }
             <div className="loading-more">
                 <i className="icon_loading"></i>

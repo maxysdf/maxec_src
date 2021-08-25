@@ -44,7 +44,6 @@ export default function Home() {
                 <script type="text/javascript" src="/js/jquery.min.js"></script>
                 <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
                 <link type="text/css" rel="stylesheet" href="/css/owl.carousel.min.css" />
-
             </Head>
             <section className={'hero-section'}>
                 <div className={'hero-items owl-carousel'}>

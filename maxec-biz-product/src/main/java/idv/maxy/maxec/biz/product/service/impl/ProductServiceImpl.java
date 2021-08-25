@@ -120,6 +120,7 @@ public class ProductServiceImpl implements ProductService {
 			TagVO vtag = M2V_TAG.apply(ptm.getTag());
 			ProductTagVO pvtag = new ProductTagVO();
 			pvtag.setId(vtag.getId());
+			pvtag.setType(vtag.getType());
 			pvtag.setCode(vtag.getCode());
 			pvtag.setName(vtag.getName());
 			pvtag.setValue(ptm.getValue());

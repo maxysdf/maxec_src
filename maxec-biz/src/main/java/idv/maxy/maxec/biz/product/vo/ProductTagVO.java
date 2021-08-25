@@ -2,10 +2,17 @@ package idv.maxy.maxec.biz.product.vo;
 
 public class ProductTagVO {
 	private String id;
+	private String type;
 	private String code;
 	private String value;
 	private String name;
 	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getId() {
 		return id;
 	}

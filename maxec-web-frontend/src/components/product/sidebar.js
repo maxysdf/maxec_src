@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 
 export default function ProductSidebar({categories, brands, tagTypes, onFilter = f => f }) {
     const minPrice = 0;
-    const maxPrice = 5000;
+    const maxPrice = 15000;
     const [fBrands,setFBrands] = useState({});
     const [fMinPrice,setFMinPrice] = useState(0);
-    const [fMaxPrice,setFMaxPrice] = useState(5000);
+    const [fMaxPrice,setFMaxPrice] = useState(15000);
     const [fColors,setFColors] = useState([]);
     const [fSizes,setFSizes] = useState([]);
     const [fTags,setFTags] = useState({});
@@ -17,13 +17,6 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
         if( checked) fBrands[id]=true;
         if(!checked) delete fBrands[id];
         setFBrands(fBrands);
-    };
-
-    const changeTag = (e,id,checked) => {
-        alert(id + ' ' + checked);
-        if( checked) fTags[id]=true;
-        if(!checked) delete fTags[id];
-        setFTags(fTags);
     };
 
     const doFilter = () => {
@@ -66,25 +59,36 @@ export default function ProductSidebar({categories, brands, tagTypes, onFilter =
             Radio Btn
         --------------------- */
         $(".fw-color-choose .cs-item label, .pd-color-choose .sc-item label").on('click', function (evt) {
+            const checked = $(evt.target).hasClass('active');
             $(".fw-color-choose .cs-item label, .pd-color-choose .sc-item label").removeClass('active');
-            $(this).addClass('active');
+            if(!checked) $(this).addClass('active');
 
             setFColors($('.fw-color-choose label.active').siblings('input').map((i,e)=>e.value).get());
         });
 
         $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").on('click', function (evt) {
+            const checked = $(evt.target).hasClass('active');
             $(".fw-size-choose .sc-item label, .pd-size-choose .sc-item label").removeClass('active');
-            $(this).addClass('active');
+            if(!checked) $(this).addClass('active');
             //refreshTags();
             setFSizes($('.fw-size-choose label.active').siblings('input').map((i,e)=>e.value).get());
         });
 
         $(".fw-tag-choose .sc-item label, .pd-tag-choose .sc-item label").on('click', function (evt) {
             $(this).toggleClass('active');
-            setFTags($('.fw-tag-choose label.active').siblings('input').map((i,e)=>e.value).get());
+
+            const tags = {};
+            $('.fw-tag-choose label.active').siblings('input').each((i,e) => {
+                tags[e.value] = true;
+            });
+            //setFTags($('.fw-tag-choose label.active').siblings('input').map((i,e)=>e.value).get());
+            setFTags(tags);
         });
 
     }, []);
+
+    useEffect(doFilter,[fColors, fSizes, fBrands, fTags]);
+
 
     return (
         <div className="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
