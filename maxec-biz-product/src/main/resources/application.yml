@@ -1,0 +1,6 @@
+spring:
+   profiles:
+      include: db, product, logging
+      
+server:
+   port: 13000

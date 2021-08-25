@@ -12,9 +12,22 @@
 	<packaging>jar</packaging>
 	<name>Max EC Frontend App</name>
 	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <versions.spring.cloud>2020.0.3</versions.spring.cloud>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${versions.spring.cloud}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 	
 	<profiles>
 	   <profile>
@@ -57,6 +70,33 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- db driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+		
+        <!-- graphql -->
+		<dependency>
+		    <groupId>com.graphql-java-kickstart</groupId>
+		    <artifactId>graphql-spring-boot-starter</artifactId>
+		    <version>11.0.0</version>
+		</dependency>
+		        
+		<dependency>
+		    <groupId>com.graphql-java-kickstart</groupId>
+		    <artifactId>graphiql-spring-boot-starter</artifactId>
+		    <version>11.0.0</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
+        <!-- feign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>2.2.9.RELEASE</version>
+        </dependency>
+		
 		<!-- maxec -->
 		<dependency>
 		    <groupId>idv.maxy</groupId>
@@ -65,12 +105,7 @@
 		</dependency>
         <dependency>
             <groupId>idv.maxy</groupId>
-            <artifactId>maxec-biz-product</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>idv.maxy</groupId>
-            <artifactId>maxec-biz-search</artifactId>
+            <artifactId>maxec-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
 		

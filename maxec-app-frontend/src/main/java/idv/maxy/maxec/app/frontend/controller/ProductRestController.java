@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,24 +21,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import idv.maxy.maxec.app.frontend.vo.ResponseVO;
-import idv.maxy.maxec.biz.product.service.ProductService;
+import idv.maxy.maxec.biz.product.restapi.ProductRestAPI;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
-import idv.maxy.maxec.biz.search.model.SearchProduct;
-import idv.maxy.maxec.biz.search.service.SearchService;
+import idv.maxy.maxec.biz.search.restapi.SearchRestAPI;
 import idv.maxy.maxec.core.util.StringUtil;
 
 @RestController
 @RequestMapping(value="/product", produces="application/json")
 public class ProductRestController extends BaseRestController {
 	
-	@Autowired
-	private ProductService productService;
+	//@Autowired
+	private ProductRestAPI productRestApi;
 	
-	@Autowired
-	private SearchService searchService;
+	//@Autowired
+	private SearchRestAPI searchRestApi;
 	
 	
 	// product response ------------------------------------------------------------------------
@@ -264,9 +262,9 @@ public class ProductRestController extends BaseRestController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/{id:[0-9\\-]+}")
+	@GetMapping("/{id:[0-9a-f\\-]+}")
 	public ProductResponse getProduct(@PathVariable("id") String id) {
-		ProductVO v = productService.findById(id);
+		ProductVO v = productRestApi.findProductById(id);
 		
 		ProductResponse resp = new ProductResponse(new ProductResult(v));
 		resp.success();
@@ -280,7 +278,7 @@ public class ProductRestController extends BaseRestController {
 	 */
 	@GetMapping("/alias")
 	public ProductResponse getProductByAlias(@RequestParam("alias") String alias) {
-		ProductVO v = productService.findByAlias(alias);
+		ProductVO v = productRestApi.findProductByAlias(alias);
 		
 		ProductResponse resp = new ProductResponse(new ProductResult(v));
 		resp.success();
@@ -294,7 +292,7 @@ public class ProductRestController extends BaseRestController {
 	 */
 	@GetMapping("")
 	public ProductListResponse listProduct() {
-		List<ProductVO> list = productService.findAll();
+		List<ProductVO> list = productRestApi.findAllProduct();
 		
 		ProductListResponse resp = new ProductListResponse(new ProductListResult(list));
 		resp.success();
@@ -308,7 +306,7 @@ public class ProductRestController extends BaseRestController {
 	 */
 	@GetMapping("/category")
 	public ListCategoryResponse listCategories() throws Exception {
-		List<CategoryVO> cats = productService.findAllCategories();
+		List<CategoryVO> cats = productRestApi.findAllCategory();
 		ListCategoryResponse resp = new ListCategoryResponse(new ListCategoryResult(cats));
 		resp.success();
 		return resp;
@@ -316,7 +314,7 @@ public class ProductRestController extends BaseRestController {
 	
 	@GetMapping("/brand")
 	public ListBrandResponse listBrands() throws Exception {
-		List<BrandVO> brands = productService.findAllBrands();
+		List<BrandVO> brands = productRestApi.findAllBrand();
 		
 		ListBrandResponse resp = new ListBrandResponse(new ListBrandResult(brands));
 		resp.success();
@@ -325,22 +323,23 @@ public class ProductRestController extends BaseRestController {
 	
 	@GetMapping("/tag/types")
 	public ListTagByAllTypesResponse listTagByAllTypes(@RequestParam("types") String inTypes) {
-		String[] types = StringUtil.parseArray(inTypes, ",");
-		List<ListTagByAllTypesResultTagType> tagTypes = new ArrayList<>();
-		Map<String, List<TagVO>> tagTypeMap = productService.listTagGroupByTypes(Arrays.asList(types));
-		for(Entry<String, List<TagVO>> e : tagTypeMap.entrySet()) {
-			ListTagByAllTypesResultTagType tType = new ListTagByAllTypesResultTagType();	
-			tType.type = e.getKey();
-			for(TagVO tTag : e.getValue()) {
-				tType.getTags().add(tTag);
-			}
-			tagTypes.add(tType);
-		}
-		
-		ListTagByAllTypesResponse resp = new ListTagByAllTypesResponse(
-				new ListTagByAllTypesResult(tagTypes));
-		resp.success();
-		return resp;
+//		String[] types = StringUtil.parseArray(inTypes, ",");
+//		List<ListTagByAllTypesResultTagType> tagTypes = new ArrayList<>();
+//		Map<String, List<TagVO>> tagTypeMap = productRestApi.listTagGroupByTypes(Arrays.asList(types));
+//		for(Entry<String, List<TagVO>> e : tagTypeMap.entrySet()) {
+//			ListTagByAllTypesResultTagType tType = new ListTagByAllTypesResultTagType();	
+//			tType.type = e.getKey();
+//			for(TagVO tTag : e.getValue()) {
+//				tType.getTags().add(tTag);
+//			}
+//			tagTypes.add(tType);
+//		}
+//		
+//		ListTagByAllTypesResponse resp = new ListTagByAllTypesResponse(
+//				new ListTagByAllTypesResult(tagTypes));
+//		resp.success();
+//		return resp;
+		return null;
 	}
 
 	
@@ -356,29 +355,42 @@ public class ProductRestController extends BaseRestController {
 		if(pageNo == null) { throw new Exception("no page no"); }
 		if(pageSize == null) { throw new Exception("no page size"); }
 		
-		Map<String, List<String>> tagTypeCodes = new LinkedHashMap<String, List<String>>();
+		Map<String, List<String>> tagTypeIds = new LinkedHashMap<String, List<String>>();
 		List<PageProductTagParam> inTags = in.getTags();
 		if(inTags != null) {
 			for(PageProductTagParam inTag : inTags) {
-				tagTypeCodes.putIfAbsent(inTag.getType(), new ArrayList<>());
-				tagTypeCodes.get(inTag.getType()).add(String.format("%s::%s", inTag.getType(), inTag.getId()));
+				tagTypeIds.putIfAbsent(inTag.getType(), new ArrayList<>());
+				tagTypeIds.get(inTag.getType()).add(String.format("%s::%s", inTag.getType(), inTag.getId()));
 			}
 		}
 		
-		SearchPage<SearchProduct> spage = searchService.searchProductForList(
-				null, minPrice, maxPrice, tagTypeCodes, 
-				pageNo, pageSize, sort, sortAsc);
+//		searchRestApi.searchProductForList(param)
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		searchRestApi.searchProductForList(in.getCategory(), minPrice, maxPrice, tagTypeIds, pageNo, pageSize, sort, sortAsc);
+//		
+//		
+//		SearchPage<SearchProduct> spage = searchService.searchProductForList(
+//				null, minPrice, maxPrice, tagTypeCodes, 
+//				pageNo, pageSize, sort, sortAsc);
 
-		// convert to product
-		List<String> productIds = spage.stream().map(sh->sh.getId()).collect(toList());
-		Map<String, ProductVO> vmap = productService.findByIds(productIds).stream().collect(Collectors.toMap(ProductVO::getId, p->p));
+//		// convert to product
+//		List<String> productIds = spage.stream().map(sh->sh.getId()).collect(toList());
+//		Map<String, ProductVO> vmap = productService.findByIds(productIds).stream().collect(Collectors.toMap(ProductVO::getId, p->p));
+//		
+//		// convert to vo page
+//		Page<ProductVO> vpage = spage.map((sh) -> vmap.get(sh.getId()));
+//		
+//		PageProductResponse resp = new PageProductResponse(new PageProductResult(vpage));
+//		resp.success();
+//		return resp;
 		
-		// convert to vo page
-		Page<ProductVO> vpage = spage.map((sh) -> vmap.get(sh.getId()));
-		
-		PageProductResponse resp = new PageProductResponse(new PageProductResult(vpage));
-		resp.success();
-		return resp;
+		return null;
 	}
 	
 	
