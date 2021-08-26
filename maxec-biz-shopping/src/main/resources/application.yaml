@@ -1,3 +1,7 @@
-- logging:
+spring:
+   profiles:
+      include: db, redis
+
+logging:
    spring:
       root: DEBUG
