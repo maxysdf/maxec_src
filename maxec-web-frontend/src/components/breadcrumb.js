@@ -10,8 +10,8 @@ export default function Breadcrumb({list}) {
                             { list.map((l,li) => {
                                 const cls = l.icon == 'HOME' ? 'fa fa-home' : ''
                                 return l.hasLink ? 
-                                    <Link href={l.path}><a><i className={cls}></i> {l.label}</a></Link> :
-                                    <span>{l.label}</span>
+                                    <Link key={li} href={l.path}><a><i className={cls}></i> {l.label}</a></Link> :
+                                    <span key={li}>{l.label}</span>
                             } ) }
                         </div>
                     </div>

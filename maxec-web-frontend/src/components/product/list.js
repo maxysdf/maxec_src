@@ -3,6 +3,9 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import Image from "next/image"
 import Link from "next/link"
 import { GraphQLClient, request, gql } from "graphql-request"
+import { utGQL } from "../util";
+
+const CUST_ID = 'max'; // FIXME!!!!!
 
 export default function ProductList({filterData}) {
     if(!filterData) { return <div></div>; }
@@ -13,8 +16,25 @@ export default function ProductList({filterData}) {
 
     const [openSort,setOpenSort] = useState(false);
 
+    const addCart = (id,qty) => {
+        const query = `mutation($customerId:ID, $productId:ID, $qty:Int) {
+            addOrUpdateCartItem(customerId:$customerId, productId:$productId, qty:$qty) {
+              cart {
+                total subtotal shipFee
+                items { name price subtotal}
+              }
+              response { result errorMessage }
+            }
+        }`;
+        const customerId = CUST_ID;
+        utGQL(query, {customerId:customerId, productId:id, qty:qty}, (res) => {
+            const { addOrUpdateCartItem } = res;
+            if(addOrUpdateCartItem.response.result) { alert('已加入'); }
+            if(!addOrUpdateCartItem.response.result) { alert(addOrUpdateCartItem.response.errorMessage); }
+        })
+    }
+
     useEffect(() => {
-        //alert(JSON.stringify(filterData.tags));
         const brandTags = filterData.brands && filterData.brands.map(b=> ({type:'BRAND', id:b}) ) || [];
         const sizeTags = filterData.sizes && filterData.sizes.map(b=> ({type:'SIZE', id:b}) ) || [];
         const colorTags = filterData.colors && filterData.colors.map(b=> ({type:'COLOR', id:b}) ) || [];
@@ -35,11 +55,7 @@ export default function ProductList({filterData}) {
             tags: tags
         };
 
-        const client = new GraphQLClient(
-            `/api/graphql`
-        );
-    
-        const query = gql`query ($param: SearchProductParam) {
+        const query = `query ($param: SearchProductParam) {
             searchProduct(param:$param) {
                 page {
                     totalPages totalElements number numberOfElements size  hasContent
@@ -47,21 +63,16 @@ export default function ProductList({filterData}) {
                         id name price alias
                     }
                 }
-                response {
-                    errorMessage
-                }
+                response { errorMessage result code }
             }
         }`;
 
-        client.request(query, {param:searchData}).then(res => {
+        const customerId = CUST_ID;
+        utGQL(query, {param:searchData}, (res) => {
             const { searchProduct } = res;
             const { page } = searchProduct;
             setPage(page);
-
-            //$('.sorting, .p-show').niceSelect();
-        });
-
-        //$('.sorting, .p-show').niceSelect();
+        })
         
     }, [filterData, show, sort])
 
@@ -117,7 +128,7 @@ export default function ProductList({filterData}) {
                                     <i className="icon_heart_alt"></i>
                                 </div>
                                 <ul>
-                                    <li className="w-icon active"><a href="#"><i className="icon_bag_alt"></i></a></li>
+                                    <li className="w-icon active"><a onClick={e=>addCart(p.id, 1)}><i className="icon_bag_alt"></i></a></li>
                                     <li className="quick-view"><Link href={`/product/${p.alias}`}><a>+ Quick View</a></Link></li>
                                     <li className="w-icon"><a href="#"><i className="fa fa-random"></i></a></li>
                                 </ul>

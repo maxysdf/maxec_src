@@ -11,7 +11,6 @@ export default function Header() {
         router.replace(path);
     };
 
-
     return (
         <header className={trcls('header-section')}>
             <div className={trcls('header-top')}>
@@ -73,10 +72,12 @@ export default function Header() {
                                     </a>
                                 </li>
                                 <li className={trcls('cart-icon')}>
-                                    <a href="#">
-                                        <i className={trcls('icon_bag_alt')}></i>
-                                        <span>3</span>
-                                    </a>
+                                    <Link href="/cart">
+                                        <a>
+                                            <i className={trcls('icon_bag_alt')}></i>
+                                            <span>3</span>
+                                        </a>
+                                    </Link>
                                     <div className={trcls('cart-hover')}>
                                         <div className={trcls('select-items')}>
                                             <table>

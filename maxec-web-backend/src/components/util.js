@@ -1,4 +1,5 @@
 import axios from "axios";
+import { GraphQLClient, request, gql } from "graphql-request"
 
 export async function utload(path, params) {
     var paramarr = [];
@@ -12,6 +13,13 @@ export async function utload(path, params) {
     //const res = await fetch(`${path}${paramstr}`);
     //const data = await res.json();
     return data;
+}
+
+const _glclient = new GraphQLClient(`/api/graphql`);
+
+export function utGQL(q,p,cb) {
+    const query = gql`${q}`;
+    _glclient.request(gql`${q}`, p).then(cb);
 }
 
 export function utNumber(nStr, hasCurrSign) {

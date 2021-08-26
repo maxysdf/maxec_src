@@ -3,8 +3,8 @@ type Query {
 }
 
 # [共用] 型態 - 變更
-#type Mutation {
-#}
+type Mutation {
+}
 
 # [共用] 型態 - 執行結果
 type Response {

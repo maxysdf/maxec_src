@@ -34,6 +34,7 @@ public class RedisConfiguration {
 	public RedisTemplate<String, String> redisTemplate(LettuceConnectionFactory factory) {
 		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(factory);
+		redisTemplate.setDefaultSerializer(new StringRedisSerializer());
 		return redisTemplate;
 	}
 }

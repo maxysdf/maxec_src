@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import idv.maxy.maxec.biz.shopping.vo.CartVO;
 import idv.maxy.maxec.biz.shopping.vo.ShowCartVO;
 
 public interface ShoppingRestApi {
 
 	@GetMapping("/cart")
-	public ShowCartVO getCart(@RequestParam("customerId") String customerId) throws Exception;
+	public CartVO getCart(@RequestParam("customerId") String customerId) throws Exception;
 	
 	@PostMapping("/cart")
 	public void addOrUpdateCartItem(@RequestParam("customerId") String customerId, 
@@ -22,6 +23,6 @@ public interface ShoppingRestApi {
 			@RequestParam("productId") String productId) throws Exception;
 	
 	@DeleteMapping("/cart/items")
-	public void clearCartItem(String customerId) throws Exception;
+	public void clearCart(@RequestParam("customerId") String customerId) throws Exception;
 	
 }

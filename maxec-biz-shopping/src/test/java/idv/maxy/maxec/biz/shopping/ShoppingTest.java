@@ -1,5 +1,13 @@
 package idv.maxy.maxec.biz.shopping;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,24 +35,25 @@ public class ShoppingTest {
 	@Autowired
 	private ShoppingService shoppingService;
 	
-	@Test
-	public void testSaveCart() throws Exception {
-		CartVO c = new CartVO();
-		c.setCustomerId("xxx");
-		
-		CartItemVO ci = new CartItemVO();
-		ci.setProductId("p01");
-		ci.setQty(5);
-		ci.setTimestamp(System.currentTimeMillis());
-		c.getItems().add(ci);
-		
-		shoppingService.saveCart("xxx", c);
-	}
+	private static final String TEST_MEMBER = "__test__member__";
 	
 	@Test
-	public void testReadCart() throws Exception {
-		CartVO v = shoppingService.readCart("xxx");
-		logger.info("v: {}", new ObjectMapper().writeValueAsString(v));
+	public void testAddCart() throws Exception {
+		String productId = "p01";
+		int qty = 5;
+		shoppingService.addOrUpdateCartItem(TEST_MEMBER, productId, qty);
 		
+		CartVO cart = shoppingService.getCart(TEST_MEMBER);
+		assertNotNull(cart);
+		
+		List<CartItemVO> cartItems = cart.getItems().stream()
+				.filter(ci->productId.equals(ci.getProductId()))
+				.collect(Collectors.toList());
+		assertTrue(cartItems.size() == 1);
+		
+		Integer itemQty = cartItems.get(0).getQty();
+		assertTrue(itemQty != null && itemQty == qty);
 	}
+
+	
 }
