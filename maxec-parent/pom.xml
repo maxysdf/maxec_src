@@ -27,6 +27,7 @@
         <module>../maxec-biz-product</module>
         <module>../maxec-biz-search</module>
         <module>../maxec-biz-content</module>
+        <module>../maxec-biz-shopping</module>
         <module>../maxec-mod-core</module>
     </modules>
     
