@@ -1,5 +1,5 @@
-alter table TAG add VALUE varchar(50)
-alter table tag add code varchar(50)
+alter table TAG add VALUE varchar(50);
+alter table tag add code varchar(50);
 alter table tag add sort int;
 
 alter table category add sort int;
