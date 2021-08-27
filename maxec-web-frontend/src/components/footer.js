@@ -1,3 +1,4 @@
+import Image from "next/image"
 
 export default function Footer() {
     return (
@@ -7,7 +8,7 @@ export default function Footer() {
                     <div className="col-lg-3">
                         <div className="footer-left">
                             <div className="footer-logo">
-                                <a href="#"><img src="img/footer-logo.png" alt=""/></a>
+                                <a href="#"><Image width={88} height={23} src="/images/footer-logo.png" alt=""/></a>
                             </div>
                             <ul>
                                 <li>Address: 60-49 Road 11378 New York</li>
@@ -63,7 +64,7 @@ export default function Footer() {
                             <div className="copyright-text">
                             </div>
                             <div className="payment-pic">
-                                <img src="img/payment-method.png" alt=""/>
+                                <Image src="/images/payment-method.png" alt="" width={288} height={25}/>
                             </div>
                         </div>
                     </div>

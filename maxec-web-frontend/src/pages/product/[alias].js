@@ -1,6 +1,9 @@
 import Head from "next/head"
+import Image from "next/image"
+
 import Breadcrumb from '../../components/breadcrumb'
 import Partner from "../../components/partner"
+
 import { GraphQLClient, request, gql } from "graphql-request"
 
 export default function ProductDetailPage({product}) {
@@ -8,10 +11,9 @@ export default function ProductDetailPage({product}) {
         <>
         <Head>
             <title>詳細頁 - {product.name}</title>
-            <script type="text/javascript" src="/js/jquery.min.js"></script>
-            <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-            <script type="text/javascript" src="/js/jquery.nice-select.min.js"></script>
-            <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
+            <script type="text/javascript" async src="/js/jquery.min.js"></script>
+            <script type="text/javascript" async src="/js/jquery-ui.min.js"></script>
+            <script type="text/javascript" async src="/js/jquery.nice-select.min.js"></script>
         </Head>
         <Breadcrumb list={[
             {label:'首頁', path:'/', hasLink: true, icon: 'HOME' },
@@ -139,7 +141,7 @@ export default function ProductDetailPage({product}) {
                                 <a href="#">Coat</a>
                                 <a href="#">Dresses</a>
                                 <a href="#">Trousers</a>
-                                <a href="#">Men's hats</a>
+                                <a href="#">Men&apos;s hats</a>
                                 <a href="#">Backpack</a>
                             </div>
                         </div>
@@ -148,21 +150,21 @@ export default function ProductDetailPage({product}) {
                         <div className="row">
                             <div className="col-lg-6">
                                 <div className="product-pic-zoom">
-                                    <img className="product-big-img" src="img/product-single/product-1.jpg" alt=""/>
+                                    <Image className="product-big-img" src="/images/product-single/product-1.jpg" width={408} height={483} alt=""/>
                                     <div className="zoom-icon">
                                         <i className="fa fa-search-plus"></i>
                                     </div>
                                 </div>
                                 <div className="product-thumbs">
                                     <div className="product-thumbs-track ps-slider owl-carousel">
-                                        <div className="pt active" data-imgbigurl="img/product-single/product-1.jpg"><img
-                                                src="img/product-single/product-1.jpg" alt=""/></div>
-                                        <div className="pt" data-imgbigurl="img/product-single/product-2.jpg"><img
-                                                src="img/product-single/product-2.jpg" alt=""/></div>
-                                        <div className="pt" data-imgbigurl="img/product-single/product-3.jpg"><img
-                                                src="img/product-single/product-3.jpg" alt=""/></div>
-                                        <div className="pt" data-imgbigurl="img/product-single/product-3.jpg"><img
-                                                src="img/product-single/product-3.jpg" alt=""/></div>
+                                        <div className="pt active" data-imgbigurl="img/product-single/product-1.jpg"><Image
+                                                src="/images/product-single/product-1.jpg" width={70} height={70} alt=""/></div>
+                                        <div className="pt" data-imgbigurl="img/product-single/product-2.jpg"><Image
+                                                src="/images/product-single/product-2.jpg" width={70} height={70} alt=""/></div>
+                                        <div className="pt" data-imgbigurl="img/product-single/product-3.jpg"><Image
+                                                src="/images/product-single/product-3.jpg" width={70} height={70} alt=""/></div>
+                                        <div className="pt" data-imgbigurl="img/product-single/product-3.jpg"><Image
+                                                src="/images/product-single/product-3.jpg" width={70} height={70} alt=""/></div>
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +276,7 @@ export default function ProductDetailPage({product}) {
                                                         aliquip ex ea commodo consequat. Duis aute irure dolor in </p>
                                                 </div>
                                                 <div className="col-lg-5">
-                                                    <img src="img/product-single/tab-desc.jpg" alt=""/>
+                                                    <Image src="/images/product-single/tab-desc.jpg" width={335} height={418} alt=""/>
                                                 </div>
                                             </div>
                                         </div>
@@ -346,7 +348,7 @@ export default function ProductDetailPage({product}) {
                                             <div className="comment-option">
                                                 <div className="co-item">
                                                     <div className="avatar-pic">
-                                                        <img src="img/product-single/avatar-1.png" alt=""/>
+                                                        <Image src="/images/product-single/avatar-1.png" width={63} height={63} alt=""/>
                                                     </div>
                                                     <div className="avatar-text">
                                                         <div className="at-rating">
@@ -362,7 +364,7 @@ export default function ProductDetailPage({product}) {
                                                 </div>
                                                 <div className="co-item">
                                                     <div className="avatar-pic">
-                                                        <img src="img/product-single/avatar-2.png" alt=""/>
+                                                        <Image src="/images/product-single/avatar-2.png" width={63} height={63} alt=""/>
                                                     </div>
                                                     <div className="avatar-text">
                                                         <div className="at-rating">
@@ -427,7 +429,7 @@ export default function ProductDetailPage({product}) {
                     <div className="col-lg-3 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/women-1.jpg" alt=""/>
+                                <Image src="/images/products/women-1.jpg" width={262} height={320} alt=""/>
                                 <div className="sale">Sale</div>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
@@ -453,7 +455,7 @@ export default function ProductDetailPage({product}) {
                     <div className="col-lg-3 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/women-2.jpg" alt=""/>
+                                <Image src="/images/products/women-2.jpg" width={262} height={320} alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -477,7 +479,7 @@ export default function ProductDetailPage({product}) {
                     <div className="col-lg-3 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/women-3.jpg" alt=""/>
+                                <Image src="/images/products/women-3.jpg" width={262} height={320} alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -501,7 +503,7 @@ export default function ProductDetailPage({product}) {
                     <div className="col-lg-3 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/women-4.jpg" alt=""/>
+                                <Image src="/images/products/women-4.jpg" width={262} height={320} alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>

@@ -8,8 +8,6 @@ import { utGQL } from "../util";
 const CUST_ID = 'max'; // FIXME!!!!!
 
 export default function ProductList({filterData}) {
-    if(!filterData) { return <div></div>; }
-
     const [page,setPage] = useState(null);
     const [show,setShow] = useState(9);
     const [sort,setSort] = useState('PRICE');
@@ -76,6 +74,7 @@ export default function ProductList({filterData}) {
         
     }, [filterData, show, sort])
 
+    if(!filterData) { return <div></div>; }
     return (
         <div className="col-lg-9 order-1 order-lg-2 productListZone">
             { (!page || !page.hasContent) &&
@@ -121,8 +120,7 @@ export default function ProductList({filterData}) {
                     <div key={pi} className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <Image src="/images/products/man-1.jpg" height={294} width={262} layout="fixed" />
-                                <img src="img/products/product-1.jpg" alt=""/>
+                                <Image src="/images/products/man-1.jpg" width={262} height={294} layout="fixed" alt="" />
                                 <div className="sale pp-sale">Sale</div>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
@@ -151,7 +149,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-1.jpg" alt=""/>
+                                <img src="/images/products/product-1.jpg" alt=""/>
                                 <div className="sale pp-sale">Sale</div>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
@@ -177,7 +175,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-2.jpg" alt=""/>
+                                <img src="/images/products/product-2.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -202,7 +200,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-3.jpg" alt=""/>
+                                <img src="/images/products/product-3.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -227,7 +225,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-4.jpg" alt=""/>
+                                <img src="/images/products/product-4.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -252,7 +250,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-5.jpg" alt=""/>
+                                <img src="/images/products/product-5.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -277,7 +275,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-6.jpg" alt=""/>
+                                <img src="/images/products/product-6.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -302,7 +300,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-7.jpg" alt=""/>
+                                <img src="/images/products/product-7.jpg" alt=""/>
                                 <div className="sale pp-sale">Sale</div>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
@@ -328,7 +326,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-8.jpg" alt=""/>
+                                <img src="/images/products/product-8.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>
@@ -353,7 +351,7 @@ export default function ProductList({filterData}) {
                     <div className="col-lg-4 col-sm-6">
                         <div className="product-item">
                             <div className="pi-pic">
-                                <img src="img/products/product-9.jpg" alt=""/>
+                                <img src="/images/products/product-9.jpg" alt=""/>
                                 <div className="icon">
                                     <i className="icon_heart_alt"></i>
                                 </div>

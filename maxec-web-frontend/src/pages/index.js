@@ -3,7 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react';
-
+import Footer from '../components/footer';
+import Partner from '../components/partner';
 
 export default function Home() {
     const router = useRouter();
@@ -41,13 +42,12 @@ export default function Home() {
     return (
         <>
             <Head>
-                <script type="text/javascript" src="/js/jquery.min.js"></script>
-                <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
-                <link type="text/css" rel="stylesheet" href="/css/owl.carousel.min.css" />
+                <script type="text/javascript" async src="/js/jquery.min.js"></script>
+                <script type="text/javascript" async src="/js/owl.carousel.min.js"></script>
             </Head>
             <section className={'hero-section'}>
                 <div className={'hero-items owl-carousel'}>
-                    <div className={'single-hero-items set-bg'} data-setbg="images/hero-1.jpg">
+                    <div className={'single-hero-items set-bg'} data-setbg="/images/hero-1.jpg">
                         <div className={'container'}>
                             <div className={'row'}>
                                 <div className={'col-lg-5'}>
@@ -87,28 +87,28 @@ export default function Home() {
                 <div className={'container-fluid'}>
                     <div className={'row'}>
                         <div className={'col-lg-4'}>
-                            <Link href="/category/men">
+                            <Link href="/category/men" passHref>
                             <div className={'single-banner'}>
-                                <Image src="/images/banner-1.jpg" width={570} height={320} layout="responsive" />
+                                <Image src="/images/banner-1.jpg" width={570} height={320} layout="responsive" alt="" />
                                 <div className={'inner-text'}>
-                                    <h4>Men’s</h4>
+                                    <h4>Men&apos;s</h4>
                                 </div>
                             </div>
                             </Link>
                         </div>
                         <div className={'col-lg-4'}>
                             <div className={'single-banner'}>
-                            <Image src="/images/banner-2.jpg" width={570} height={320} layout="responsive" />
+                            <Image src="/images/banner-2.jpg" width={570} height={320} layout="responsive" alt="" />
                                 <div className={'inner-text'}>
-                                    <h4>Women’s</h4>
+                                    <h4>Women&apos;s</h4>
                                 </div>
                             </div>
                         </div>
                         <div className={'col-lg-4'}>
                             <div className={'single-banner'}>
-                            <Image src="/images/banner-3.jpg" width={570} height={320} layout="responsive" />
+                            <Image src="/images/banner-3.jpg" width={570} height={320} layout="responsive" alt="" />
                                 <div className={'inner-text'}>
-                                    <h4>Kid’s</h4>
+                                    <h4>Kid&apos;s</h4>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@ export default function Home() {
                 <div className={'container-fluid'}>
                     <div className={'row'}>
                         <div className={'col-lg-3'}>
-                            <div className={'product-large set-bg'} data-setbg="img/products/women-large.jpg">
+                            <div className={'product-large set-bg'} data-setbg="/images/products/women-large.jpg">
                                 <h2>Women’s</h2>
                                 <a href="#">Discover More</a>
                             </div>
@@ -138,7 +138,7 @@ export default function Home() {
                             <div className={'product-slider owl-carousel'}>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/women-1.jpg" alt=""/>
+                                        <Image src="/images/products/women-1.jpg" width={225} height={275} alt=""/>
                                         <div className={'sale'}>Sale</div>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
@@ -162,7 +162,7 @@ export default function Home() {
                                 </div>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/women-2.jpg" alt=""/>
+                                        <Image src="/images/products/women-2.jpg" width={225} height={275} alt=""/>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
                                         </div>
@@ -184,7 +184,7 @@ export default function Home() {
                                 </div>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/women-3.jpg" alt=""/>
+                                        <Image src="/images/products/women-3.jpg" alt="" width={225} height={275}/>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
                                         </div>
@@ -206,7 +206,7 @@ export default function Home() {
                                 </div>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/women-4.jpg" alt=""/>
+                                        <Image src="/images/products/women-4.jpg" width={225} height={275} alt=""/>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
                                         </div>
@@ -233,7 +233,7 @@ export default function Home() {
             </section>
 
             {/* deal of week section */}
-            <section className={'deal-of-week set-bg spad'} data-setbg="img/time-bg.jpg">
+            <section className={'deal-of-week set-bg spad'} data-setbg="/images/time-bg.jpg">
                 <div className={'container'}>
                     <div className={'col-lg-6 text-center'}>
                         <div className={'section-title'}>
@@ -284,7 +284,7 @@ export default function Home() {
                             <div className={'product-slider owl-carousel'}>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/man-1.jpg" alt=""/>
+                                        <Image src="/images/products/man-1.jpg" width={225} height={275} alt=""/>
                                         <div className={'sale'}>Sale</div>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
@@ -308,7 +308,7 @@ export default function Home() {
                                 </div>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/man-2.jpg" alt=""/>
+                                        <Image src="/images/products/man-2.jpg" width={225} height={275} alt=""/>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
                                         </div>
@@ -330,7 +330,7 @@ export default function Home() {
                                 </div>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/man-3.jpg" alt=""/>
+                                        <Image src="/images/products/man-3.jpg" width={225} height={275} alt=""/>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
                                         </div>
@@ -352,7 +352,7 @@ export default function Home() {
                                 </div>
                                 <div className={'product-item'}>
                                     <div className={'pi-pic'}>
-                                        <img src="img/products/man-4.jpg" alt=""/>
+                                        <Image src="/images/products/man-4.jpg" width={225} height={275} alt=""/>
                                         <div className={'icon'}>
                                             <i className={'icon_heart_alt'}></i>
                                         </div>
@@ -375,7 +375,7 @@ export default function Home() {
                             </div>
                         </div>
                         <div className={'col-lg-3 offset-lg-1'}>
-                            <div className={'product-large set-bg m-large'} data-setbg="img/products/man-large.jpg">
+                            <div className={'product-large set-bg m-large'} data-setbg="/images/products/man-large.jpg">
                                 <h2>Men’s</h2>
                                 <a href="#">Discover More</a>
                             </div>
@@ -386,37 +386,37 @@ export default function Home() {
 
             {/* ig section */}
             <div className={'instagram-photo'}>
-                <div className={'insta-item set-bg'} data-setbg="img/insta-1.jpg">
+                <div className={'insta-item set-bg'} data-setbg="/images/insta-1.jpg">
                     <div className={'inside-text'}>
                         <i className={'ti-instagram'}></i>
                         <h5><a href="#">colorlib_Collection</a></h5>
                     </div>
                 </div>
-                <div className={'insta-item set-bg'} data-setbg="img/insta-2.jpg">
+                <div className={'insta-item set-bg'} data-setbg="/images/insta-2.jpg">
                     <div className={'inside-text'}>
                         <i className={'ti-instagram'}></i>
                         <h5><a href="#">colorlib_Collection</a></h5>
                     </div>
                 </div>
-                <div className={'insta-item set-bg'} data-setbg="img/insta-3.jpg">
+                <div className={'insta-item set-bg'} data-setbg="/images/insta-3.jpg">
                     <div className={'inside-text'}>
                         <i className={'ti-instagram'}></i>
                         <h5><a href="#">colorlib_Collection</a></h5>
                     </div>
                 </div>
-                <div className={'insta-item set-bg'} data-setbg="img/insta-4.jpg">
+                <div className={'insta-item set-bg'} data-setbg="/images/insta-4.jpg">
                     <div className={'inside-text'}>
                         <i className={'ti-instagram'}></i>
                         <h5><a href="#">colorlib_Collection</a></h5>
                     </div>
                 </div>
-                <div className={'insta-item set-bg'} data-setbg="img/insta-5.jpg">
+                <div className={'insta-item set-bg'} data-setbg="/images/insta-5.jpg">
                     <div className={'inside-text'}>
                         <i className={'ti-instagram'}></i>
                         <h5><a href="#">colorlib_Collection</a></h5>
                     </div>
                 </div>
-                <div className={'insta-item set-bg'} data-setbg="img/insta-6.jpg">
+                <div className={'insta-item set-bg'} data-setbg="/images/insta-6.jpg">
                     <div className={'inside-text'}>
                         <i className={'ti-instagram'}></i>
                         <h5><a href="#">colorlib_Collection</a></h5>
@@ -437,7 +437,7 @@ export default function Home() {
                     <div className={'row'}>
                         <div className={'col-lg-4 col-md-6'}>
                             <div className={'single-latest-blog'}>
-                                <img src="img/latest-1.jpg" alt=""/>
+                                <Image src="/images/latest-1.jpg" width={360} height={259} alt=""/>
                                 <div className={'latest-text'}>
                                     <div className={'tag-list'}>
                                         <div className={'tag-item'}>
@@ -458,7 +458,7 @@ export default function Home() {
                         </div>
                         <div className={'col-lg-4 col-md-6'}>
                             <div className={'single-latest-blog'}>
-                                <img src="img/latest-2.jpg" alt=""/>
+                                <Image src="/images/latest-2.jpg" width={360} height={259} alt=""/>
                                 <div className={'latest-text'}>
                                     <div className={'tag-list'}>
                                         <div className={'tag-item'}>
@@ -471,7 +471,7 @@ export default function Home() {
                                         </div>
                                     </div>
                                     <a href="#">
-                                        <h4>Vogue's Ultimate Guide To Autumn/Winter 2019 Shoes</h4>
+                                        <h4>Vogue&apos;s Ultimate Guide To Autumn/Winter 2019 Shoes</h4>
                                     </a>
                                     <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
                                 </div>
@@ -479,7 +479,7 @@ export default function Home() {
                         </div>
                         <div className={'col-lg-4 col-md-6'}>
                             <div className={'single-latest-blog'}>
-                                <img src="img/latest-3.jpg" alt=""/>
+                                <Image src="/images/latest-3.jpg" width={360} height={259} alt=""/>
                                 <div className={'latest-text'}>
                                     <div className={'tag-list'}>
                                         <div className={'tag-item'}>
@@ -504,7 +504,7 @@ export default function Home() {
                             <div className={'col-lg-4'}>
                                 <div className={'single-benefit'}>
                                     <div className={'sb-icon'}>
-                                        <img src="img/icon-1.png" alt=""/>
+                                        <Image src="/images/icon-1.png" width={47} height={34} alt=""/>
                                     </div>
                                     <div className={'sb-text'}>
                                         <h6>Free Shipping</h6>
@@ -515,7 +515,7 @@ export default function Home() {
                             <div className={'col-lg-4'}>
                                 <div className={'single-benefit'}>
                                     <div className={'sb-icon'}>
-                                        <img src="img/icon-2.png" alt=""/>
+                                        <Image src="/images/icon-2.png" width={38} height={38} alt=""/>
                                     </div>
                                     <div className={'sb-text'}>
                                         <h6>Delivery On Time</h6>
@@ -526,7 +526,7 @@ export default function Home() {
                             <div className={'col-lg-4'}>
                                 <div className={'single-benefit'}>
                                     <div className={'sb-icon'}>
-                                        <img src="img/icon-1.png" alt=""/>
+                                        <Image src="/images/icon-1.png" width={47} height={34} alt=""/>
                                     </div>
                                     <div className={'sb-text'}>
                                         <h6>Secure Payment</h6>
@@ -539,109 +539,9 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* partner section */}
-            <div className={'partner-logo'}>
-                <div className={'container'}>
-                    <div className={'logo-carousel owl-carousel'}>
-                        <div className={'logo-item'}>
-                            <div className={'tablecell-inner'}>
-                                <img src="img/logo-carousel/logo-1.png" alt=""/>
-                            </div>
-                        </div>
-                        <div className={'logo-item'}>
-                            <div className={'tablecell-inner'}>
-                                <img src="img/logo-carousel/logo-2.png" alt=""/>
-                            </div>
-                        </div>
-                        <div className={'logo-item'}>
-                            <div className={'tablecell-inner'}>
-                                <img src="img/logo-carousel/logo-3.png" alt=""/>
-                            </div>
-                        </div>
-                        <div className={'logo-item'}>
-                            <div className={'tablecell-inner'}>
-                                <img src="img/logo-carousel/logo-4.png" alt=""/>
-                            </div>
-                        </div>
-                        <div className={'logo-item'}>
-                            <div className={'tablecell-inner'}>
-                                <img src="img/logo-carousel/logo-5.png" alt=""/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* footer section */}
-            <footer className={'footer-section'}>
-                <div className={'container'}>
-                    <div className={'row'}>
-                        <div className={'col-lg-3'}>
-                            <div className={'footer-left'}>
-                                <div className={'footer-logo'}>
-                                    <a href="#"><img src="img/footer-logo.png" alt=""/></a>
-                                </div>
-                                <ul>
-                                    <li>Address: 60-49 Road 11378 New York</li>
-                                    <li>Phone: +65 11.188.888</li>
-                                    <li>Email: hello.colorlib@gmail.com</li>
-                                </ul>
-                                <div className={'footer-social'}>
-                                    <a href="#"><i className={'fa fa-facebook'}></i></a>
-                                    <a href="#"><i className={'fa fa-instagram'}></i></a>
-                                    <a href="#"><i className={'fa fa-twitter'}></i></a>
-                                    <a href="#"><i className={'fa fa-pinterest'}></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={'col-lg-2 offset-lg-1'}>
-                            <div className={'footer-widget'}>
-                                <h5>Information</h5>
-                                <ul>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Checkout</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                    <li><a href="#">Serivius</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className={'col-lg-2'}>
-                            <div className={'footer-widget'}>
-                                <h5>My Account</h5>
-                                <ul>
-                                    <li><a href="#">My Account</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                    <li><a href="#">Shopping Cart</a></li>
-                                    <li><a href="#">Shop</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className={'col-lg-4'}>
-                            <div className={'newslatter-item'}>
-                                <h5>Join Our Newsletter Now</h5>
-                                <p>Get E-mail updates about our latest shop and special offers.</p>
-                                <form action="#" className={'subscribe-form'}>
-                                    <input type="text" placeholder="Enter Your Mail"/>
-                                    <button type="button">Subscribe</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={'copyright-reserved'}>
-                    <div className={'container'}>
-                        <div className={'row'}>
-                            <div className={'col-lg-12'}>
-                                <div className={'copyright-text'}>
-                                </div>
-                                <div className={'payment-pic'}>
-                                    <img src="img/payment-method.png" alt=""/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <Partner />
+            
+            <Footer />
         </>
     );
 }

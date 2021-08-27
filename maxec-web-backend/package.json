@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-fileinput": "^5.2.3",
+    "graphql-request": "^3.5.0",
     "jquery": "^3.6.0",
     "next": "11.0.1",
     "next-http-proxy-middleware": "^1.0.10",

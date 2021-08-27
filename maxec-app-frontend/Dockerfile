@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
-ARG JARFILE=maxec-app-backend/target/*.jar
+ARG JARFILE=target/*.jar
 ARG DBURL
 ARG DBDRV
 ARG DBUSER
@@ -16,5 +16,3 @@ ENTRYPOINT [ \
     "-Dspring.jpa.properties.hibernate.dialect=${DBDIALECT}", \
     "-jar","/app.jar" \
 ]
-
-EXPOSE 8081

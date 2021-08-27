@@ -83,7 +83,7 @@ export default function Header() {
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td className={trcls('si-pic')}><img src="img/select-product-1.jpg" alt="" /></td>
+                                                        <td className={trcls('si-pic')}><Image src="/images/select-product-1.jpg" width={70} height={70} alt="" /></td>
                                                         <td className={trcls('si-text')}>
                                                             <div className={trcls('product-selected')}>
                                                                 <p>$60.00 x 1</p>
@@ -95,7 +95,7 @@ export default function Header() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td className={trcls('si-pic')}><img src="img/select-product-2.jpg" alt=""/></td>
+                                                        <td className={trcls('si-pic')}><Image src="/images/select-product-2.jpg" width={70} height={70} alt=""/></td>
                                                         <td className={trcls('si-text')}>
                                                             <div className={trcls('product-selected')}>
                                                                 <p>$60.00 x 1</p>
@@ -132,10 +132,10 @@ export default function Header() {
                             <i className={trcls('ti-menu')}></i>
                             <span>All departments</span>
                             <ul className={trcls('depart-hover')}>
-                                <li className={trcls('active')}><a href="#">Women’s Clothing</a></li>
-                                <li><a href="#">Men’s Clothing</a></li>
+                                <li className={trcls('active')}><a href="#">Women&apos;s Clothing</a></li>
+                                <li><a href="#">Men&apos;s Clothing</a></li>
                                 <li><a href="#">Underwear</a></li>
-                                <li><a href="#">Kid's Clothing</a></li>
+                                <li><a href="#">Kid&apos;s Clothing</a></li>
                                 <li><a href="#">Brand Fashion</a></li>
                                 <li><a href="#">Accessories/Shoes</a></li>
                                 <li><a href="#">Luxury Brands</a></li>
@@ -151,9 +151,9 @@ export default function Header() {
                             <li><Link href="/category/all"><a>商品</a></Link></li>
                             <li><a href="#">目錄</a>
                                 <ul className={trcls('dropdown')}>
-                                    <li><a href="#">Men's</a></li>
-                                    <li><a href="#">Women's</a></li>
-                                    <li><a href="#">Kid's</a></li>
+                                    <li><a href="#">Men&apos;s</a></li>
+                                    <li><a href="#">Women&apos;s</a></li>
+                                    <li><a href="#">Kid&apos;s</a></li>
                                 </ul>
                             </li>
                             <li><a href="./blog.html">Blog</a></li>

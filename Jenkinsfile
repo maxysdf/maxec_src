@@ -43,9 +43,8 @@ pipeline {
                         echo "env branch: ${env.BRANCH}"
                         script {
                             def proj = 'maxec-db';
-                            def dockerfile = 'DockerfileDB';
                             docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host -f ${dockerfile} .")
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
                                 img.push()
                             }
                         }
@@ -57,9 +56,8 @@ pipeline {
                         echo "env branch: ${env.BRANCH}"
                         script {
                             def proj = 'maxec-app-frontend';
-                            def dockerfile = 'DockerfileAppFront';
                             docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host -f ${dockerfile} .")
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
                                 img.push()
                             }
                         }
@@ -71,13 +69,24 @@ pipeline {
                         echo "env branch: ${env.BRANCH}"
                         script {
                             def proj = 'maxec-app-backend';
-                            def dockerfile = 'DockerfileAppBack';
                             docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host -f ${dockerfile} .")
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
                                 img.push()
                             }
                         }
-                        
+                    }
+                }
+                
+                stage('Docker - web frontend') {
+                    steps {
+                        echo "env branch: ${env.BRANCH}"
+                        script {
+                            def proj = 'maxec-web-frontend';
+                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
+                                img.push()
+                            }
+                        }
                     }
                 }
                 
@@ -86,13 +95,11 @@ pipeline {
                         echo "env branch: ${env.BRANCH}"
                         script {
                             def proj = 'maxec-web-backend';
-                            def dockerfile = 'DockerfileWebBack';
                             docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host -f ${dockerfile} .")
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
                                 img.push()
                             }
                         }
-                        
                     }
                 }
             }

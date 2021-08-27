@@ -26,10 +26,9 @@ export default function CategoryPage(props) {
         <>
         <Head>
             <title>列表頁</title>
-            <script type="text/javascript" src="/js/jquery.min.js"></script>
-            <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-            <script type="text/javascript" src="/js/jquery.nice-select.min.js"></script>
-            <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
+            <script type="text/javascript" async src="/js/jquery.min.js"></script>
+            <script type="text/javascript" async src="/js/jquery-ui.min.js"></script>
+            <script type="text/javascript" async src="/js/jquery.nice-select.min.js"></script>
         </Head>
         <Breadcrumb list={[
             {label:'首頁', path:'/', hasLink: true, icon: 'HOME' },
