@@ -12,6 +12,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "graphql": "^15.5.1",
     "graphql-request": "^3.5.0",
     "jquery": "^3.6.0",
     "next": "^11.1.0",
