@@ -41,13 +41,7 @@ pipeline {
                 stage('Docker - db') {
                     steps {
                         echo "env branch: ${env.BRANCH}"
-                        script {
-                            def proj = 'maxec-db';
-                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
-                                img.push()
-                            }
-                        }
+                        script { buildAndPushImage('maxec-db') }
                     }
                 }
             
@@ -95,6 +89,19 @@ pipeline {
                         echo "env branch: ${env.BRANCH}"
                         script {
                             def proj = 'maxec-web-backend';
+                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
+                                img.push()
+                            }
+                        }
+                    }
+                }
+                
+                stage('Docker - biz product') {
+                    steps {
+                        echo "env branch: ${env.BRANCH}"
+                        script {
+                            def proj = 'maxec-biz-product';
                             docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
                                 def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
                                 img.push()
@@ -187,5 +194,15 @@ pipeline {
             }
         }
 
+    }
+}
+
+
+def buildAndPushImage(String proj) {
+    script {
+        docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+            def img = docker.build("${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
+            img.push()
+        }
     }
 }

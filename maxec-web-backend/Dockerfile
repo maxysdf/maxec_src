@@ -26,7 +26,7 @@ COPY .env.production ./
 
 USER nextjs
 
-EXPOSE 13000
+EXPOSE 12100
 
 CMD ["yarn", "start"]
 #CMD ["/bin/sh","start.sh"]

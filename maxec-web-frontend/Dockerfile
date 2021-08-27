@@ -1,14 +1,12 @@
 FROM node:alpine AS deps
-ENV SRCBASE=maxec-web-frontend
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY ${SRCBASE}/package.json ${SRCBASE}/yarn.lock ./
+COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 FROM node:alpine AS builder
 WORKDIR /app
-ENV SRCBASE=maxec-web-frontend
-COPY ${SRCBASE}/. .
+COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
@@ -25,6 +23,6 @@ COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 12000
 
 CMD ["yarn", "start"]
