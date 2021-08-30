@@ -1,3 +1,10 @@
 spring:
    profiles:
-      include: db, logging
+      include: db, logging, api
+      
+server:
+   port: 11000
+
+graphql:
+   servlet:
+      corsEnabled: false

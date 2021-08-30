@@ -15,10 +15,7 @@ pipeline {
         stage('Build - app') {
             steps {
                 ws("${pwd()}/maxec-parent") {
-                    withMaven(
-                        maven: 'maven-3.5.4',
-                        jdk: 'jdk8'
-                    ) {
+                    withMaven(maven: 'maven-3.5.4', jdk: 'jdk8') {
                         sh 'mvn -P prod -Dmaven.test.skip=true clean package'
                     }
                 }
@@ -38,62 +35,24 @@ pipeline {
         
         stage('Docker') {
             parallel {
-                stage('Docker - db') {
-                    steps {
-                        echo "env branch: ${env.BRANCH}"
-                        script {
-                            def proj = 'maxec-db';
-                            def dockerfile = 'DockerfileDB';
-                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
-                                img.push()
-                            }
-                        }
-                    }
+                stage('Docker - web frontend') {
+                    steps { script { buildAndPushImage('maxec-web-frontend') } }
                 }
-            
-                stage('Docker - app frontend') {
-                    steps {
-                        echo "env branch: ${env.BRANCH}"
-                        script {
-                            def proj = 'maxec-app-frontend';
-                            def dockerfile = 'DockerfileAppFront';
-                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
-                                img.push()
-                            }
-                        }
-                    }
-                }
-                
-                stage('Docker - app backend') {
-                    steps {
-                        echo "env branch: ${env.BRANCH}"
-                        script {
-                            def proj = 'maxec-app-backend';
-                            def dockerfile = 'DockerfileAppBack';
-                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
-                                img.push()
-                            }
-                        }
-                        
-                    }
-                }
-                
                 stage('Docker - web backend') {
-                    steps {
-                        echo "env branch: ${env.BRANCH}"
-                        script {
-                            def proj = 'maxec-web-backend';
-                            def dockerfile = 'DockerfileWebBack';
-                            docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
-                                def img = docker.build("${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "-f ${dockerfile} .")
-                                img.push()
-                            }
-                        }
-                        
+                    steps { script { buildAndPushImage('maxec-web-backend') } }
+                }
+                stage('Docker - app') {
+                    steps { 
+                        script { buildAndPushImage('maxec-app-frontend') } 
+                        script { buildAndPushImage('maxec-app-backend' ) }
+                        script { buildAndPushImage('maxec-biz-product' ) }
+                        script { buildAndPushImage('maxec-biz-search'  ) }
+                        script { buildAndPushImage('maxec-biz-shopping') }
+                        script { buildAndPushImage('maxec-biz-content' ) }
                     }
+                }
+                stage('Docker - db') {
+                    steps { script { buildAndPushImage('maxec-db') } }
                 }
             }
         }
@@ -175,10 +134,17 @@ pipeline {
                         }
                     }
                 }
-                
-                
             }
         }
+    }
+}
 
+
+def buildAndPushImage(String proj) {
+    script {
+        docker.withRegistry("http://${env.DOCKER_RESP}", 'harbor') {
+            def img = docker.build("${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
+            img.push()
+        }
     }
 }

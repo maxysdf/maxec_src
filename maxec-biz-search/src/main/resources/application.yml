@@ -1,0 +1,17 @@
+spring:
+   profiles:
+      include: search
+      
+server:
+   port: 13200
+   
+logging:
+   level:
+      root: INFO
+      org:
+         springframework:
+            data:
+               elasticsearch:
+                  core: DEBUG
+         elasticsearch:
+            client: DEBUG

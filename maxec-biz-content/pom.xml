@@ -8,9 +8,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../maxec-parent</relativePath>
 	</parent>
-	<artifactId>maxec-product</artifactId>
+	<artifactId>maxec-biz-content</artifactId>
 	<packaging>jar</packaging>
-	<name>Max EC Product SubSystem</name>
+	<name>Max EC Content SubSystem</name>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

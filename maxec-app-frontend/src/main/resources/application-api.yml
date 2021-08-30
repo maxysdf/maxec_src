@@ -1,0 +1,8 @@
+app:
+   api:
+      product: 
+         endpoint: http://localhost:13000
+      search: 
+         endpoint: http://localhost:13200
+      shopping:
+         endpoint: http://localhost:13300

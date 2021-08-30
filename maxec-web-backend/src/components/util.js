@@ -1,4 +1,5 @@
 import axios from "axios";
+import { GraphQLClient, request, gql } from "graphql-request"
 
 export async function utload(path, params) {
     var paramarr = [];
@@ -14,6 +15,25 @@ export async function utload(path, params) {
     return data;
 }
 
+const _glclient = new GraphQLClient(`/api/graphql`);
+
+export function utGQL(q,p,cb) {
+    const query = gql`${q}`;
+    _glclient.request(gql`${q}`, p).then(cb);
+}
+
+export function utNumber(nStr, hasCurrSign) {
+    if(nStr == null) return '';
+    nStr += '';
+    if(!nStr) return '';
+    var srgx = /(-?)(\d+)/;
+    var sgn = hasCurrSign ? '$$' : '';
+    nStr = nStr.replace(srgx, '$1' + sgn + '$2');
+
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(nStr)) nStr = nStr.replace(rgx, '$1' + ',' + '$2');
+    return nStr;
+}
 
 export const utLocalSet = (k,d) => localStorage.setItem(k,JSON.stringify(d));
 export const utLocalGet = k => k && localStorage.getItem(k);

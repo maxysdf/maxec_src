@@ -2,10 +2,23 @@ import Footer from "./footer";
 import Menu from "./menu";
 import NavBar from "./nav";
 
+import styles from "../styles/Layout.module.css"
 
 export default function Layout({children}) {
     return (
-        <>
+        <div className={styles.wrapper}>
+            <Menu></Menu>
+            <div className={styles['main-panel']}>
+                <NavBar></NavBar>
+                <div className={styles.content}>
+                    <div className={styles['container-fluid']}>
+                        {children}
+                    </div>
+                </div>
+                <Footer></Footer>
+            </div>
+
+            { /* }
             <NavBar></NavBar>
             <main>
                 <div className="container">
@@ -20,6 +33,11 @@ export default function Layout({children}) {
                 </div>
             </main>
             <Footer></Footer>
-        </>
+            { */ }
+        
+        </div>
+
+
+ 
     )
 }

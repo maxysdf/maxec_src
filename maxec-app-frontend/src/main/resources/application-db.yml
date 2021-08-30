@@ -1,7 +1,7 @@
 spring:
    datasource:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5432/maxec
+      url: jdbc:postgresql://localhost:5432/maxec?currentSchema=frontend
       username: es_adm
       password: es_adm
    jpa:
