@@ -1,22 +1,131 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
+import 'dart:io';
 
-void main() => runApp(MaxECApp());
+import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:maxec_app_mobile/client.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+void main() async {
+  await initHiveForFlutter();
+
+  runApp(MaxECApp());
+}
 
 class MaxECApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to MaxEC',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Welcome to MaxEC')),
-        body: const Center(
-            child: Text('Hello World2')
+
+    // carousel
+    String qry = '''
+      query {
+        findAdByCode(code:"INDEX_TOP") {
+          ad { 
+            name
+            items { imageAlt imagePath imageLink isOpenNew }
+          }
+        }
+      }
+    ''';
+
+    Widget dd = Query(
+      options: QueryOptions(
+        document: gql(qry),
+        variables: {'code':'INDEX_TOP'},
+        pollInterval: Duration(seconds: 10)
+      ),
+      builder: (QueryResult result, {VoidCallback? refetch, FetchMore? fetchMore}) {
+        if(result.hasException) {
+          log('ex: ${result.exception}');
+          return Text('Exception occurs');
+        }
+        if(result.isLoading) {
+          return Text('Loading');
+        }
+
+        var ad = result.data?['findAdByCode']['ad'];
+        List l = ad['items'];
+
+        return CarouselSlider(
+          options: CarouselOptions(height: 300.0),
+          items: l.map((item) {
+            return Builder(
+              builder: (BuildContext context) {
+                String imagePath = item['imagePath'];
+                String imageSrc = '${Config.mediaBase}$imagePath';
+                String imageAlt = item['imageAlt'];
+                String imageLink = item['imageLink'];
+                if(imageLink.startsWith("/")) { imageLink = '${Config.linkBase}$imageLink'; }
+
+                return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent
+                    ),
+                    child: GestureDetector(
+                      child: Image.network(imageSrc),
+                      onTap: () => launch(imageLink),
+                    )
+
+                        //Text('text ${i['imageAlt']} xxx', style: TextStyle(fontSize: 16.0),)
+                );
+              },
+            );
+          }).toList(),
+        );
+      }
+    );
+
+
+    Widget app = MaterialApp(
+        title: 'Welcome to MaxEC',
+        home: Scaffold(
+            appBar: AppBar(title: const Text('Welcome to MaxEC')),
+            drawer: MyDrawer(),
+            body: dd
         )
-      )
+    );
+
+    return GraphQLProvider(
+      client: Config.initializeClient(),
+      child: app
     );
   }
-
 }
+
+class MyDrawer extends Drawer {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        const DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+          child: Text('Drawer Header'),
+        ),
+        ListTile(
+          title: const Text('Item 1'),
+          onTap: () {
+          },
+        ),
+        ListTile(
+          title: const Text('Item 2'),
+          onTap: () {
+          },
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
 
 
 //
