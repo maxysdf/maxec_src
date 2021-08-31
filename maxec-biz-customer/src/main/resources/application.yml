@@ -3,4 +3,4 @@ spring:
       include: db, product, logging
       
 server:
-   port: 13000
+   port: 13500

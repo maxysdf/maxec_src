@@ -1,4 +1,4 @@
-package idv.maxy.maxec.biz.product;
+package idv.maxy.maxec.biz.customer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-public class ProductMainApplication {
+public class CustomerMainApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(ProductMainApplication.class, args);
+		SpringApplication.run(CustomerMainApplication.class, args);
 	}
 }
