@@ -6,3 +6,5 @@ app:
          endpoint: http://localhost:13200
       shopping:
          endpoint: http://localhost:13300
+      content:
+         endpoint: http://localhost:13400
