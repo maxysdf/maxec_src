@@ -26,7 +26,7 @@ export default function Header() {
                         </div>
                     </div>
                     <div className={trcls('ht-right')}>
-                        <a href="#" className={trcls('login-panel')}><i className={trcls('fa fa-user')}></i>Login</a>
+                        <Link href="/login"><a className={trcls('login-panel')}><i className={trcls('fa fa-user')}></i>登入</a></Link>
                         <div className={trcls('lan-selector')}>
                             <select className={trcls('language_drop')} name="countries" id="countries" >
                                 <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt"
