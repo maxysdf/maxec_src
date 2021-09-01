@@ -9,11 +9,7 @@ ARG DBDIALECT
 COPY ${JARFILE} app.jar
 ENTRYPOINT [ \
     "java", \
-    "-Dspring.datasource.url=${DBURL}", \
-    "-Dspring.datasource.driver-class-name=${DBDRV}", \
-    "-Dspring.datasource.username=${DBUSER}", \
-    "-Dspring.datasource.password=${DBPASS}", \
-    "-Dspring.jpa.properties.hibernate.dialect=${DBDIALECT}", \
+    "-Dapp.es.hosts=${ES_HOST}:${ES_PORT}", \
     "-jar","/app.jar" \
 ]
 

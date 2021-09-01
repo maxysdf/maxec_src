@@ -50,6 +50,7 @@ pipeline {
                         script { buildAndPushImage('maxec-biz-search'  ) }
                         script { buildAndPushImage('maxec-biz-shopping') }
                         script { buildAndPushImage('maxec-biz-content' ) }
+                        script { buildAndPushImage('maxec-biz-customer') }
                     }
                 }
                 stage('Docker - db') {
@@ -74,7 +75,11 @@ pipeline {
                 stage ('Kubernetes - biz') {
                     steps { 
                         script { 
-                            deployAppWebBizOnK8S('maxec-biz-content'); 
+                            deployAppWebBizOnK8S('maxec-biz-product' );
+                            deployAppWebBizOnK8S('maxec-biz-search'  );
+                            deployAppWebBizOnK8S('maxec-biz-shopping');
+                            deployAppWebBizOnK8S('maxec-biz-content' );
+                            deployAppWebBizOnK8S('maxec-biz-customer');
                         } 
                     }
                 }

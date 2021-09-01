@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-biz-search
+  labels:
+    app: maxec-biz-search
+spec:
+  type: NodePort
+  ports:
+  - port: 13200
+    name: ap
+    targetPort: 13200
+    protocol: TCP
+  selector:
+    app: maxec-biz-search
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxec-biz-search-deployment
+  labels:
+    app: maxec-biz-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxec-biz-search
+  template:
+    metadata:
+      labels:
+        app: maxec-biz-search
+    spec:
+      containers:
+      - name: maxec-biz-search
+        image: host.docker.internal:5000/maxec-biz-search:BRANCH-VERSION # will be replaced by jenkins
+        env:
+        - name: ESHOST     
+          value: maxec-es
+        - name: ESPORT     
+          value: 9200
+        ports:
+        - containerPort: 13200
+  
