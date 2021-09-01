@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import idv.maxy.maxec.biz.search.model.SearchProduct;
 import idv.maxy.maxec.biz.search.restapi.SearchRestAPI;
 import idv.maxy.maxec.biz.search.service.SearchService;
-
+import idv.maxy.maxec.biz.search.vo.SaveAllSearchProductVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductParamVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductResultPage;
 import idv.maxy.maxec.biz.search.vo.SearchProductResultVO;
@@ -116,7 +116,9 @@ public class SearchController implements SearchRestAPI {
 
 
 	@Override
-	public void saveAllSearchProduct(List<SearchProductVO> list, long ts) {
+	public void saveAllSearchProduct(SaveAllSearchProductVO in) {
+		List<SearchProductVO> list = in.getList();
+		long ts = in.getTs();
 		
 		List<SearchProduct> mlist = list.stream().map(v -> {
 			if(v == null) { return null; }

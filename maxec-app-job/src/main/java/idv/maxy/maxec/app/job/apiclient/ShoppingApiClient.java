@@ -1,4 +1,4 @@
-package idv.maxy.maxec.app.api.apiclient;
+package idv.maxy.maxec.app.job.apiclient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 

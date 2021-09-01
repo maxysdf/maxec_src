@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import idv.maxy.maxec.biz.search.vo.SaveAllSearchProductVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductParamVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductResultPage;
 import idv.maxy.maxec.biz.search.vo.SearchProductVO;
@@ -20,6 +21,6 @@ public interface SearchRestAPI {
 	public BasePageable searchProductForList2(@RequestBody SearchProductParamVO in) throws Exception;
 	
 	@PutMapping("/products")
-	public void saveAllSearchProduct(List<SearchProductVO> list, long ts);
+	public void saveAllSearchProduct(@RequestBody SaveAllSearchProductVO in);
 	
 }

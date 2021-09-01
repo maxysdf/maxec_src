@@ -19,12 +19,13 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.stereotype.Component;
 
-import idv.maxy.maxec.app.api.apiclient.ProductApiClient;
-import idv.maxy.maxec.app.api.apiclient.SearchApiClient;
+import idv.maxy.maxec.app.job.apiclient.ProductApiClient;
+import idv.maxy.maxec.app.job.apiclient.SearchApiClient;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.ProductCategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductTagVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
+import idv.maxy.maxec.biz.search.vo.SaveAllSearchProductVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductVO;
 
 @Component
@@ -60,10 +61,7 @@ public class SyncSearchProductJob extends BaseJobBean {
 			// find all product
 			List<ProductVO> list = productApiClient.findAllWithRelated();
 			
-			
-			
 			List<SearchProductVO> slist = new ArrayList<>();
-			
 			for(ProductVO v : list) {
 				SearchProductVO sp = new SearchProductVO();
 				sp.setId(v.getId());
@@ -104,7 +102,10 @@ public class SyncSearchProductJob extends BaseJobBean {
 			}
 			
 			// update search product
-			searchApiClient.saveAllSearchProduct(slist, now);
+			SaveAllSearchProductVO in = new SaveAllSearchProductVO();
+			in.setList(slist);
+			in.setTs(now);
+			searchApiClient.saveAllSearchProduct(in);
 			
 		} catch(Exception ex) {
 			logger.error("failed", ex);

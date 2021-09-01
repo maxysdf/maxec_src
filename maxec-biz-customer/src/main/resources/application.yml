@@ -1,6 +1,6 @@
 spring:
    profiles:
-      include: db, product, logging
+      include: db, product, logging, rabbitmq
       
 server:
    port: 13500
