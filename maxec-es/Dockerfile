@@ -1,7 +1,7 @@
 FROM elasticsearch:7.14.0 as esbuilder
 
 RUN mkdir /app
-COPY app/* /app
+COPY app/* /app/
 RUN chmod +x /app/init.sh
 ENV ES_JAVA_OPTS="-Xms2048m -Xmx2048m"
 ENV "discovery.type"=single-node
