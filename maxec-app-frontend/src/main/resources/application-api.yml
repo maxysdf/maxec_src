@@ -9,4 +9,4 @@ app:
       content:
          endpoint: http://localhost:13400
       customer:
-         endpoint: http://localhost:13400
+         endpoint: http://localhost:13500

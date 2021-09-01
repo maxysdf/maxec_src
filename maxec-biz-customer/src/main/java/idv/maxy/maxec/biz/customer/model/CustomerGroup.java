@@ -15,6 +15,12 @@ import idv.maxy.maxec.core.model.BaseManagedModel;
 @Entity
 @Table(name="CUSTOMER_GROUP")
 public class CustomerGroup extends BaseManagedModel {
+	
+	/** 代碼 - 訪客 */
+	public static final String CODE_GUEST = "GUEST";
+	/** 代碼 - 會員 */
+	public static final String CODE_MEMBER = "MEMBER";
+	
 	private String _name;
 	private String _code;
 	private Set<CustomerAttribute> customerAttributes = new LinkedHashSet<>();

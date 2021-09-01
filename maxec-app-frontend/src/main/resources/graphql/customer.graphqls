@@ -1,0 +1,39 @@
+extend type Query {
+    # [客戶] 查詢 - 登入
+    login(credential:String, password:String): CustomerCustomerResponse
+}
+
+extend type Mutation {
+    # [客戶] 變更 - 註冊
+    register(input:CustomerRegisterInput): CustomerRegisterResponse
+    # [客戶] 變更 - 註銷
+    deregister(username:String, id:ID): CustomerDeregisterResponse
+}
+
+# [客戶] 型態 - 客戶
+type CustomerCustomer {
+    id:ID
+    name:String
+    username:String
+    email:String
+    groupCode:String
+}
+
+
+# [客戶] 輸入 - 註冊
+input CustomerRegisterInput {
+    name:String
+    username:String
+    email:String
+    password:String
+    confirmPassword:String
+}
+
+# [客戶] 回傳型態 - 登入結果
+type CustomerCustomerResponse { response:Response customer:CustomerCustomer }
+
+# [客戶] 回傳型態 - 註冊結果
+type CustomerRegisterResponse { response:Response }
+
+# [客戶] 回傳型態 - 註銷結果
+type CustomerDeregisterResponse { response:Response }
