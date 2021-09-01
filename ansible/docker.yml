@@ -1,0 +1,24 @@
+---
+- hosts: docker
+  become: true
+  tasks:
+  - yum: name=docker,docker-client,docker-client-latest,docker-common,docker-latest,docker-latest-logrotate,docker-logrotate,docker-engine state=absent
+  - yum: name=yum-utils state=present
+
+  - copy: src=yum_repository/docker-ce.repo dest=/etc/yum.repos.d owner=root mode='0644'
+  - yum: name=docker-ce,docker-ce-cli,containerd.io state=present
+
+  - service: name=docker enabled=yes
+
+  # service ------------------------------
+  - service: name=docker state=started
+    tags: [ never, start]
+  - service: name=docker state=stopped
+    tags: [ never, stop]
+
+
+  # user priv. --------------------------
+  - user: name=maxy groups=docker append=true
+    tags: [ never, user-priv]
+  - user: name=jenkins groups=docker append=true
+    tags: [ never, user-priv]

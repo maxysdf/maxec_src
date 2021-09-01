@@ -1,0 +1,22 @@
+---
+- hosts: jenkins
+  become: true
+  tasks:
+  - copy: src=yum_repository/jenkins.repo dest=/etc/yum.repos.d owner=root mode='0644'
+  # run 'sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key'
+
+  - yum: name=jenkins state=present
+
+  # jdk ---
+  - unarchive: src=binary_repository/jdk-8u241-linux-x64.tar.gz owner=root group=root dest=/opt creates=/opt/jdk1.8.0_241
+  - file: src=/opt/jdk1.8.0_241 dest=/opt/jdk state=link
+
+  # maven ---
+  - unarchive: src=binary_repository/apache-maven-3.8.2-bin.tar.gz owner=root group=root dest=/opt creates=/opt/apache-maven-3.8.2
+  - file: src=/opt/apache-maven-3.8.2 dest=/opt/maven state=link
+
+  # service -------------------------------
+  - service: name=jenkins enabled=yes state=started
+    tags: [never, start]
+  - service: name=jenkins enabled=yes state=stopped
+    tags: [never, stop]

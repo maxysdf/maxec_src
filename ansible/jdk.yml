@@ -1,0 +1,20 @@
+---
+- hosts: gogs
+  become: true
+  tasks:
+  - yum: name=git state=present
+
+  - group: name=gogs
+  - user: name=gogs group=gogs append=yes create_home=no shell=/sbin/nologin
+
+  - unarchive: src=binary_repository/gogs_0.12.3_linux_amd64.tar.gz owner=gogs group=gogs dest=/opt creates=/opt/gogs
+
+  - copy: src=service_repository/gogs.service dest=/etc/systemd/system/gogs.service mode=0644 owner=root
+
+  - service: name=gogs enabled=yes
+
+  # service -------------------------------
+  - service: name=gogs enabled=yes state=started
+    tags: [never, start]
+  - service: name=gogs enabled=yes state=stopped
+    tags: [never, stop]
