@@ -17,3 +17,37 @@ spec:
     protocol: TCP
   selector:
     app: maxec-biz-content
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxec-biz-content-deployment
+  labels:
+    app: maxec-biz-content
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxec-biz-content
+  template:
+    metadata:
+      labels:
+        app: maxec-biz-content
+    spec:
+      containers:
+      - name: maxec-biz-content
+        image: host.docker.internal:5000/maxec-biz-content:BRANCH-VERSION # will be replaced by jenkins
+        env:
+        - name: DBURL     
+          value: jdbc:postgresql://maxec-db/maxec
+        - name: DBDRV     
+          value: org.postgresql.Driver
+        - name: DBUSER
+          value: maxec
+        - name: DBPASS
+          value: maxec
+        - name: DBDIALECT 
+          value: org.hibernate.dialect.PostgreSQL9Dialect
+        ports:
+        - containerPort: 13400
+  
