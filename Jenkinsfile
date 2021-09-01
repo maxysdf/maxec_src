@@ -45,6 +45,7 @@ pipeline {
                     steps { 
                         script { buildAndPushImage('maxec-app-frontend') } 
                         script { buildAndPushImage('maxec-app-backend' ) }
+                        script { buildAndPushImage('maxec-app-job'     ) }
                         script { buildAndPushImage('maxec-biz-product' ) }
                         script { buildAndPushImage('maxec-biz-search'  ) }
                         script { buildAndPushImage('maxec-biz-shopping') }
@@ -84,6 +85,7 @@ pipeline {
                         script { 
                             deployAppWebBizOnK8S('maxec-app-frontend'); 
                             deployAppWebBizOnK8S('maxec-app-backend'); 
+                            deployAppWebBizOnK8S('maxec-app-job'); 
                         } 
                     }
                 }
