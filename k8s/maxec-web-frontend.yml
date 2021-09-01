@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-web-frontend
+  labels:
+    app: maxec-web-frontend
+spec:
+  ports:
+  - port: 12000
+    name: ap
+  clusterIP: None
+  selector:
+    app: maxec-web-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxec-web-frontend-deployment
+  labels:
+    app: maxec-web-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxec-web-frontend
+  template:
+    metadata:
+      labels:
+        app: maxec-web-frontend
+    spec:
+      containers:
+      - name: maxec-web-frontend
+        image: host.docker.internal:5000/maxec-web-frontend:BRANCH-VERSION # will be replaced by jenkins
+        ports:
+        - containerPort: 12000
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: digimon-ingress
+spec:
+  rules:
+    - host: frontend.
+      http:
+        paths:
+          - path: /
+            frontend:
+              serviceName: maxec-web-frontend
+              servicePort: 12000
+  

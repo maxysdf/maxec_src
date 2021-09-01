@@ -54,84 +54,46 @@ pipeline {
                 stage('Docker - db') {
                     steps { script { buildAndPushImage('maxec-db') } }
                 }
+                stage('Docker - es') {
+                    steps { script { buildAndPushImage('maxec-es') } }
+                }
             }
         }
         
         stage ('Kubernetes') {
             parallel {
                 stage ('Kubernetes - db') {
-                    steps {
-                        script {
-                            def proj = 'maxec-db'
-                            def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
-
-                            dir('k8s_dep') {
-                                writeYaml file: "${proj}-service.yml"    , data: ymlAppBcks[0], overwrite: true
-                                writeYaml file: "${proj}-statefulset.yml", data: ymlAppBcks[1], overwrite: true
-                                sh """
-                                    kubectl apply -f ${proj}-service.yml
-                                    kubectl apply -f ${proj}-statefulset.yml
-                                """
-                            }
-                        }
+                    steps { script { deployDBOnK8S('maxec-db'); } }
+                }
+                
+                stage ('Kubernetes - es') {
+                    steps { script { deployDBOnK8S('maxec-es'); } }
+                }
+                
+                stage ('Kubernetes - biz') {
+                    steps { 
+                        script { 
+                            deployAppWebBizOnK8S('maxec-biz-content'); 
+                        } 
                     }
                 }
                 
-                stage ('Kubernetes - app frontend') {
-                    steps {
-                        script {
-                            def proj = 'maxec-app-frontend'
-                            def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
-                            
-                            dir('k8s_dep') {
-                                writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
-                                writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
-                                sh """
-                                    kubectl apply -f ${proj}-service.yml
-                                    kubectl apply -f ${proj}-deployment.yml
-                                """
-                            }
-                        }
+                
+                stage ('Kubernetes - app') {
+                    steps { 
+                        script { 
+                            deployAppWebBizOnK8S('maxec-app-frontend'); 
+                            deployAppWebBizOnK8S('maxec-app-backend'); 
+                        } 
                     }
                 }
             
-                stage ('Kubernetes - app backend') {
-                    steps {
-                        script {
-                            def proj = 'maxec-app-backend'
-                            def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
-                            
-                            dir('k8s_dep') {
-                                writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
-                                writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
-                                sh """
-                                    kubectl apply -f ${proj}-service.yml
-                                    kubectl apply -f ${proj}-deployment.yml
-                                """
-                            }
-                        }
-                    }
-                }
-                
-                stage ('Kubernetes - web backend') {
-                    steps {
-                        script {
-                            def proj = 'maxec-web-backend'
-                            def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-                            ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
-                            
-                            dir('k8s_dep') {
-                                writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
-                                writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
-                                sh """
-                                    kubectl apply -f ${proj}-service.yml
-                                    kubectl apply -f ${proj}-deployment.yml
-                                """
-                            }
-                        }
+                stage ('Kubernetes - web') {
+                    steps { 
+                        script { 
+                            deployAppWebBizOnK8S('maxec-web-frontend');
+                            deployAppWebBizOnK8S('maxec-web-backend');
+                        } 
                     }
                 }
             }
@@ -146,5 +108,33 @@ def buildAndPushImage(String proj) {
             def img = docker.build("${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}", "--network host ${proj}")
             img.push()
         }
+    }
+}
+
+def deployDBOnK8S(String proj) {
+    def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
+    ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+
+    dir('k8s_dep') {
+        writeYaml file: "${proj}-service.yml"    , data: ymlAppBcks[0], overwrite: true
+        writeYaml file: "${proj}-statefulset.yml", data: ymlAppBcks[1], overwrite: true
+        sh """
+            kubectl apply -f ${proj}-service.yml
+            kubectl apply -f ${proj}-statefulset.yml
+        """
+    }
+}
+
+def deployAppWebBizOnK8S(String proj) {
+    def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
+    ymlAppBcks[1].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+    
+    dir('k8s_dep') {
+        writeYaml file: "${proj}-service.yml"   , data: ymlAppBcks[0], overwrite: true
+        writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[1], overwrite: true
+        sh """
+            kubectl apply -f ${proj}-service.yml
+            kubectl apply -f ${proj}-deployment.yml
+        """
     }
 }

@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: maxec-web-backend
-        image: host.docker.internal:5000/maxec-web-backend:23
+        image: host.docker.internal:5000/maxec-web-backend:BRANCH-VERSION # will be replaced by jenkins
         ports:
         - containerPort: 13000
 

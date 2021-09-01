@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: maxec-app-backend
-        image: host.docker.internal:5000/maxec-app-backend:4
+        image: host.docker.internal:5000/maxec-app-backend:BRANCH-VERSION # will be replaced by jenkins
         env:
         - name: DBURL     
           value: jdbc:postgresql://maxec-db/maxec

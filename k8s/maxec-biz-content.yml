@@ -1,36 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: maxec-app-frontend
+  name: maxec-biz-content
   labels:
-    app: maxec-app-frontend
+    app: maxec-biz-content
 spec:
   ports:
-  - port: 8080
-    name: pg
+  - port: 13400
+    name: biz
   clusterIP: None
   selector:
-    app: maxec-app-frontend
+    app: maxec-biz-content
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: maxec-app-frontend-deployment
+  name: maxec-biz-content-deployment
   labels:
-    app: maxec-app-frontend
+    app: maxec-biz-content
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: maxec-app-frontend
+      app: maxec-biz-content
   template:
     metadata:
       labels:
-        app: maxec-app-frontend
+        app: maxec-biz-content
     spec:
       containers:
-      - name: maxec-app-frontend
-        image: host.docker.internal:5000/maxec-app-frontend:BRANCH-VERSION # will be replaced by jenkins
+      - name: maxec-biz-content
+        image: host.docker.internal:5000/maxec-biz-content:BRANCH-VERSION # will be replaced by jenkins
         env:
         - name: DBURL     
           value: jdbc:postgresql://maxec-db/maxec
@@ -43,5 +43,5 @@ spec:
         - name: DBDIALECT 
           value: org.hibernate.dialect.PostgreSQL9Dialect
         ports:
-        - containerPort: 8080
+        - containerPort: 13400
   
