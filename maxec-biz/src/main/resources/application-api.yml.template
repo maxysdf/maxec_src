@@ -1,0 +1,12 @@
+app:
+   api:
+      product: 
+         endpoint: <API_URL>
+      search: 
+         endpoint: <API_URL>
+      shopping:
+         endpoint: <API_URL>
+      content:
+         endpoint: <API_URL>
+      customer:
+         endpoint: <API_URL>

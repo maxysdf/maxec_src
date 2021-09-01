@@ -81,6 +81,13 @@
             <artifactId>quartz-jobs</artifactId>
         </dependency>
         
+        <!-- feign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.2.9.RELEASE</version>
+        </dependency>
+        
         <!-- Spring to Quartz -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -95,12 +102,7 @@
 		</dependency>
         <dependency>
             <groupId>idv.maxy</groupId>
-            <artifactId>maxec-biz-product</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>idv.maxy</groupId>
-            <artifactId>maxec-biz-search</artifactId>
+            <artifactId>maxec-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
 		

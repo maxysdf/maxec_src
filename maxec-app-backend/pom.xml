@@ -57,6 +57,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+        <!-- feign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.2.9.RELEASE</version>
+        </dependency>
+		
 		<!-- maxec -->
 		<dependency>
 		    <groupId>idv.maxy</groupId>
@@ -65,14 +72,10 @@
 		</dependency>
         <dependency>
             <groupId>idv.maxy</groupId>
-            <artifactId>maxec-biz-product</artifactId>
+            <artifactId>maxec-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>idv.maxy</groupId>
-            <artifactId>maxec-biz-search</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
 		
 	</dependencies>
 </project>

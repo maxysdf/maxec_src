@@ -61,5 +61,13 @@ public class ProductController implements ProductRestAPI {
 		return productService.listTagGroupByTypes(types);
 	}
 	
+	@Override
+	public String saveProduct(ProductVO v) throws Exception {
+		return productService.saveProduct(v);
+	}
 	
+	@Override
+	public List<ProductVO> findAllWithRelated() {
+		return productService.findAllWithRelated();
+	}
 }

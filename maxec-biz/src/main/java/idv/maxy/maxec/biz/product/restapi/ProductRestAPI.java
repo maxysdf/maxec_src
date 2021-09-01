@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,4 +37,11 @@ public interface ProductRestAPI {
 	
 	@GetMapping("/tag/types")
 	public Map<String, List<TagVO>> listTagGroupByTypes(@RequestParam("types") List<String> types);
+	
+	@PutMapping("/product")
+	public String saveProduct(@RequestBody ProductVO v) throws Exception;
+	
+	@GetMapping("/product-related")
+	public List<ProductVO> findAllWithRelated();
+	
 }
