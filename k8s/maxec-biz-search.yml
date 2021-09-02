@@ -37,7 +37,7 @@ spec:
         - name: ESHOST     
           value: maxec-es
         - name: ESPORT     
-          value: 9200
+          value: '9200'
         ports:
         - containerPort: 13200
   
