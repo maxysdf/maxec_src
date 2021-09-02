@@ -34,9 +34,9 @@ spec:
       - name: maxec-biz-search
         image: host.docker.internal:5000/maxec-biz-search:BRANCH-VERSION # will be replaced by jenkins
         env:
-        - name: ESHOST     
+        - name: ES_HOST     
           value: maxec-es
-        - name: ESPORT     
+        - name: ES_PORT     
           value: '9200'
         ports:
         - containerPort: 13200
