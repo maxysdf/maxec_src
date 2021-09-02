@@ -9,7 +9,8 @@ spec:
   ports:
   - port: 12100
     name: ap
-  clusterIP: None
+    targetPort: 12100
+    protocol: TCP
   selector:
     app: maxec-app-backend
 ---

@@ -5,10 +5,12 @@ metadata:
   labels:
     app: maxec-web-backend
 spec:
+  type: NodePort
   ports:
   - port: 11100
     name: ap
-  clusterIP: None
+    targetPort: 11100
+    protocol: TCP
   selector:
     app: maxec-web-backend
 ---
