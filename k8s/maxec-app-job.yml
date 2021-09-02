@@ -1,38 +1,22 @@
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: maxec-app-backend
-  labels:
-    app: maxec-app-backend
-spec:
-  ports:
-  - port: 12100
-    name: ap
-    targetPort: 12100
-    protocol: TCP
-  selector:
-    app: maxec-app-backend
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: maxec-app-backend-deployment
+  name: maxec-app-job-deployment
   labels:
-    app: maxec-app-backend
+    app: maxec-app-job
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: maxec-app-backend
+      app: maxec-app-job
   template:
     metadata:
       labels:
-        app: maxec-app-backend
+        app: maxec-app-job
     spec:
       containers:
-      - name: maxec-app-backend
-        image: host.docker.internal:5000/maxec-app-backend:BRANCH-VERSION # will be replaced by jenkins
+      - name: maxec-app-job
+        image: host.docker.internal:5000/maxec-app-job:BRANCH-VERSION # will be replaced by jenkins
         env:
         - name: API_PRODUCT_ENDPOINT     
           value: maxec-biz-product:13000
@@ -54,6 +38,3 @@ spec:
           value: maxec
         - name: DBDIALECT 
           value: org.hibernate.dialect.PostgreSQL9Dialect
-        ports:
-        - containerPort: 12100
-  

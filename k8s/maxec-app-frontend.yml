@@ -34,6 +34,16 @@ spec:
       - name: maxec-app-frontend
         image: host.docker.internal:5000/maxec-app-frontend:BRANCH-VERSION # will be replaced by jenkins
         env:
+        - name: API_PRODUCT_ENDPOINT     
+          value: maxec-biz-product:13000
+        - name: API_SEARCH_ENDPOINT     
+          value: maxec-biz-search:13200
+        - name: API_SHOPPING_ENDPOINT     
+          value: maxec-biz-shopping:13300
+        - name: API_CONTENT_ENDPOINT     
+          value: maxec-biz-content:13400
+        - name: API_CUSTOMER_ENDPOINT     
+          value: maxec-biz-customer:13500
         - name: DBURL     
           value: jdbc:postgresql://maxec-db/maxec
         - name: DBDRV     
