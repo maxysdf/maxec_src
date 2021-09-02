@@ -23,7 +23,7 @@ spec:
     matchLabels:
       app: maxec-es
   serviceName: maxec-es-service
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
