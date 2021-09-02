@@ -5,10 +5,12 @@ metadata:
   labels:
     app: maxec-es
 spec:
+  type: NodePort
   ports:
   - port: 9200
     name: es
-  clusterIP: None
+    targetPort: 9200
+    protocol: TCP
   selector:
     app: maxec-es
 ---
