@@ -17,4 +17,4 @@ ENTRYPOINT [ \
     "-jar","/app.jar" \
 ]
 
-EXPOSE 8081
+EXPOSE 12100

@@ -1,6 +1,6 @@
 spring:
    profiles:
-      include: db, logging
+      include: db, logging, api
 
 server:
-   port: 8081
+   port: 12100

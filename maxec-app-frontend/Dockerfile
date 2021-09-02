@@ -21,3 +21,5 @@ ENTRYPOINT [ \
     "-Dapp.api.customer.endpoint=${API_CUSTOMER_ENDPOINT}", \
     "-jar","/app.jar" \
 ]
+
+EXPOSE 12000

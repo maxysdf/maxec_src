@@ -6,7 +6,7 @@ metadata:
     app: maxec-web-backend
 spec:
   ports:
-  - port: 13000
+  - port: 11100
     name: ap
   clusterIP: None
   selector:
@@ -32,7 +32,7 @@ spec:
       - name: maxec-web-backend
         image: host.docker.internal:5000/maxec-web-backend:BRANCH-VERSION # will be replaced by jenkins
         ports:
-        - containerPort: 13000
+        - containerPort: 11100
 
 ---
 apiVersion: extensions/v1beta1
@@ -47,5 +47,5 @@ spec:
           - path: /
             backend:
               serviceName: maxec-web-backend
-              servicePort: 13000
+              servicePort: 11100
   

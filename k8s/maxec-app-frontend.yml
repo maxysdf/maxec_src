@@ -6,8 +6,8 @@ metadata:
     app: maxec-app-frontend
 spec:
   ports:
-  - port: 8080
-    name: pg
+  - port: 12000
+    name: ap
   clusterIP: None
   selector:
     app: maxec-app-frontend
@@ -43,5 +43,5 @@ spec:
         - name: DBDIALECT 
           value: org.hibernate.dialect.PostgreSQL9Dialect
         ports:
-        - containerPort: 8080
+        - containerPort: 12000
   
