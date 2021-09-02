@@ -148,10 +148,10 @@ def deployAppWebBizOnK8S(String proj) {
 
 def deployJobOnK8S(String proj) {
     def ymlAppBcks = readYaml file: "k8s/${proj}.yml"
-    ymlAppBcks[0].spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
+    ymlAppBcks.spec.template.spec.containers[0].image = "${env.DOCKER_RESP}/${env.DOCKER_PROJ}/${proj}:${env.DOCKER_BRANCH}-${env.BUILD_ID}"
     
     dir('k8s_dep') {
-        writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks[0], overwrite: true
+        writeYaml file: "${proj}-deployment.yml", data: ymlAppBcks, overwrite: true
         sh """
             kubectl apply -f ${proj}-deployment.yml
         """
