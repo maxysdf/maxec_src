@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import idv.maxy.maxec.biz.product.service.ProductService;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.FindProductListParam;
+import idv.maxy.maxec.biz.product.vo.ProductPageParamVO;
+import idv.maxy.maxec.biz.product.vo.ProductPageResultVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
 
@@ -69,5 +72,20 @@ public class ProductController implements ProductRestAPI {
 	@Override
 	public List<ProductVO> findAllWithRelated() {
 		return productService.findAllWithRelated();
+	}
+	
+	@Override
+	public void deleteProduct(String id) throws Exception {
+		productService.deleteProduct(id);
+	}
+
+	@Override
+	public ProductPageResultVO pageProduct(ProductPageParamVO in) {
+		Page<ProductVO> vpage = productService.pageProduct(
+				in.getKeywords(), in.getPageNo(), in.getPageSize());
+		
+		return new ProductPageResultVO(vpage.getContent(), 
+				in.getPageSize(), in.getPageNo(), 
+				vpage.getTotalElements());
 	}
 }

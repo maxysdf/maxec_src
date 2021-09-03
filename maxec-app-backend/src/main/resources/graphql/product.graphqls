@@ -1,0 +1,100 @@
+extend type Query {
+    # [商品] 查詢 - 搜尋商品
+    pageProduct(param:ProductPageParam): ProductPageResponse
+    
+    # [商品] 查詢 - 查詢商品
+    findProductById(id: ID): ProductProductResponse
+}
+
+extend type Mutation {
+    # [商品] 變更 - 儲存商品
+    saveProduct(product:ProductInput): ProductResponse
+    
+    # [商品] 變更 - 刪除商品
+    deleteProduct(id:ID): ProductResponse
+}
+
+extend type Page {
+    # [商品] 型態 - 商品分頁
+    pageProductResult: [Product]
+}
+
+
+# [商品] 型態 - 商品
+type Product {
+    id         : String 
+    name       : String 
+    sku        : String 
+    price      : Int
+    alias      : String 
+    description: String 
+    brief      : String 
+    rating     : Int
+    weight     : Int
+    saleAmount : Int
+    saleDate   : String 
+    onsaleTime : Date   
+    offsaleTime: Date   
+}
+
+# [商品] 型態 - 商品標籤群組
+type ProductTagGroup {
+    type:String
+    tags:[ProductTag] 
+}
+
+# [商品] 型態 - 商品標籤
+type ProductTag {
+    id:ID
+    type:String
+    name:String
+    code:String
+    value:String 
+}
+
+# [商品] 型態 - 品牌
+type ProductBrand {
+    id:ID
+    name:String
+}
+
+# [商品] 型態 - 目錄
+type ProductCategory {
+    id:ID
+    name:String
+}
+
+# [商品] 輸入 - 商品搜尋
+input ProductPageParam {
+    keywords: [String]
+    pageNo: Int
+    pageSize: Int
+    sort: String
+    sortAsc: Boolean
+}
+
+# [商品] 型態 - 商品
+input ProductInput {
+    id         : String 
+    name       : String 
+    sku        : String 
+    price      : Int
+    alias      : String 
+    description: String 
+    brief      : String 
+    rating     : Int
+    weight     : Int
+    saleAmount : Int
+    saleDate   : String 
+    onsaleTime : Date   
+    offsaleTime: Date   
+}
+
+# [商品] 回傳型態 - 搜尋商品結果
+type ProductPageResponse { response:Response page:Page }
+
+# [商品] 回傳型態 - 儲存商品結果
+type ProductResponse { response:Response }
+
+# [商品] 回傳型態 - 商品結果
+type ProductProductResponse { response:Response product:Product }

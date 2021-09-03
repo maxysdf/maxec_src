@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import idv.maxy.maxec.biz.product.dao.BrandDao;
 import idv.maxy.maxec.biz.product.dao.CategoryDao;
+import idv.maxy.maxec.biz.product.dao.ProductComplexDao;
 import idv.maxy.maxec.biz.product.dao.ProductDao;
 import idv.maxy.maxec.biz.product.dao.TagDao;
 import idv.maxy.maxec.biz.product.model.Brand;
@@ -45,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 	
 	@Autowired
+	private ProductComplexDao productComplexDao;
+	
+	@Autowired
 	private BrandDao brandDao;
 	
 	@Autowired
@@ -59,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
 		if(m == null) { m = new Product(); }
 		m.setAlias(v.getAlias());
 		m.setName(v.getName());
+		m.setSku(v.getSku());
 		m.setPrice(v.getPrice());
 		
 		return m;
@@ -100,6 +105,7 @@ public class ProductServiceImpl implements ProductService {
 		v.setPrice(m.getPrice());
 		v.setAlias(m.getAlias());
 		v.setSaleAmount(m.getSaleAmount());
+		v.setSku(m.getSku());
 		
 		Date saleDate = m.getSaleDate();
 		v.setSaleDate(saleDate != null ? new SimpleDateFormat("yyyy-MM-dd").format(saleDate) : null);
@@ -160,9 +166,9 @@ public class ProductServiceImpl implements ProductService {
 		return m.getId();
 	}
 	
-	public Page<ProductVO> pageProduct(int pageNo, int pageSize) {
-		Pageable pa = PageRequest.of(pageNo, pageSize);
-		Page<ProductVO> page = productDao.findAll(pa).map(M2V_PRODUCT);
+	public Page<ProductVO> pageProduct(List<String> keywords, int pageNo, int pageSize) {
+		Page<ProductVO> page = productComplexDao.findAllAvailable(
+				keywords, null, false, pageNo, pageSize).map(M2V_PRODUCT);
 		return page;
 	}
 	
@@ -190,6 +196,13 @@ public class ProductServiceImpl implements ProductService {
 
 	public List<ProductVO> findAllWithRelated() {
 		return productDao.findAllWithRelated().stream().map(M2V_PRODUCT).collect(toList());
+	}
+	
+	@Transactional
+	public void deleteProduct(String id) {
+		Product p = productDao.findById(id).orElse(null);
+		if(p == null) { return; }
+		p.setIsDeleted(true);
 	}
 	
 }

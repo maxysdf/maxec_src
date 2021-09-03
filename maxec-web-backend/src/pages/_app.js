@@ -1,19 +1,22 @@
-import '../styles/globals.css'
+import Head from "next/head"
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Layout from '../components/layout';
+import '../../styles/globals.css'
 
-import '@fortawesome/fontawesome-free/js/fontawesome';
-import '@fortawesome/fontawesome-free/js/solid';
-import '@fortawesome/fontawesome-free/js/regular';
-import '@fortawesome/fontawesome-free/js/brands';
+// common css
+import '../../styles/adminlte/adminlte.min.css'
+import '../../styles/icheck-bootstrap.min.css'
+import '../../styles/font-awesome/all.min.css'
+import '../../styles/overlayScrollbars/OverlayScrollbars.min.css'
 
 function MaxECApp({ Component, pageProps }) {
-  
-  return Component.getLayout ?
-    Component.getLayout(Component) :
-    <Layout><Component {...pageProps} /></Layout>
-    ;
+  return (
+    <>
+    <Head>
+        <title>MaxEC後台</title>
+    </Head>
+    <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MaxECApp

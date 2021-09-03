@@ -26,7 +26,7 @@ public interface ProductService {
 	
 	public String saveProduct(ProductVO v);
 	
-	public Page<ProductVO> pageProduct(int pageNo, int pageSize);
+	public Page<ProductVO> pageProduct(List<String> keywords, int pageNo, int pageSize);
 	
 	public List<CategoryVO> findAllCategories();
 	
@@ -38,4 +38,5 @@ public interface ProductService {
 	
 	public List<ProductVO> findAllWithRelated();
 	
+	public void deleteProduct(String id);
 }
