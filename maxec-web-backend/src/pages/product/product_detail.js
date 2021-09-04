@@ -6,6 +6,8 @@ import { useRouter } from "next/dist/client/router";
 
 export default function ProductDetailPage() {
     const [product,setProduct] = useState(null);
+    const [brands,setBrands] = useState([]);
+    const [categories,setCategories] = useState([]);
     const [formData,setFormData] = useState(null);
     const router = useRouter();
 
@@ -15,7 +17,16 @@ export default function ProductDetailPage() {
         const qry = `query ($id:ID) {
             findProductById(id:$id) {
                 ${GQL_RESP}
-                product { id name price alias sku }
+                product { id name price alias sku brand { id } }
+            }
+            pageBrand(param:{pageNo:0,pageSize:9999}) {
+               page{brands:pageBrandResult{id name}}
+            }
+            pageCategory(param:{pageNo:0,pageSize:9999}) {
+               page{categories:pageCategoryResult{id name}}
+            }
+            pageTag(param:{pageNo:0,pageSize:9999}) {
+               page{tags:pageTagResult{id type code name}}
             }
         }`;
 
@@ -27,8 +38,16 @@ export default function ProductDetailPage() {
                 price: product.price,
                 alias: product.alias,
                 sku: product.sku,
+                brandId: product.brand?.id,
             });
+
+            const brands = data.pageBrand.page.brands;
+            const categories = data.pageCategory.page.categories;
+            const tags = data.pageTag.page.tags;
+
             setProduct(product);
+            setCategories(categories);
+            setBrands(brands);
         });
     }, []);
 
@@ -91,6 +110,34 @@ export default function ProductDetailPage() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="row">
+                                <div className="col-sm-4">
+                                    <div className="form-group">
+                                        <label>品牌</label>
+                                        <select className="form-control" value={formData.brandId}
+                                            onChange={e=>updateFormData('brandId', e.target.value)}>
+                                            <option value={null}>請選擇...</option>
+                                            { brands.map((b,bi) => (
+                                                <option key={bi} value={b.id}>{b.name}</option>
+                                            )) }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-sm-4">
+                                    <div className="form-group">
+                                        <label>分類</label>
+                                        <select className="form-control" value={formData.categoryId}
+                                            onChange={e=>updateFormData('categoryId', e.target.value)}>
+                                            <option value={null}>請選擇...</option>
+                                            { categories.map((b,bi) => (
+                                                <option key={bi} value={b.id}>{b.name}</option>
+                                            )) }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="form-group">
                                 <label htmlFor="exampleInputFile">File input</label>
                                 <div className="input-group">

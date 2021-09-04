@@ -1,5 +1,8 @@
 package idv.maxy.maxec.core.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 
  * @author Max Chen
@@ -32,6 +35,16 @@ public class StringUtil {
 	 */
 	public static String[] parseArray(String str, String delim) {
 		return str == null ? null : str.split(delim, -1);
+	}
+	
+	/**
+	 * 
+	 * @param delim
+	 * @return
+	 */
+	public static List<String> parseList(String str, String delim) {
+		String[] arr = parseArray(str, delim);
+		return arr == null ? null : Arrays.asList(arr);
 	}
 	
 	/**

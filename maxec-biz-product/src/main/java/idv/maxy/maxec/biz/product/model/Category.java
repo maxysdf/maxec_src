@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import idv.maxy.maxec.core.model.BaseManagedModel;
 import idv.maxy.maxec.core.model.BaseModel;
 
 /**
@@ -19,7 +20,7 @@ import idv.maxy.maxec.core.model.BaseModel;
  */
 @Entity
 @Table(name="CATEGORY")
-public class Category extends BaseModel {
+public class Category extends BaseManagedModel {
 	private String _name;
 	private Integer _sort;
 	private Set<ProductCategoryMap> _productCategoryMaps = new LinkedHashSet<>();

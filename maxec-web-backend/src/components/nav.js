@@ -1,4 +1,4 @@
-
+import Image from "next/image"
 
 export default function Nav() {
     return (
@@ -45,7 +45,7 @@ export default function Nav() {
                     <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" className="dropdown-item">
                             <div className="media">
-                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar" className="img-size-50 mr-3 img-circle" />
+                                <Image src="dist/img/user1-128x128.jpg" width={50} height={50} alt="User Avatar" className="img-size-50 mr-3 img-circle" />
                                 <div className="media-body">
                                     <h3 className="dropdown-item-title">
                                     Brad Diesel
@@ -59,7 +59,7 @@ export default function Nav() {
                         <div className="dropdown-divider"></div>
                         <a href="#" className="dropdown-item">
                             <div className="media">
-                                <img src="dist/img/user8-128x128.jpg" alt="User Avatar" className="img-size-50 img-circle mr-3" />
+                                <Image src="dist/img/user8-128x128.jpg" width={50} height={50} alt="User Avatar" className="img-size-50 img-circle mr-3" />
                                 <div className="media-body">
                                     <h3 className="dropdown-item-title">
                                     John Pierce
@@ -75,7 +75,7 @@ export default function Nav() {
                         <a href="#" className="dropdown-item">
 
                             <div className="media">
-                                <img src="dist/img/user3-128x128.jpg" alt="User Avatar" className="img-size-50 img-circle mr-3" />
+                                <Image src="dist/img/user3-128x128.jpg" width={50} height={50} alt="User Avatar" className="img-size-50 img-circle mr-3" />
                                 <div className="media-body">
                                     <h3 className="dropdown-item-title">
                                     Nora Silvester

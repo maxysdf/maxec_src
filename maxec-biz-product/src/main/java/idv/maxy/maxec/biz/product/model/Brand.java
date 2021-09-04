@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import idv.maxy.maxec.core.model.BaseManagedModel;
 import idv.maxy.maxec.core.model.BaseModel;
 
 /**
@@ -19,7 +20,7 @@ import idv.maxy.maxec.core.model.BaseModel;
  */
 @Entity
 @Table(name="BRAND")
-public class Brand extends BaseModel {
+public class Brand extends BaseManagedModel {
 	private String _name;
 	private String _code;
 	private Integer _sort;

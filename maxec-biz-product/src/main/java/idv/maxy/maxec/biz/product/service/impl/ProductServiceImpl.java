@@ -1,9 +1,11 @@
 package idv.maxy.maxec.biz.product.service.impl;
 
+import static idv.maxy.maxec.core.vo.ParamTuple.param;
 import static java.util.stream.Collectors.toList;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,8 +14,6 @@ import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +33,10 @@ import idv.maxy.maxec.biz.product.vo.ProductCategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductTagVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
+import idv.maxy.maxec.core.vo.ParamTuple;
+import idv.maxy.maxec.core.vo.ParamTuples;
+import idv.maxy.maxec.core.vo.Tuple;
+import idv.maxy.maxec.core.vo.Tuples;
 
 /**
  * 
@@ -66,6 +70,10 @@ public class ProductServiceImpl implements ProductService {
 		m.setSku(v.getSku());
 		m.setPrice(v.getPrice());
 		
+		//brand
+		Brand brand = brandDao.findById(v.getBrandId()).orElse(null);
+		m.setBrand(brand);
+		
 		return m;
 	};
 	
@@ -93,6 +101,7 @@ public class ProductServiceImpl implements ProductService {
 		v.setName(m.getName());
 		v.setValue(m.getValue());
 		v.setCode(m.getCode());
+		v.setSort(m.getSort());
 		return v;
 	};
 	
@@ -203,6 +212,67 @@ public class ProductServiceImpl implements ProductService {
 		Product p = productDao.findById(id).orElse(null);
 		if(p == null) { return; }
 		p.setIsDeleted(true);
+	}
+	
+	
+	public Page<BrandVO> pageBrand(List<String> keywords, int pageNo, int pageSize) {
+		boolean hasKeywords = keywords != null && !keywords.isEmpty();
+		
+		Page<BrandVO> page = productComplexDao.pageQuery(
+				pageNo, pageSize, null, false, 
+				ParamTuples.create()
+					.addIf("keywords", keywords, hasKeywords)
+				.build(),
+				( params -> new StringBuilder()
+					.append(" from Brand b ")
+					.append(" where coalesce(b.isDeleted,'N')<>'Y' " )
+					.append(hasKeywords ? " and (lower(b.name) in :keywords) " : "" )
+					.toString()
+				),
+				( params -> "" ),
+				M2V_BRAND,
+				BrandVO.class);
+		return page;
+	}
+	
+	public Page<CategoryVO> pageCategory(List<String> keywords, int pageNo, int pageSize) {
+		boolean hasKeywords = keywords != null && !keywords.isEmpty();
+		
+		Page<CategoryVO> page = productComplexDao.pageQuery(
+				pageNo, pageSize, null, false, 
+				ParamTuples.create()
+					.addIf("keywords", keywords, hasKeywords)
+				.build(),
+				( params -> new StringBuilder()
+					.append(" from Category b ")
+					.append(" where coalesce(b.isDeleted,'N')<>'Y' " )
+					.append(hasKeywords ? " and (lower(b.name) in :keywords) " : "" )
+					.toString()
+				),
+				( params -> "" ),
+				M2V_CATEGORY,
+				CategoryVO.class);
+		return page;
+	}
+	
+	public Page<TagVO> pageTag(List<String> keywords, int pageNo, int pageSize) {
+		boolean hasKeywords = keywords != null && !keywords.isEmpty();
+		
+		Page<TagVO> page = productComplexDao.pageQuery(
+				pageNo, pageSize, null, false, 
+				ParamTuples.create()
+					.addIf("keywords", keywords, hasKeywords)
+				.build(),
+				( params -> new StringBuilder()
+					.append(" from Tag b ")
+					.append(" where coalesce(b.isDeleted,'N')<>'Y' " )
+					.append(hasKeywords ? " and (lower(b.name) in :keywords) " : "" )
+					.toString()
+				),
+				( params -> "" ),
+				M2V_TAG,
+				TagVO.class);
+		return page;
 	}
 	
 }

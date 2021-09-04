@@ -1,6 +1,7 @@
 package idv.maxy.maxec.biz.product.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -15,13 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import idv.maxy.maxec.biz.product.restapi.ProductRestAPI;
 import idv.maxy.maxec.biz.product.service.ProductService;
+import idv.maxy.maxec.biz.product.vo.BrandPageParamVO;
+import idv.maxy.maxec.biz.product.vo.BrandPageResultVO;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
+import idv.maxy.maxec.biz.product.vo.CategoryPageParamVO;
+import idv.maxy.maxec.biz.product.vo.CategoryPageResultVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.FindProductListParam;
 import idv.maxy.maxec.biz.product.vo.ProductPageParamVO;
 import idv.maxy.maxec.biz.product.vo.ProductPageResultVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
+import idv.maxy.maxec.biz.product.vo.TagPageParamVO;
+import idv.maxy.maxec.biz.product.vo.TagPageResultVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
+import idv.maxy.maxec.core.util.StringUtil;
 
 @RestController
 public class ProductController implements ProductRestAPI {
@@ -84,8 +92,43 @@ public class ProductController implements ProductRestAPI {
 		Page<ProductVO> vpage = productService.pageProduct(
 				in.getKeywords(), in.getPageNo(), in.getPageSize());
 		
-		return new ProductPageResultVO(vpage.getContent(), 
+		ProductPageResultVO v = new ProductPageResultVO(vpage.getContent(), 
+				in.getPageSize(), in.getPageNo(), 
+				vpage.getTotalElements());
+		List<ProductVO> l = v.getContent();
+		
+		return v;
+	}
+	
+	@Override
+	public BrandPageResultVO pageBrand(BrandPageParamVO in) {
+		Page<BrandVO> vpage =  productService.pageBrand(
+				in.getKeywords(), in.getPageNo(), in.getPageSize());
+		
+		return new BrandPageResultVO(vpage.getContent(), 
 				in.getPageSize(), in.getPageNo(), 
 				vpage.getTotalElements());
 	}
+	
+	
+	@Override
+	public CategoryPageResultVO pageCategory(CategoryPageParamVO in) {
+		Page<CategoryVO> vpage =  productService.pageCategory(
+				in.getKeywords(), in.getPageNo(), in.getPageSize());
+		
+		return new CategoryPageResultVO(vpage.getContent(), 
+				in.getPageSize(), in.getPageNo(), 
+				vpage.getTotalElements());
+	}
+	@Override
+	public TagPageResultVO pageTag(TagPageParamVO in) {
+		Page<TagVO> vpage =  productService.pageTag(
+				in.getKeywords(), in.getPageNo(), in.getPageSize());
+		
+		return new TagPageResultVO(vpage.getContent(), 
+				in.getPageSize(), in.getPageNo(), 
+				vpage.getTotalElements());
+	}
+	
+	
 }

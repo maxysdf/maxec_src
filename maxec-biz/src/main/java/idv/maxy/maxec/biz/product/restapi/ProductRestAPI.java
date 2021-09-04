@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import idv.maxy.maxec.biz.product.vo.BrandPageParamVO;
+import idv.maxy.maxec.biz.product.vo.BrandPageResultVO;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
+import idv.maxy.maxec.biz.product.vo.CategoryPageParamVO;
+import idv.maxy.maxec.biz.product.vo.CategoryPageResultVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductPageParamVO;
 import idv.maxy.maxec.biz.product.vo.ProductPageResultVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
+import idv.maxy.maxec.biz.product.vo.TagPageParamVO;
+import idv.maxy.maxec.biz.product.vo.TagPageResultVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
 
 public interface ProductRestAPI {
@@ -38,8 +44,14 @@ public interface ProductRestAPI {
 	@GetMapping("/category")
 	public List<CategoryVO> findAllCategory();
 	
+	@PostMapping("/category/page")
+	public CategoryPageResultVO pageCategory(@RequestBody CategoryPageParamVO in);
+	
 	@GetMapping("/brand")
 	public List<BrandVO> findAllBrand();
+	
+	@PostMapping("/brand/page")
+	public BrandPageResultVO pageBrand(@RequestBody BrandPageParamVO in);
 	
 	@GetMapping("/tag/types")
 	public Map<String, List<TagVO>> listTagGroupByTypes(@RequestParam("types") List<String> types);
@@ -53,4 +65,6 @@ public interface ProductRestAPI {
 	@GetMapping("/product-related")
 	public List<ProductVO> findAllWithRelated();
 	
+	@PostMapping("/tag/page")
+	public TagPageResultVO pageTag(@RequestBody TagPageParamVO in);
 }

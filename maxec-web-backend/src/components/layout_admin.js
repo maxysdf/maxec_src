@@ -1,5 +1,6 @@
 import Script from "next/script"
 import Head from "next/head"
+import Link from "next/link"
 
 import Nav from "../components/nav"
 import SideBar from "../components/sidebar"
@@ -24,7 +25,7 @@ export default function LayoutAdmin ({title,components,breadcrumbs}) {
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">
-                                        <li className="breadcrumb-item"><a href="#">首頁</a></li>
+                                        <li className="breadcrumb-item"><Link href="/dashboard"><a>首頁</a></Link></li>
                                         <li className="breadcrumb-item active">{title}</li>
                                     </ol>
                                 </div>

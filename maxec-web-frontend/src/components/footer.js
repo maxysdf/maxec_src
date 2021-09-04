@@ -2,6 +2,7 @@ import Image from "next/image"
 
 export default function Footer() {
     return (
+        <>
         <footer className="footer-section">
             <div className="container">
                 <div className="row">
@@ -25,9 +26,9 @@ export default function Footer() {
                     </div>
                     <div className="col-lg-2 offset-lg-1">
                         <div className="footer-widget">
-                            <h5>Information</h5>
+                            <h5>資訊中心</h5>
                             <ul>
-                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">關於我們</a></li>
                                 <li><a href="#">Checkout</a></li>
                                 <li><a href="#">Contact</a></li>
                                 <li><a href="#">Serivius</a></li>
@@ -36,22 +37,22 @@ export default function Footer() {
                     </div>
                     <div className="col-lg-2">
                         <div className="footer-widget">
-                            <h5>My Account</h5>
+                            <h5>我的帳號</h5>
                             <ul>
-                                <li><a href="#">My Account</a></li>
+                                <li><a href="#">我的帳號</a></li>
                                 <li><a href="#">Contact</a></li>
-                                <li><a href="#">Shopping Cart</a></li>
+                                <li><a href="#">購物車</a></li>
                                 <li><a href="#">Shop</a></li>
                             </ul>
                         </div>
                     </div>
                     <div className="col-lg-4">
                         <div className="newslatter-item">
-                            <h5>Join Our Newsletter Now</h5>
-                            <p>Get E-mail updates about our latest shop and special offers.</p>
+                            <h5>現在加入我們的電子報</h5>
+                            <p>取得最新情報及特殊優惠</p>
                             <form action="#" className="subscribe-form">
-                                <input type="text" placeholder="Enter Your Mail"/>
-                                <button type="button">Subscribe</button>
+                                <input type="text" placeholder="您的Email"/>
+                                <button type="button">訂閱</button>
                             </form>
                         </div>
                     </div>
@@ -71,5 +72,9 @@ export default function Footer() {
                 </div>
             </div>
         </footer>
+        
+        </>
+
+
     )
 }

@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import LayoutAdmin from "../components/layout_admin";
 
 export default function DashboardPage() {
@@ -67,7 +69,7 @@ export default function DashboardPage() {
                           <tbody>
                           <tr>
                             <td>
-                              <img src="dist/img/default-150x150.png" alt="Product 1" className="img-circle img-size-32 mr-2" />
+                              <Image src="dist/img/default-150x150.png" width={32} height={32} alt="Product 1" className="img-circle img-size-32 mr-2" />
                               Some Product
                             </td>
                             <td>$13 USD</td>
@@ -86,7 +88,7 @@ export default function DashboardPage() {
                           </tr>
                           <tr>
                             <td>
-                              <img src="dist/img/default-150x150.png" alt="Product 1" className="img-circle img-size-32 mr-2" />
+                              <Image src="dist/img/default-150x150.png" width={32} height={32} alt="Product 1" className="img-circle img-size-32 mr-2" />
                               Another Product
                             </td>
                             <td>$29 USD</td>
@@ -105,7 +107,7 @@ export default function DashboardPage() {
                           </tr>
                           <tr>
                             <td>
-                              <img src="dist/img/default-150x150.png" alt="Product 1" className="img-circle img-size-32 mr-2" />
+                              <Image src="dist/img/default-150x150.png" width={32} height={32} alt="Product 1" className="img-circle img-size-32 mr-2" />
                               Amazing Product
                             </td>
                             <td>$1,230 USD</td>
@@ -124,7 +126,7 @@ export default function DashboardPage() {
                           </tr>
                           <tr>
                             <td>
-                              <img src="dist/img/default-150x150.png" alt="Product 1" className="img-circle img-size-32 mr-2"/>
+                              <Image src="dist/img/default-150x150.png" width={32} height={32} alt="Product 1" className="img-circle img-size-32 mr-2" />
                               Perfect Item
                               <span className="badge bg-danger">NEW</span>
                             </td>

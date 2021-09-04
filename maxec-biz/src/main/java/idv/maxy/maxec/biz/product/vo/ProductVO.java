@@ -19,6 +19,9 @@ public class ProductVO {
 	private Date onsaleTime;
 	private Date offsaleTime;
 	
+	private String brandId;
+	private String categoryId;
+	
 	private BrandVO brand;
 	private List<ProductTagVO> tags = new ArrayList<>();
 	private List<ProductCategoryVO> categories = new ArrayList<>();
@@ -120,6 +123,20 @@ public class ProductVO {
 	}
 	public void setOnsaleTime(Date onsaleTime) {
 		this.onsaleTime = onsaleTime;
+	}
+	
+	
+	public String getBrandId() {
+		return brandId;
+	}
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 }

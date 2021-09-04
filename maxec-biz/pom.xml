@@ -25,5 +25,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        
+        <!--  maxec -->
+        <dependency>
+            <groupId>idv.maxy</groupId>
+            <artifactId>maxec-mod-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 	</dependencies>
 </project>

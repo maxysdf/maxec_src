@@ -1,9 +1,18 @@
 extend type Query {
     # [商品] 查詢 - 搜尋商品
-    pageProduct(param:ProductPageParam): ProductPageResponse
+    pageProduct(param:ProductPageParam): ProductProductPageResponse
     
     # [商品] 查詢 - 查詢商品
     findProductById(id: ID): ProductProductResponse
+    
+    # [商品] 查詢 - 搜尋品牌
+    pageBrand(param:ProductBrandPageParam): ProductBrandPageResponse
+    
+    # [商品] 查詢 - 搜尋標籤
+    pageTag(param:ProductTagPageParam): ProductTagPageResponse
+    
+    # [商品] 查詢 - 搜尋分類
+    pageCategory(param:ProductCategoryPageParam): ProductCategoryPageResponse
 }
 
 extend type Mutation {
@@ -17,6 +26,12 @@ extend type Mutation {
 extend type Page {
     # [商品] 型態 - 商品分頁
     pageProductResult: [Product]
+    # [商品] 型態 - 品牌分頁
+    pageBrandResult: [ProductBrand]
+    # [商品] 型態 - 標籤分頁
+    pageTagResult: [ProductTag]
+    # [商品] 型態 - 分類分頁
+    pageCategoryResult: [ProductCategory]
 }
 
 
@@ -35,6 +50,8 @@ type Product {
     saleDate   : String 
     onsaleTime : Date   
     offsaleTime: Date   
+    
+    brand: ProductBrand
 }
 
 # [商品] 型態 - 商品標籤群組
@@ -50,6 +67,7 @@ type ProductTag {
     name:String
     code:String
     value:String 
+    sort:Int
 }
 
 # [商品] 型態 - 品牌
@@ -73,6 +91,33 @@ input ProductPageParam {
     sortAsc: Boolean
 }
 
+# [商品] 輸入 - 品牌搜尋
+input ProductBrandPageParam {
+    keywords: String
+    pageNo: Int
+    pageSize: Int
+    sort: String
+    sortAsc: Boolean
+}
+
+# [商品] 輸入 - 分類搜尋
+input ProductCategoryPageParam {
+    keywords: String
+    pageNo: Int
+    pageSize: Int
+    sort: String
+    sortAsc: Boolean
+}
+
+# [商品] 輸入 - 標籤搜尋
+input ProductTagPageParam {
+    keywords: String
+    pageNo: Int
+    pageSize: Int
+    sort: String
+    sortAsc: Boolean
+}
+
 # [商品] 型態 - 商品
 input ProductInput {
     id         : String 
@@ -87,14 +132,25 @@ input ProductInput {
     saleAmount : Int
     saleDate   : String 
     onsaleTime : Date   
-    offsaleTime: Date   
+    offsaleTime: Date 
+    brandId    : String  
+    categoryId : String
 }
 
 # [商品] 回傳型態 - 搜尋商品結果
-type ProductPageResponse { response:Response page:Page }
+type ProductProductPageResponse { response:Response page:Page }
 
 # [商品] 回傳型態 - 儲存商品結果
 type ProductResponse { response:Response }
 
 # [商品] 回傳型態 - 商品結果
 type ProductProductResponse { response:Response product:Product }
+
+# [商品] 回傳型態 - 搜尋品牌結果
+type ProductBrandPageResponse { response:Response page:Page }
+
+# [商品] 回傳型態 - 搜尋標籤結果
+type ProductTagPageResponse { response:Response page:Page }
+
+# [商品] 回傳型態 - 搜尋分類結果
+type ProductCategoryPageResponse { response:Response page:Page }

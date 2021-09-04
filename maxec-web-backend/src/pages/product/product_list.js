@@ -59,7 +59,7 @@ export default function ProductListPage() {
             setLoading(false);
             setPage(data.pageProduct.page);
         });
-    }, [pageNo, reload]);
+    }, [pageNo, reload, keyword]);
 
     const comp = (
         <div className="row">

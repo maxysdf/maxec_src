@@ -13,8 +13,5 @@ public class ProductPageResultVO extends BasePage<ProductVO> {
 			int pageSize, int pageNo, long total) {
 		super(content, pageSize, pageNo, total);
 	}
-	
-	public List<ProductVO> getPageProductResult() {
-		return getContent();
-	}
+
 }

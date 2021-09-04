@@ -6,6 +6,7 @@ public class TagVO {
 	private String name;
 	private String code;
 	private String value;
+	private Integer sort;
 	
 	public String getId() {
 		return id;
@@ -36,5 +37,12 @@ public class TagVO {
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	
+	public Integer getSort() {
+		return sort;
+	}
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 }
