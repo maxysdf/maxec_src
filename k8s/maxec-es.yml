@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-es
+  labels:
+    app: maxec-es
+spec:
+  type: NodePort
+  ports:
+  - port: 9200
+    name: es
+    targetPort: 9200
+    protocol: TCP
+  selector:
+    app: maxec-es
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maxec-es
+spec:
+  selector:
+    matchLabels:
+      app: maxec-es
+  serviceName: maxec-es-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: maxec-es
+    spec:
+      containers:
+      - name: maxec-es
+        image: host.docker.internal:5000/maxec-es:BRANCH-VERSION # will be replaced by jenkins
+        volumeMounts:
+          - name: es-disk
+            mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: es-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 500Mi

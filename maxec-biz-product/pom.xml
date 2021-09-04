@@ -8,14 +8,56 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../maxec-parent</relativePath>
 	</parent>
-	<artifactId>maxec-product</artifactId>
+	<artifactId>maxec-biz-product</artifactId>
 	<packaging>jar</packaging>
 	<name>Max EC Product SubSystem</name>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<versions.feign>10.11</versions.feign>
+		<versions.spring.cloud>2020.0.3</versions.spring.cloud>
 	</properties>
+
+	<dependencyManagement>
+	    <dependencies>
+	        <dependency>
+	            <groupId>org.springframework.cloud</groupId>
+	            <artifactId>spring-cloud-dependencies</artifactId>
+	            <version>${versions.spring.cloud}</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	    </dependencies>
+	</dependencyManagement>
 	
+    <profiles>
+       <profile>
+           <id>local</id>
+           <activation><activeByDefault>true</activeByDefault></activation>
+       </profile>
+       <profile>
+           <id>prod</id>
+           <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes><exclude>application-db.yml</exclude></excludes>
+                    </resource>
+                </resources>
+               <plugins>
+                   <plugin>
+                       <groupId>org.springframework.boot</groupId>
+                       <artifactId>spring-boot-maven-plugin</artifactId>
+                       <configuration>
+                          <image>
+                              <name>maxysdf/${project.artifactId}</name>
+                          </image>
+                       </configuration>
+                   </plugin>
+               </plugins>
+           </build>
+       </profile>
+    </profiles>
 	
 	<dependencies>
 		<!-- spring boot -->
@@ -25,7 +67,15 @@
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,9 +89,14 @@
 		</dependency>
 		
 		<!-- maxec -->
+        <dependency>
+            <groupId>idv.maxy</groupId>
+            <artifactId>maxec-mod-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>idv.maxy</groupId>
-			<artifactId>maxec-mod-core</artifactId>
+			<artifactId>maxec-biz</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

@@ -1,0 +1,103 @@
+extend type Query {
+    
+    # [商品] 查詢 - 查詢商品
+    findProductById(id: ID): ProductProductResponse
+    
+    # [商品] 查詢 - 依alias查詢商品
+    findProductByAlias(alias: String): ProductProductResponse
+ 
+    # [商品] 查詢 - 依標籤類別查詢商品標籤
+    listTagGroupByTypes(types: [String]): ProductListTagGroupResponse
+    
+    # [商品] 查詢 - 查詢品牌清單
+    listBrands: ProductListBrandsResponse
+    
+    # [商品] 查詢 - 查詢目錄清單
+    listCategories: ProductListCategoriesResponse
+    
+    # [商品] 查詢 - 搜尋商品
+    searchProduct(param:SearchProductParam): SearchProductResponse
+}
+
+extend type Page {
+    # [商品] 型態 - 目錄商品分頁
+    searchProductResult: [Product]
+}
+
+
+# [商品] 型態 - 商品
+type Product {
+    id         : String 
+    name       : String 
+    sku        : String 
+    price      : Int
+    alias      : String 
+    description: String 
+    brief      : String 
+    rating     : Int
+    weight     : Int
+    saleAmount : Int
+    saleDate   : String 
+    onsaleTime : Date   
+    offsaleTime: Date   
+}
+
+# [商品] 型態 - 商品標籤群組
+type ProductTagGroup {
+    type:String
+    tags:[ProductTag] 
+}
+
+# [商品] 型態 - 商品標籤
+type ProductTag {
+    id:ID
+    type:String
+    name:String
+    code:String
+    value:String 
+}
+
+# [商品] 型態 - 品牌
+type ProductBrand {
+    id:ID
+    name:String
+}
+
+# [商品] 型態 - 目錄
+type ProductCategory {
+    id:ID
+    name:String
+}
+
+# [商品] 輸入 - 商品搜尋
+input SearchProductParam {
+    keywords: [String]
+    category: String
+    minPrice: Int
+    maxPrice: Int
+    tags: [SearchProductTagParam]
+    pageNo: Int
+    pageSize: Int
+    sort: String
+    sortAsc: Boolean
+}
+
+input SearchProductTagParam {
+    type:String
+    id:String
+}
+
+# [商品] 回傳型態 - 查詢商品結果
+type ProductProductResponse { response:Response product:Product }
+
+# [商品] 回傳型態 - 查詢品牌清單結果
+type ProductListBrandsResponse { response:Response brands:[ProductBrand] }
+
+# [商品] 回傳型態 - 查詢目錄清單結果
+type ProductListCategoriesResponse { response:Response categories:[ProductCategory] }
+
+# [商品] 回傳型態 - 依標籤類別查詢商品標籤結果
+type ProductListTagGroupResponse { response:Response tagGroups:[ProductTagGroup] }
+
+# [商品] 回傳型態 - 搜尋商品結果
+type SearchProductResponse { response:Response page:Page }

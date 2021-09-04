@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Upload</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	</head>
+	<body>
+        <div id="main">
+            path: <input type="text" id="path" /><br />
+            file: <input type="file" id="file" /><br />
+            <input type="button" onclick="upd()" id="updbtn" value="upload" />
+        </div>
+        
+        <script src="/js/axios.min.js"></script>
+        <script type="text/javascript">
+            function upd() {
+                var formData = new FormData();
+                formData.append('file', document.getElementById('file').files[0]);
+                formData.append('path', document.getElementById('path').value);
+                
+                document.getElementById('updbtn').disabled = true;
+                axios({
+                    method: 'post',
+                    url: '/content/upload',
+                    data: formData,
+                    headers: {'Content-Type': 'multipart/form-data'}
+                }).then(function(res) {
+                    if(!res.data.result) {
+                        alert('ERROR: ' + res.data.errorMessage);
+                        return;
+                    };
+                    alert('uploaded.');
+                    console.log(res.data);
+                }).catch(function(ex) {
+                    alert(ex);
+                }).finally(function() {
+                    document.getElementById('updbtn').disabled = false;
+                });
+            
+            }
+
+            
+        </script>
+    </body>
+</html>

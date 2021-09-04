@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxec-app-job-deployment
+  labels:
+    app: maxec-app-job
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maxec-app-job
+  template:
+    metadata:
+      labels:
+        app: maxec-app-job
+    spec:
+      containers:
+      - name: maxec-app-job
+        image: host.docker.internal:5000/maxec-app-job:BRANCH-VERSION # will be replaced by jenkins
+        env:
+        - name: API_PRODUCT_ENDPOINT     
+          value: maxec-biz-product:13000
+        - name: API_SEARCH_ENDPOINT     
+          value: maxec-biz-search:13200
+        - name: API_SHOPPING_ENDPOINT     
+          value: maxec-biz-shopping:13300
+        - name: API_CONTENT_ENDPOINT     
+          value: maxec-biz-content:13400
+        - name: API_CUSTOMER_ENDPOINT     
+          value: maxec-biz-customer:13500
+        - name: DBURL     
+          value: jdbc:postgresql://maxec-db/maxec
+        - name: DBDRV     
+          value: org.postgresql.Driver
+        - name: DBUSER
+          value: maxec
+        - name: DBPASS
+          value: maxec
+        - name: DBDIALECT 
+          value: org.hibernate.dialect.PostgreSQL9Dialect

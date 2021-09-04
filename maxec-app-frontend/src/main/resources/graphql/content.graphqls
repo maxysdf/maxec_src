@@ -1,0 +1,27 @@
+extend type Query {
+    
+    # [內容] 查詢 - 查詢廣告
+    findAdByCode(code:String): ContentAdResponse
+
+}
+
+# [內容] 型態 - 廣告
+type ContentAd {
+    id   : String 
+    name : String 
+    code : String
+    items: [ContentAdItem]
+}
+
+# [內容] 型態 - 廣告項目
+type ContentAdItem {
+    id: String
+    imagePath: String
+    imageAlt :String
+    imageLink: String
+    isOpenNew: Boolean
+    sort: Int
+}
+
+# [商品] 回傳型態 - 查詢商品結果
+type ContentAdResponse { response:Response ad:ContentAd }

@@ -1,0 +1,11 @@
+spring:
+   profiles:
+      include: db, redis
+
+      
+server:
+   port: 13300
+
+logging:
+   spring:
+      root: DEBUG

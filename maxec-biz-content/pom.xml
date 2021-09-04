@@ -8,29 +8,74 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../maxec-parent</relativePath>
 	</parent>
-	<artifactId>maxec-product</artifactId>
+	<artifactId>maxec-biz-content</artifactId>
 	<packaging>jar</packaging>
-	<name>Max EC Product SubSystem</name>
+	<name>Max EC Content SubSystem</name>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
+	<profiles>
+	   <profile>
+	       <id>local</id>
+	       <activation><activeByDefault>true</activeByDefault></activation>
+	   </profile>
+	   <profile>
+	       <id>prod</id>
+	       <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>
+                            <exclude>application-db.yml</exclude>
+                            <exclude>application-data.yml</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
+		       <plugins>
+		           <plugin>
+		               <groupId>org.springframework.boot</groupId>
+		               <artifactId>spring-boot-maven-plugin</artifactId>
+		               <configuration>
+		                  <image>
+		                      <name>maxysdf/${project.artifactId}</name>
+	                      </image>
+		               </configuration>
+		           </plugin>
+		       </plugins>
+	       </build>
+	   </profile>
+	</profiles>
 	
 	<dependencies>
 		<!-- spring boot -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		
-		
-		<!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
 		
 		<!-- maxec -->
 		<dependency>
@@ -38,5 +83,10 @@
 			<artifactId>maxec-mod-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>idv.maxy</groupId>
+            <artifactId>maxec-biz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 	</dependencies>
 </project>

@@ -1,0 +1,29 @@
+{
+  "name": "maxec-web-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 11000",
+    "build": "next build",
+    "start": "next start -p 11000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
+    "graphql": "^15.5.1",
+    "graphql-request": "^3.5.0",
+    "jquery": "^3.6.0",
+    "next": "^11.1.0",
+    "owl.carousel": "^2.3.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-hook-form": "^7.12.2",
+    "sass": "^1.37.5"
+  },
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.0.1"
+  }
+}

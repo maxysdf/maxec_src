@@ -1,0 +1,5 @@
+---
+- hosts: misc
+  become: true
+  tasks:
+  - yum: name=tigervnc-server state=present

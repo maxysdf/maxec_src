@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maxec-db
+  labels:
+    app: maxec-db
+spec:
+  type: NodePort
+  ports:
+  - port: 5432
+    name: pg
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: maxec-db
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maxec-db
+spec:
+  selector:
+    matchLabels:
+      app: maxec-db
+  serviceName: maxec-db-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: maxec-db
+    spec:
+      containers:
+      - name: maxec-db
+        image: host.docker.internal:5000/maxec-db:BRANCH-VERSION # will be replaced by jenkins
+        volumeMounts:
+          - name: postgresql-db-disk
+            mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgresql-db-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 25Gi

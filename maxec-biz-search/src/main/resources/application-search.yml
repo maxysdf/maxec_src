@@ -1,0 +1,3 @@
+app:
+   es:
+      hosts: localhost:9200

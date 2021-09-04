@@ -1,0 +1,36 @@
+const frontendEndpoint = process.env.FRONTEND_ENDPOINT;
+import { GraphQLClient, request, gql } from "graphql-request"
+
+async function utload(path, params) {
+    var paramarr = [];
+    if(params && typeof params === 'object') {
+        for(const i in params) { paramarr.push(`${i}=${params[i]}`); }
+    }
+    const paramstr = paramarr.length == 0 ? '' : '?' + paramarr.join('&');
+
+    const res = await fetch(`${frontendEndpoint}${path}${paramstr}`);
+    const data = await res.json();
+    return data;
+}
+
+const _glclient = new GraphQLClient(`/api/graphql`);
+
+export function utGQL(q,p,cb) {
+    const query = gql`${q}`;
+    _glclient.request(gql`${q}`, p).then(cb);
+}
+
+export function utNumber(nStr, hasCurrSign) {
+    if(nStr == null) return '';
+    nStr += '';
+    if(!nStr) return '';
+    var srgx = /(-?)(\d+)/;
+    var sgn = hasCurrSign ? '$$' : '';
+    nStr = nStr.replace(srgx, '$1' + sgn + '$2');
+
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(nStr)) nStr = nStr.replace(rgx, '$1' + ',' + '$2');
+    return nStr;
+}
+
+export { utload };

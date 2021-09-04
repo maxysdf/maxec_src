@@ -1,0 +1,10 @@
+spring:
+   profiles:
+      include: db, logging, api
+
+server:
+   port: 12100
+   
+graphql:
+   servlet:
+      corsEnabled: false

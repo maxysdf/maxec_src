@@ -1,0 +1,36 @@
+extend type Query {
+    # [購物] 查詢 - 查詢購物車
+    getCart(customerId: ID): ShoppingGetCartResponse
+}
+
+extend type Mutation {
+    # [購物] 修改 - 加入購物車項目
+    addOrUpdateCartItem(customerId: ID, productId: ID, qty:Int): ShoppingAlterCartResponse
+    # [購物] 修改 - 移除購物車項目
+    removeCartItem(customerId: ID, productId: ID): ShoppingAlterCartResponse
+    # [購物] 修改 - 清空購物車
+    clearCart(customerId: ID): ShoppingAlterCartResponse
+}
+
+# [購物] 型態 - 購物車
+type ShoppingShowCart {
+    subtotal:Int
+    shipFee:Int
+    total:Int
+    items:[ShoppingShowCartItem]
+}
+
+# [購物] 型態 - 購物車項目
+type ShoppingShowCartItem {
+    productId:ID
+    name:String
+    price:Int
+    qty:Int
+    maxQty:Int
+    subtotal:Int
+}
+
+# [購物] 回傳型態 - 查詢購物車結果
+type ShoppingGetCartResponse { response:Response cart:ShoppingShowCart }
+# [購物] 回傳型態 - 修改購物車結果
+type ShoppingAlterCartResponse { response:Response cart:ShoppingShowCart }

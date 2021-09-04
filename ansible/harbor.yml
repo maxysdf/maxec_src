@@ -1,0 +1,13 @@
+---
+- hosts: harbor
+  become: true
+  tasks:
+  - copy: src=service_repository/harbor.service dest=/etc/systemd/system/harbor.service mode=0644 owner=root
+
+  - service: name=harbor enabled=yes
+
+  # service -------------------------------
+  - service: name=harbor enabled=yes state=started
+    tags: [never, start]
+  - service: name=harbor enabled=yes state=stopped
+    tags: [never, stop]

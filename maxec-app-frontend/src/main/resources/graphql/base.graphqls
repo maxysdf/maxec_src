@@ -1,0 +1,44 @@
+# [共用] 型態 - 查詢
+type Query {
+}
+
+# [共用] 型態 - 變更
+type Mutation {
+}
+
+# [共用] 型態 - 執行結果
+type Response {
+        # 結果
+    result: Boolean
+        # 代碼
+    code: String
+        # 錯誤訊息
+    errorMessage: String
+}
+
+# [共用] 型態 - 分頁
+type Page {
+        # 總頁數
+    totalPages: Int
+         # 總筆數
+    totalElements: Int
+        # 目前頁數
+    number: Int
+        # 目前每頁筆數
+    size: Int
+        # 目前筆數
+    numberOfElements: Int
+        # 是否有資料
+    hasContent: Boolean
+        # 是否為第一頁
+    first: Boolean
+        # 是否為最後一頁
+    last: Boolean
+        # 是否有下一頁
+    hasNext: Boolean
+        # 是否有上一頁
+    hasPrevious: Boolean
+}
+
+# [共用] 自訂類型 - 日期
+scalar Date

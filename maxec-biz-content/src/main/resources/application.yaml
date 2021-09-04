@@ -1,3 +1,6 @@
-- logging:
-   spring:
-      root: DEBUG
+spring:
+   profiles:
+      include: db, logging, data
+      
+server:
+   port: 13400
