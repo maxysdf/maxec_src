@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import idv.maxy.maxec.core.model.BaseManagedModel;
 import idv.maxy.maxec.core.model.BaseModel;
 
 /**
@@ -19,7 +20,7 @@ import idv.maxy.maxec.core.model.BaseModel;
  */
 @Entity
 @Table(name="TAG")
-public class Tag extends BaseModel {
+public class Tag extends BaseManagedModel {
 	
 	/** 標籤類別 - 廠牌 */
 	public static final String TAG_TYPE_BRAND = "BRAND";

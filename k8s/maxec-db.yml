@@ -5,10 +5,12 @@ metadata:
   labels:
     app: maxec-db
 spec:
+  type: NodePort
   ports:
   - port: 5432
     name: pg
-  clusterIP: None
+    protocol: TCP
+    targetPort: 5432
   selector:
     app: maxec-db
 ---
@@ -21,7 +23,7 @@ spec:
     matchLabels:
       app: maxec-db
   serviceName: maxec-db-service
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -29,17 +31,10 @@ spec:
     spec:
       containers:
       - name: maxec-db
-        image: host.docker.internal:5000/maxec-db:4
+        image: host.docker.internal:5000/maxec-db:BRANCH-VERSION # will be replaced by jenkins
         volumeMounts:
           - name: postgresql-db-disk
             mountPath: /data
-        # env:
-        #    - name: POSTGRES_PASSWORD value: a7jtmaim
-        #    - name: DBROOT value: postgres
-        #    - name: DBNAME value: maxec
-        #    - name: DBUSER value: maxec
-        #    - name: DBPASS value: maxec
-        #    - name: PGDATA value: /data/pgdata
   volumeClaimTemplates:
     - metadata:
         name: postgresql-db-disk

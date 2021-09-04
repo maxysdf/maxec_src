@@ -7,9 +7,10 @@ metadata:
     app: maxec-app-backend
 spec:
   ports:
-  - port: 8081
+  - port: 12100
     name: ap
-  clusterIP: None
+    targetPort: 12100
+    protocol: TCP
   selector:
     app: maxec-app-backend
 ---
@@ -31,8 +32,18 @@ spec:
     spec:
       containers:
       - name: maxec-app-backend
-        image: host.docker.internal:5000/maxec-app-backend:4
+        image: host.docker.internal:5000/maxec-app-backend:BRANCH-VERSION # will be replaced by jenkins
         env:
+        - name: API_PRODUCT_ENDPOINT     
+          value: maxec-biz-product:13000
+        - name: API_SEARCH_ENDPOINT     
+          value: maxec-biz-search:13200
+        - name: API_SHOPPING_ENDPOINT     
+          value: maxec-biz-shopping:13300
+        - name: API_CONTENT_ENDPOINT     
+          value: maxec-biz-content:13400
+        - name: API_CUSTOMER_ENDPOINT     
+          value: maxec-biz-customer:13500
         - name: DBURL     
           value: jdbc:postgresql://maxec-db/maxec
         - name: DBDRV     
@@ -44,5 +55,5 @@ spec:
         - name: DBDIALECT 
           value: org.hibernate.dialect.PostgreSQL9Dialect
         ports:
-        - containerPort: 8080
+        - containerPort: 12100
   

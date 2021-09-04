@@ -1,5 +1,3 @@
-ARG BACKEND_ENDPOINT
-
 FROM node:alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -26,7 +24,7 @@ COPY .env.production ./
 
 USER nextjs
 
-EXPOSE 12100
+EXPOSE 11100
 
 CMD ["yarn", "start"]
 #CMD ["/bin/sh","start.sh"]

@@ -27,7 +27,4 @@ public interface ProductDao extends JpaRepository<Product, String> {
 			+ " left outer join fetch p.productTagMaps ptm "
 			+ " left outer join fetch ptm.tag t ")
 	public List<Product> findAllWithRelated();
-	
-	
-	
 }

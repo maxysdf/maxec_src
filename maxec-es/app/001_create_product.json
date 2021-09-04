@@ -1,0 +1,43 @@
+{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0
+    },
+    "mappings": {
+        "properties": {
+            "name": {
+                "type": "text"
+            },
+            "sku": {
+                "type": "keyword"
+            },
+            "price": {
+                "type": "integer"
+            },
+            "weight": {
+                "type": "integer"
+            },
+            "rating": {
+                "type": "integer"
+            },
+            "saleAmount": {
+                "type": "integer"
+            },
+            "saleDate": {
+                "type": "date"
+            },
+            "brief": {
+                "type": "text"
+            },
+            "description": {
+                "type": "text"
+            },
+            "tag": {
+                "type": "keyword"
+            },
+            "timestamp": {
+                "type": "long"
+            }
+        }
+    }
+}

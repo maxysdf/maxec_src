@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import idv.maxy.maxec.biz.search.model.SearchProduct;
 import idv.maxy.maxec.biz.search.restapi.SearchRestAPI;
 import idv.maxy.maxec.biz.search.service.SearchService;
-
+import idv.maxy.maxec.biz.search.vo.SaveAllSearchProductVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductParamVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductResultPage;
 import idv.maxy.maxec.biz.search.vo.SearchProductResultVO;
 import idv.maxy.maxec.biz.search.vo.SearchProductTagParamVO;
+import idv.maxy.maxec.biz.search.vo.SearchProductVO;
 import idv.maxy.maxec.biz.vo.BasePage;
 import idv.maxy.maxec.biz.vo.BasePageable;
 
@@ -111,6 +112,33 @@ public class SearchController implements SearchRestAPI {
 //		}));
 		
 		return page;
+	}
+
+
+	@Override
+	public void saveAllSearchProduct(SaveAllSearchProductVO in) {
+		List<SearchProductVO> list = in.getList();
+		long ts = in.getTs();
+		
+		List<SearchProduct> mlist = list.stream().map(v -> {
+			if(v == null) { return null; }
+			SearchProduct m = new SearchProduct();
+			m.setId(v.getId());
+			m.setBrief(v.getBrief());
+			m.setDescription(v.getDescription());
+			m.setName(v.getName());
+			m.setPrice(v.getPrice());
+			m.setRating(v.getRating());
+			m.setSaleAmount(v.getSaleAmount());
+			m.setSaleDate(v.getSaleDate());
+			m.setSku(v.getSku());
+			m.setTag(v.getTag());
+			m.setTimestamp(v.getTimestamp());
+			m.setWeight(v.getWeight());
+			return m;
+		}).collect(Collectors.toList());
+		
+		searchService.saveAllSearchProduct(mlist, ts);
 	}
 	
 }

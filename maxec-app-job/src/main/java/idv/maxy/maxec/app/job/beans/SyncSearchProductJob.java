@@ -19,14 +19,14 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.stereotype.Component;
 
-import idv.maxy.maxec.biz.product.model.Tag;
-import idv.maxy.maxec.biz.product.service.ProductService;
+import idv.maxy.maxec.app.job.apiclient.ProductApiClient;
+import idv.maxy.maxec.app.job.apiclient.SearchApiClient;
 import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.ProductCategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductTagVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
-import idv.maxy.maxec.biz.search.model.SearchProduct;
-import idv.maxy.maxec.biz.search.service.SearchService;
+import idv.maxy.maxec.biz.search.vo.SaveAllSearchProductVO;
+import idv.maxy.maxec.biz.search.vo.SearchProductVO;
 
 @Component
 @DisallowConcurrentExecution
@@ -45,10 +45,10 @@ public class SyncSearchProductJob extends BaseJobBean {
     }
 	
     @Autowired
-    private ProductService productService;
+    private ProductApiClient productApiClient;
     
     @Autowired
-    private SearchService searchService;
+    private SearchApiClient searchApiClient;
     
     
 	@Override
@@ -59,13 +59,11 @@ public class SyncSearchProductJob extends BaseJobBean {
 			long now = System.currentTimeMillis();
 			
 			// find all product
-			List<ProductVO> list = productService.findAllWithRelated();
+			List<ProductVO> list = productApiClient.findAllWithRelated();
 			
-			
-			List<SearchProduct> slist = new ArrayList<>();
-			
+			List<SearchProductVO> slist = new ArrayList<>();
 			for(ProductVO v : list) {
-				SearchProduct sp = new SearchProduct();
+				SearchProductVO sp = new SearchProductVO();
 				sp.setId(v.getId());
 				sp.setName(v.getName());
 				sp.setDescription(v.getDescription());
@@ -81,12 +79,12 @@ public class SyncSearchProductJob extends BaseJobBean {
 				// brand
 				BrandVO vbrand = v.getBrand();
 				if(vbrand != null) {
-					sp.getTag().add(String.format(String.format("%s::%s", Tag.TAG_TYPE_BRAND, vbrand.getId())));
+					sp.getTag().add(String.format(String.format("%s::%s", "BRAND", vbrand.getId())));
 				}
 				
 				// category
 				for(ProductCategoryVO vcat : v.getCategories()) {
-					sp.getTag().add(String.format(String.format("%s::%s", Tag.TAG_TYPE_CATEGORY, vcat.getId())));
+					sp.getTag().add(String.format(String.format("%s::%s", "CATEGORY", vcat.getId())));
 				}
 				
 				// tags
@@ -94,9 +92,9 @@ public class SyncSearchProductJob extends BaseJobBean {
 					String type = vtag.getType();
 					
 					String tag = null;
-					if(Tag.TAG_TYPE_COLOR.equals(type)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_COLOR, vtag.getId())); }
-					if(Tag.TAG_TYPE_SIZE .equals(type)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_SIZE , vtag.getId())); }
-					if(Tag.TAG_TYPE_TAG  .equals(type)) { tag = String.format(String.format("%s::%s", Tag.TAG_TYPE_TAG  , vtag.getId())); }
+					if("COLOR".equals(type)) { tag = String.format(String.format("%s::%s", "COLOR", vtag.getId())); }
+					if("SIZE" .equals(type)) { tag = String.format(String.format("%s::%s", "SIZE" , vtag.getId())); }
+					if("TAG"  .equals(type)) { tag = String.format(String.format("%s::%s", "TAG"  , vtag.getId())); }
 					if(tag != null) { sp.getTag().add(tag); }
 				}
 				
@@ -104,7 +102,10 @@ public class SyncSearchProductJob extends BaseJobBean {
 			}
 			
 			// update search product
-			searchService.saveAllSearchProduct(slist, now);
+			SaveAllSearchProductVO in = new SaveAllSearchProductVO();
+			in.setList(slist);
+			in.setTs(now);
+			searchApiClient.saveAllSearchProduct(in);
 			
 		} catch(Exception ex) {
 			logger.error("failed", ex);

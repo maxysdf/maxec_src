@@ -10,6 +10,7 @@ import idv.maxy.maxec.biz.product.vo.BrandVO;
 import idv.maxy.maxec.biz.product.vo.CategoryVO;
 import idv.maxy.maxec.biz.product.vo.ProductVO;
 import idv.maxy.maxec.biz.product.vo.TagVO;
+import idv.maxy.maxec.core.vo.ParamTuples;
 
 /**
  * 
@@ -26,7 +27,7 @@ public interface ProductService {
 	
 	public String saveProduct(ProductVO v);
 	
-	public Page<ProductVO> pageProduct(int pageNo, int pageSize);
+	public Page<ProductVO> pageProduct(List<String> keywords, int pageNo, int pageSize);
 	
 	public List<CategoryVO> findAllCategories();
 	
@@ -38,4 +39,11 @@ public interface ProductService {
 	
 	public List<ProductVO> findAllWithRelated();
 	
+	public void deleteProduct(String id);
+	
+	public Page<BrandVO> pageBrand(List<String> keywords, int pageNo, int pageSize);
+	
+	public Page<CategoryVO> pageCategory(List<String> keywords, int pageNo, int pageSize);
+	
+	public Page<TagVO> pageTag(List<String> keywords, int pageNo, int pageSize);
 }

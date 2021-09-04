@@ -1,0 +1,19 @@
+---
+- hosts: postgresql
+  become: true
+  tasks:
+
+  - yum: name=https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm state=present
+  - yum: name=postgresql11-server state=present
+
+  - yum: name=python-psycopg2 state=present
+
+  # db init -------------------------------
+  - command: /usr/pgsql-11/bin/postgresql-11-setup initdb
+    tags: [never, init]
+
+  # service -------------------------------
+  - service: name=postgresql-11 enabled=yes state=started
+    tags: [never, start]
+  - service: name=postgresql-11 enabled=yes state=stopped
+    tags: [never, stop]
